@@ -4,7 +4,7 @@ android {
     compileSdkVersion 24
     buildToolsVersion "25.0.2"
     defaultConfig {
-        applicationId "uk.ac.coventry.a206ct.orks.myapplication"
+        applicationId "uk.ac.coventry.a260ct.orks.myapplication"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
