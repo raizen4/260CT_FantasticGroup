@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.myapplication;
+package uk.ac.coventry.a260ct.orks.slopemanager;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
