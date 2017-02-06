@@ -1,7 +1,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+<<<<<<< HEAD
     tools:context="uk.ac.coventry.a260ct.orks.slopemanager.MainActivity">
+=======
+    tools:context="uk.ac.coventry.a260ct.orks.myapplication.LogInActivity">
+>>>>>>> upstream/master
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
