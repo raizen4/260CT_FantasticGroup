@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.myapplication;
+package uk.ac.coventry.a260ct.orks.slopemanager;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
