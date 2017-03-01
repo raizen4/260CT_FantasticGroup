@@ -26,7 +26,7 @@ public class LoginSessionManager {
         SharedPreferences sharedPreferences=context.
                 getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY),Context.MODE_PRIVATE);
          SharedPreferences.Editor editor=sharedPreferences.edit();
-        editor.putInt(context.getString(R.string.USER_LOGIN_SESSION_KEY),user.getID);
+        editor.putInt(context.getString(R.string.USER_LOGIN_SESSION_KEY),user.getID());
         editor.apply();
 
     }
@@ -41,7 +41,7 @@ public class LoginSessionManager {
         int userId = sharedPreferences.getInt(c.getString(R.string.USER_LOGIN_SESSION_KEY), 0);
 
         if (userId != 0) {
-            user = new User();
+            //user = new User();instantiate the correct type of user here
         }
 
         return user;
