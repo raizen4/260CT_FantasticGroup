@@ -15,6 +15,9 @@ import java.util.ArrayList;
 public class Database extends SQLiteOpenHelper {
     Context context;
     private final static String DatabaseName = "SBC_System_Database.db";
+    private final static String CUSTOMER_TABLE="customer";
+    private static final String BOOKING_TABLE="booking";
+    private static final String PERMISSION_TABLE="permission";
     //private final static String DatabaseName = "playlists"; that is how you define the database j
     private final static int DATABASE_VERSION = 1;
     private SQLiteDatabase db;
@@ -51,7 +54,21 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL(deletetablesongplaylist);//execute the sql query*/
 
         this.onCreate(db);
-    }/*
+    }
+    public String getId(int id){
+        String permissionForUser=null;
+        db=this.getReadableDatabase();
+        String query="Select permission from "+CUSTOMER_TABLE+" where ID=?;";
+        Cursor cursor=db.rawQuery(query,new String[]{String.valueOf(id)});
+        if(cursor!=null)
+            permissionForUser=cursor.getString(cursor.getColumnIndex("permission"));
+        cursor.close();
+
+        return permissionForUser;
+    }
+
+
+    /*
     public void updateNumberOfTracks(String playlistName,int newNumberOfTracks){
         db=this.getWritableDatabase();
         ContentValues valueToInsert=new ContentValues();

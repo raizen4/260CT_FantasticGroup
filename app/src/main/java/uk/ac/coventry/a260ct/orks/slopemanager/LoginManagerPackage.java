@@ -18,9 +18,10 @@ public class LoginManagerPackage {
         this.database=new Database(c);
     }
     public User getUser(int id){
-        String persmissionRetrieved=database.getUserPermission(id);
+        String persmissionRetrieved=database.getId(id);
         if(persmissionRetrieved.matches(costumerPermission)){
-            user=new
+           // user=new make the correct type here
         }
+        return null;
     }
 }
