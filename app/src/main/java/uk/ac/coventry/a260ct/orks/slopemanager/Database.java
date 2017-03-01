@@ -26,8 +26,11 @@ public class Database extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
-        String create = "create table if not exists playlist(name TEXT primary key not null," +
+        String createCustomer = "create table if not exists playlist(name TEXT primary key not null," +
                 "notrack INTEGER not null);";
+        String createPermissions="";
+        String createBookings="";
+
 
        /* String create2 = "create table if not exists song(" +
                 "id INTEGER primary key not null," +
