@@ -13,13 +13,13 @@ public class LoginSessionManager {
     private static LoginSessionManager INSTANCE=new LoginSessionManager();
     private User user;
 
-    private LoginSessionManager()
-    {
+    private LoginSessionManager() {
 
     }
-    public static LoginSessionManager getInstance(){
-           return INSTANCE;
-       }
+
+    public static LoginSessionManager getInstance() {
+        return INSTANCE;
+    }
 
     public void setUser(LoginManagerPackage manager,int id, Context context) {
         this.user=managerPackage.getUser(id);
@@ -31,12 +31,12 @@ public class LoginSessionManager {
 
     }
 
-    public User getUser(Context c){
+    public User getUser(Context c) {
         if (user != null) {
             return user;
         }
 
-        SharedPreferences sharedPreferences=c.getSharedPreferences(c.getString(R.string.SHARED_PREFERENCES_KEY),Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = c.getSharedPreferences(c.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
 
         int userId = sharedPreferences.getInt(c.getString(R.string.USER_LOGIN_SESSION_KEY), 0);
 

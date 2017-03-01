@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Slope Manager</string>
     <string name="action_settings">Settings</string>
+    <string name="login_title">Login</string>
 
     <string name="SHARED_PREFERENCES_KEY">123456789</string>
     <string name="USER_LOGIN_SESSION_KEY">user_login_session_key</string>
