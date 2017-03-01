@@ -12,5 +12,8 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="requesting_login">Requesting login</string>
+    <string name="dashboard_session_card_text">Sessions</string>
+    <string name="dashboard_personal_details_card_text">Edit Details</string>
+    <string name="dashboard_view_membership_card_text">Become a member</string>
 
 </resources>
