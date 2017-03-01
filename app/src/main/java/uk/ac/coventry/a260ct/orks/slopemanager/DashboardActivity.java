@@ -3,6 +3,7 @@ package uk.ac.coventry.a260ct.orks.slopemanager;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -11,13 +12,25 @@ import android.view.MenuItem;
  */
 
 public class DashboardActivity extends AppCompatActivity {
+    private static final String TAG = DashboardActivity.class.getSimpleName();
+
+    private LoginSessionManager loginSessionManager;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.login_activity_layout);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_dashboard_layout);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.dashboard_activity_toolbar);
         setSupportActionBar(toolbar);
+
+        loginSessionManager = LoginSessionManager.getInstance(this);
+        user = loginSessionManager.getUser(this);
+
+        if (user == null) { // No user logged in so go to login screen
+            Log.v(TAG, "User not logged in, launching login");
+            LoginSessionManager.launchLogin(this);
+        }
     }
 
     @Override
@@ -29,13 +42,12 @@ public class DashboardActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_logout) {
+            loginSessionManager.logout(this);
+            LoginSessionManager.launchLogin(this);
             return true;
         }
 

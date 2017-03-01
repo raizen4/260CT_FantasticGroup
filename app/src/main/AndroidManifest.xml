@@ -20,7 +20,7 @@
 
         <activity
             android:name=".LoginActivity"
-            android:label="@string/login_title"/>
+            android:label="@string/login_title" />
     </application>
 
 </manifest>
