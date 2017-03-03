@@ -7,14 +7,15 @@ import android.app.Application;
  */
 
 public class SlopeManagerApplication extends Application{
-    private Database database;
+    private SlopeDatabase slopeDatabase;
     private LoginSessionManager loginSessionManager;
 
     private static SlopeManagerApplication INSTANCE;
 
     @Override
     public void onCreate() {
-        database = new Database(getApplicationContext());
+        INSTANCE = this;
+        slopeDatabase = new SlopeDatabase(getApplicationContext());
         loginSessionManager = new LoginSessionManager(getApplicationContext());
     }
 
@@ -22,8 +23,8 @@ public class SlopeManagerApplication extends Application{
         return INSTANCE;
     }
 
-    public Database getDatabase() {
-        return database;
+    public SlopeDatabase getSlopeDatabase() {
+        return slopeDatabase;
     }
 
     public LoginSessionManager getLoginSessionManager() {

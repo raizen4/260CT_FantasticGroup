@@ -11,6 +11,8 @@
 
     <string name="login_no_username">Please enter username</string>
     <string name="login_no_password">Please enter a password</string>
+    <string name="login_invalid">Invalid username or password</string>
+
     <string name="password_input_hint">Password</string>
     <string name="login">Login</string>
     <string name="username">Username</string>

@@ -10,13 +10,17 @@ public class User {
     private String surname;
     private String phone;
     private String email;
+    private int membership;
 
-    public User(int ID,String firstName, String surname, String phone, String email){
-        this.ID=ID;
-        this.firstName=firstName;
-        this.surname=surname;
-        this.phone=phone;
-        this.email=email;
+    public User(int ID, String firstName,
+                String surname, String phone,
+                String email, int membership) {
+        this.ID = ID;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.phone = phone;
+        this.email = email;
+        this.membership = membership;
     }
 
     public int getID() {

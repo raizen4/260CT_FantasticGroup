@@ -9,11 +9,12 @@
         android:name=".SlopeManagerApplication"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
             android:name=".DashboardActivity"
             android:label="@string/dashboard_title"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
+            <intent-filter android:label="@string/app_name">
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,7 +22,8 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="@string/login_title" />
+            android:label="@string/login_title"
+            android:launchMode="singleTop"/>
         <activity
             android:name=".UserRegistrationActivity"
             android:label="@string/title_activity_registration"
@@ -32,5 +34,7 @@
                 android:value=".LoginActivity" />
         </activity>
     </application>
+
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
 </manifest>

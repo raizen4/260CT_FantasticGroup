@@ -6,7 +6,7 @@ package uk.ac.coventry.a260ct.orks.slopemanager;
 
 public class Member extends User {
 
-    public Member(int ID, String firstName, String surname, String phone, String email) {
-        super(ID, firstName, surname, phone, email);
+    public Member(int ID, String firstName, String surname, String phone, String email, int membership) {
+        super(ID, firstName, surname, phone, email, membership);
     }
 }
