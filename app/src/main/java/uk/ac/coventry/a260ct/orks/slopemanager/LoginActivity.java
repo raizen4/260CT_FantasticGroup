@@ -47,6 +47,13 @@ public class LoginActivity extends AppCompatActivity {
                 onLoginClicked();
             }
         });
+
+        findViewById(R.id.login_register_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchRegistration();
+            }
+        });
     }
 
     private void launchDashboard() {
@@ -73,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
                     findViewById(R.id.activity_login_layout),
                     R.string.login_no_username,
                     Snackbar.LENGTH_SHORT
-            );
+            ).show();
         } else if (passwordTyped.isEmpty()) {
             Snackbar.make(
                     findViewById(R.id.activity_login_layout),
