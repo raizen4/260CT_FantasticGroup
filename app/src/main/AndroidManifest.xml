@@ -10,7 +10,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:label="@string/dashboard_title">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

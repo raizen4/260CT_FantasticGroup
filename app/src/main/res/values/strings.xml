@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">Slope Manager</string>
-    <string name="action_logout">Logout</string>
 
     <string name="SHARED_PREFERENCES_KEY">123456789</string>
     <string name="USER_LOGIN_SESSION_KEY">user_login_session_key</string>
 
+    <string name="action_logout">Logout</string>
+
     <string name="login_title">Login</string>
+    <string name="dashboard_title">Dashboard</string>
+
     <string name="login_no_username">Please enter username</string>
     <string name="login_no_password">Please enter a password</string>
     <string name="password_input_hint">Password</string>
@@ -13,7 +16,8 @@
     <string name="username">Username</string>
     <string name="requesting_login">Requesting login</string>
     <string name="dashboard_session_card_text">Sessions</string>
-    <string name="dashboard_personal_details_card_text">Edit Details</string>
+    <string name="dashboard_personal_details_card_text">Edit My Details</string>
     <string name="dashboard_view_membership_card_text">Become a member</string>
+    <string name="login_register_string"><u>Register</u></string>
 
 </resources>
