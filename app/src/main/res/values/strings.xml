@@ -20,5 +20,6 @@
     <string name="dashboard_view_membership_card_text">Become a member</string>
     <string name="login_register_string"><u>Register</u></string>
     <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="call_reception_text"><u>Call Reception</u></string>
 
 </resources>

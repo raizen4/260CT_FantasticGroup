@@ -14,7 +14,8 @@ public class LoginSessionManager {
     private static final String TAG = LoginSessionManager.class.getSimpleName();
 
     private LoginManagerPackage managerPackage;
-    private static LoginSessionManager INSTANCE;
+
+    private Context context;
     private User user;
 
     public interface RequestLoginCallback {
@@ -23,15 +24,9 @@ public class LoginSessionManager {
         void onDenied();
     }
 
-    private LoginSessionManager(Context context) {
+    public LoginSessionManager(Context appContext) {
         managerPackage = new LoginManagerPackage(context);
-    }
-
-    public static LoginSessionManager getInstance(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new LoginSessionManager(context);
-        }
-        return INSTANCE;
+        context = appContext;
     }
 
     /**
@@ -39,9 +34,8 @@ public class LoginSessionManager {
      * and make user object from that ID
      *
      * @param id
-     * @param context
      */
-    public void setUser(Context context, int id) {
+    public void setUser(int id) {
         user = managerPackage.getUser(id);
         SharedPreferences sharedPreferences = context.
                 getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
@@ -51,7 +45,7 @@ public class LoginSessionManager {
 
     }
 
-    public User getUser(Context context) {
+    public User getUser() {
         if (user != null) {
             Log.v(TAG, "User is logged in, already");
             return user;
@@ -66,19 +60,19 @@ public class LoginSessionManager {
             // TODO
             // This is for development
             Log.v(TAG, "User has a stored login");
-            setUser(context, userId);
+            setUser(userId);
         }
 
         return user;
     }
 
-    public static void launchLogin(Context context) {
+    public void launchLogin() {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         context.startActivity(intent);
     }
 
-    public void requestLogin(Context context, String username,
+    public void requestLogin(String username,
                              String password, RequestLoginCallback callback) {
         //TODO: Request if details are correct and get an ID
         // int userId = requestUser(username, password);
@@ -86,7 +80,7 @@ public class LoginSessionManager {
         int userId = 1234;
 
         if (userId > -1) { // User is valid
-            setUser(context, userId);
+            setUser(userId);
             Log.v(TAG, "Login granted");
             callback.onGranted();
         } else {
@@ -97,6 +91,6 @@ public class LoginSessionManager {
 
     public void logout(Context context) {
         Log.v(TAG, "Logging out");
-        setUser(context, 0);
+        setUser(0);
     }
 }

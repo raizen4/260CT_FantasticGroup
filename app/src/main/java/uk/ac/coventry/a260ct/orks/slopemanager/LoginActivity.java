@@ -16,6 +16,8 @@ import android.widget.Toast;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
+    private SlopeManagerApplication application;
+
     private EditText usernameInput;
     private EditText passwordInput;
     private Button loginButton;
@@ -24,6 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_layout);
+        application = SlopeManagerApplication.getInstance();
 
         usernameInput = (EditText) findViewById(R.id.login_username_input);
         passwordInput = (EditText) findViewById(R.id.login_password_input);
@@ -63,7 +66,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void launchRegistration() {
-        startActivity(new Intent(this, RegistrationActivity.class));
+        startActivity(new Intent(this, UserRegistrationActivity.class));
     }
 
     private void alertLoginDenied() {
@@ -92,8 +95,8 @@ public class LoginActivity extends AppCompatActivity {
 
             // Make a request to the login manager to login using these credentials.
             // The callback will be called once this is complete
-            LoginSessionManager.getInstance(this)
-                    .requestLogin(this,
+            application.getLoginSessionManager()
+                    .requestLogin(
                             usernameTyped, passwordTyped,
                             new LoginSessionManager.RequestLoginCallback() {
                                 @Override

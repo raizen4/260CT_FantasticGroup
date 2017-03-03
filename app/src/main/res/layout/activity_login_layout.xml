@@ -57,13 +57,25 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:textAppearance="?android:textAppearanceMedium"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_phone_button"
+        android:text="@string/call_reception_text"
+        android:clickable="true"
+        android:textAlignment="center"
+        android:background="?selectableItemBackground"
+        android:layout_above="@+id/login_register_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:textAppearance="?android:textAppearanceMedium"/>
 
     <Button
         android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="80dp"
+        android:layout_above="@+id/login_phone_button"
+        android:layout_marginBottom="20dp"
         android:id="@+id/login_button" />
 </RelativeLayout>
