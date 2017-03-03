@@ -55,6 +55,10 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void launchRegistration() {
+        startActivity(new Intent(this, RegistrationActivity.class));
+    }
+
     private void alertLoginDenied() {
 
     }

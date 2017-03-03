@@ -10,18 +10,26 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".DashboardActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/dashboard_title">
+            android:label="@string/dashboard_title"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".LoginActivity"
             android:label="@string/login_title" />
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="@string/title_activity_registration"
+            android:parentActivityName=".LoginActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.coventry.a260ct.orks.slopemanager.LoginActivity" />
+        </activity>
     </application>
 
 </manifest>

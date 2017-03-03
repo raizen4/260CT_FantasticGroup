@@ -19,5 +19,6 @@
     <string name="dashboard_personal_details_card_text">Edit My Details</string>
     <string name="dashboard_view_membership_card_text">Become a member</string>
     <string name="login_register_string"><u>Register</u></string>
+    <string name="title_activity_registration">RegistrationActivity</string>
 
 </resources>
