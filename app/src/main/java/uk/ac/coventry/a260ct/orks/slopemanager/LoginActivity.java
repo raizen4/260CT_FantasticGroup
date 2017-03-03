@@ -50,10 +50,13 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void launchDashboard() {
-
         Intent intent = new Intent(this, DashboardActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+    }
+
+    public void launchRegistration() {
+        startActivity(new Intent(this, RegistrationActivity.class));
     }
 
     private void alertLoginDenied() {
