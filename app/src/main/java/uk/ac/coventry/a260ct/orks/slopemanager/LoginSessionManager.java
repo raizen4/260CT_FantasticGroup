@@ -13,9 +13,12 @@ public class LoginSessionManager {
 
     private static final String TAG = LoginSessionManager.class.getSimpleName();
 
-    private LoginManagerPackage managerPackage;
-    private static LoginSessionManager INSTANCE;
+    private LoginManagerPackage loginManagerPackage;
+
+    private Context context;
     private User user;
+
+    private SlopeManagerApplication application;
 
     public interface RequestLoginCallback {
         void onGranted();
@@ -23,15 +26,10 @@ public class LoginSessionManager {
         void onDenied();
     }
 
-    private LoginSessionManager(Context context) {
-        managerPackage = new LoginManagerPackage(context);
-    }
-
-    public static LoginSessionManager getInstance(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = new LoginSessionManager(context);
-        }
-        return INSTANCE;
+    public LoginSessionManager(Context appContext) {
+        loginManagerPackage = new LoginManagerPackage();
+        context = appContext;
+        application = SlopeManagerApplication.getInstance();
     }
 
     /**
@@ -39,10 +37,9 @@ public class LoginSessionManager {
      * and make user object from that ID
      *
      * @param id
-     * @param context
      */
-    public void setUser(Context context, int id) {
-        user = managerPackage.getUser(id);
+    public void setUser(int id) {
+        user = loginManagerPackage.getUser(id);
         SharedPreferences sharedPreferences = context.
                 getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -51,7 +48,7 @@ public class LoginSessionManager {
 
     }
 
-    public User getUser(Context context) {
+    public User getUser() {
         if (user != null) {
             Log.v(TAG, "User is logged in, already");
             return user;
@@ -62,31 +59,28 @@ public class LoginSessionManager {
 
         int userId = sharedPreferences.getInt(context.getString(R.string.USER_LOGIN_SESSION_KEY), 0);
 
-        if (userId != 0) {
-            // TODO
-            // This is for development
+        if (userId > -1) {
             Log.v(TAG, "User has a stored login");
-            setUser(context, userId);
-        }
+            setUser(userId);
+        } 
 
         return user;
     }
 
-    public static void launchLogin(Context context) {
+    public void launchLogin() {
         Intent intent = new Intent(context, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
     }
 
-    public void requestLogin(Context context, String username,
-                             String password, RequestLoginCallback callback) {
-        //TODO: Request if details are correct and get an ID
-        // int userId = requestUser(username, password);
+    public void requestLogin(String username,
+                             String password,
+                             RequestLoginCallback callback) {
 
-        int userId = 1234;
+        int userId = loginManagerPackage.requestUserIdFromCredentials(username, password);
 
         if (userId > -1) { // User is valid
-            setUser(context, userId);
+            setUser(userId);
             Log.v(TAG, "Login granted");
             callback.onGranted();
         } else {
@@ -95,8 +89,19 @@ public class LoginSessionManager {
         }
     }
 
-    public void logout(Context context) {
+    public User getUserOrLogout() {
+        user = getUser();
+
+        if (user == null) { // No user logged in so go to login screen
+            Log.v(TAG, "User not logged in, launching login");
+            launchLogin();
+        }
+
+        return user;
+    }
+
+    public void logout() {
         Log.v(TAG, "Logging out");
-        setUser(context, 0);
+        setUser(-1);
     }
 }

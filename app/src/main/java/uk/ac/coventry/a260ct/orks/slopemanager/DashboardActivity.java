@@ -17,6 +17,8 @@ public class DashboardActivity extends AppCompatActivity {
     private LoginSessionManager loginSessionManager;
     private User user;
 
+    private SlopeManagerApplication slopeManagerApplication;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +26,15 @@ public class DashboardActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.dashboard_activity_toolbar);
         setSupportActionBar(toolbar);
 
-        loginSessionManager = LoginSessionManager.getInstance(this);
-        user = loginSessionManager.getUser(this);
+        slopeManagerApplication = (SlopeManagerApplication) getApplication();
+        loginSessionManager = slopeManagerApplication.getLoginSessionManager();
+        user = loginSessionManager.getUserOrLogout();
+    }
 
-        if (user == null) { // No user logged in so go to login screen
-            Log.v(TAG, "User not logged in, launching login");
-            LoginSessionManager.launchLogin(this);
-        }
+    @Override
+    public void onResume() {
+        super.onResume();
+        user = loginSessionManager.getUserOrLogout();
     }
 
     @Override
@@ -46,8 +50,8 @@ public class DashboardActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_logout) {
-            loginSessionManager.logout(this);
-            LoginSessionManager.launchLogin(this);
+            loginSessionManager.logout();
+            loginSessionManager.launchLogin();
             return true;
         }
 

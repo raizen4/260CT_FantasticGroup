@@ -11,6 +11,8 @@
 
     <string name="login_no_username">Please enter username</string>
     <string name="login_no_password">Please enter a password</string>
+    <string name="login_invalid">Invalid username or password</string>
+
     <string name="password_input_hint">Password</string>
     <string name="login">Login</string>
     <string name="username">Username</string>
@@ -20,5 +22,6 @@
     <string name="dashboard_view_membership_card_text">Become a member</string>
     <string name="login_register_string"><u>Register</u></string>
     <string name="title_activity_registration">RegistrationActivity</string>
+    <string name="call_reception_text"><u>Call Reception</u></string>
 
 </resources>
