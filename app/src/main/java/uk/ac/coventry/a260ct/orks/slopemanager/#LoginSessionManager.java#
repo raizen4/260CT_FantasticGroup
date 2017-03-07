@@ -31,7 +31,6 @@ public class LoginSessionManager {
         context = appContext;
         application = SlopeManagerApplication.getInstance();
     }
-
     /**
      * We have a user ID from the passwords, so set our currently logged in user to that ID
      * and make user object from that ID
