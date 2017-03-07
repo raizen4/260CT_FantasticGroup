@@ -26,6 +26,7 @@
             android:label="@string/login_title"
 
             android:launchMode="singleTop"/>
+
         <activity
             android:name=".RegisteringActivity"
             android:label="@string/title_activity_registration"
@@ -41,3 +42,4 @@
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 </manifest>
+
