@@ -22,7 +22,7 @@ public class LoginSessionManager {
     }
 
     public void setUser(LoginManagerPackage manager,int id, Context context) {
-        this.user=managerPackage.getUser(id);
+        this.user=manager.getUser(id);
         SharedPreferences sharedPreferences=context.
                 getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY),Context.MODE_PRIVATE);
          SharedPreferences.Editor editor=sharedPreferences.edit();
