@@ -17,11 +17,12 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="requesting_login">Requesting login</string>
-    <string name="dashboard_session_card_text">Sessions</string>
-    <string name="dashboard_personal_details_card_text">Edit My Details</string>
-    <string name="dashboard_view_membership_card_text">Become a member</string>
+    <string name="dashboard_session_button_text">Sessions</string>
+    <string name="dashboard_personal_details_button_text">Edit My Details</string>
+    <string name="dashboard_view_membership_button_text">Become a member</string>
     <string name="login_register_string"><u>Register</u></string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="call_reception_text"><u>Call Reception</u></string>
+    <string name="title_activity_sessions">SessionsActivity</string>
 
 </resources>
