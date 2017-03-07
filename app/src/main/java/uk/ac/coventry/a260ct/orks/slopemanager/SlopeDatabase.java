@@ -176,7 +176,6 @@ public class SlopeDatabase extends SQLiteOpenHelper {
      * @param password
      * @return
      */
-
     public int getUserIdFromCredentials(String username, String password) {
         int user_id = -1;
 
