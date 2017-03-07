@@ -61,33 +61,6 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
         submitForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity().getApplicationContext(),"Here goes parse init",Toast.LENGTH_SHORT).show();
-                newUser=new User();
-                user=new ParseUser();
-                newUser.setEmail(masterInfoCopy.get("email"));
-                newUser.setUsername(masterInfoCopy.get("username"));
-                newUser.setPassword(masterInfoCopy.get("password"));
-                newUser.setEmailVerified(false);
-                newUser.setWeight(Integer.parseInt(masterInfoCopy.get("weight")));
-                newUser.setAge(Integer.parseInt(masterInfoCopy.get("age")));
-                newUser.setShowIng(true);
-                user.setUsername(newUser.getUsername());
-                user.setPassword(newUser.getPassword());
-                user.setEmail(newUser.getEmail());
-                user.put("phone",newUser.getPhone());
-                user.put("age",newUser.getAge());
-                user.signUpInBackground(new SignUpCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e==null){
-                            Toast.makeText(getActivity().getApplicationContext(),"You have signed up successfully",Toast.LENGTH_SHORT).show();                        }
-                        else{
-                            Toast.makeText(getActivity().getApplicationContext(),"Something went wrong, check your internet connection",Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                });
-
 
             }
         });

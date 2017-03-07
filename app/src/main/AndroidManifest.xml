@@ -23,17 +23,9 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/login_title"
-            android:launchMode="singleTop"/>
-        <activity
-            android:name=".UserRegistrationActivity"
-            android:label="@string/title_activity_registration"
-            android:parentActivityName=".LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LoginActivity" />
-        </activity>
->>>>>>> master
+            android:launchMode="singleTop"/><![CDATA[
+        >>>>>>> master
+    ]]>
     </application>
 
     <uses-permission android:name="android.permission.CALL_PHONE" />

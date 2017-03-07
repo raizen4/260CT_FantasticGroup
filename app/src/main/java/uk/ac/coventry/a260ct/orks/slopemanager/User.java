@@ -4,7 +4,7 @@ package uk.ac.coventry.a260ct.orks.slopemanager;
  * Created by boldurbogdan on 28/02/2017.
  */
 
-public class User {
+public abstract class User {
     private int ID;
     private String firstName;
     private String surname;
@@ -62,4 +62,6 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public abstract User getType(String type);
 }

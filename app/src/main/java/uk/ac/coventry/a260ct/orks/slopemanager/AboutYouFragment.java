@@ -19,17 +19,17 @@ import java.util.List;
 
 public class AboutYouFragment extends Fragment implements UpdateInfo {
     private HashMap<String,String> infoEntered;
-    private OnFragmentInteractionListener mListener;
 
     EditText firstNameField;
     EditText surnameField;
     EditText emailField;
     EditText phoneField;
-    Spinner spinnerAge;
-    Spinner spinnerWeight;
+
+
     public AboutYouFragment() {
         // Required empty public constructor
     }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -41,8 +41,7 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
         outState.putString("surname", surname);
         outState.putString("email", email);
         outState.putString("phone", phone);
-        outState.putString("age",spinnerAge.getSelectedItem().toString());
-        outState.putString("weight",spinnerWeight.getSelectedItem().toString());
+
     }
 
     @Override
@@ -53,14 +52,11 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
             surnameField= (EditText) getActivity().findViewById(R.id.surnameField);
             emailField= (EditText) getActivity().findViewById(R.id.emailField);
             phoneField= (EditText) getActivity().findViewById(R.id.phoneField);
-            spinnerAge= (Spinner) getActivity().findViewById(R.id.ageSpinner);
-            spinnerWeight= (Spinner) getActivity().findViewById(R.id.weightSpinner);
             firstNameField.setText(savedInstanceState.getString("firstName"));
             surnameField.setText(savedInstanceState.getString("surname"));
             emailField.setText(savedInstanceState.getString("email"));
             phoneField.setText(savedInstanceState.getString("phone"));
-            spinnerAge.setSelection(Integer.parseInt(savedInstanceState.getString("age")));
-            spinnerWeight.setSelection(Integer.parseInt(savedInstanceState.getString("weight")));
+
         }
         setRetainInstance(true);
     }
@@ -72,12 +68,6 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
         return inflater.inflate(R.layout.fragment_about_you, container, false);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
 
     @Override
     public void onDetach() {
@@ -93,40 +83,6 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
         surnameField= (EditText) getActivity().findViewById(R.id.surnameField);
         emailField= (EditText) getActivity().findViewById(R.id.emailField);
         phoneField= (EditText) getActivity().findViewById(R.id.phoneField);
-        spinnerAge= (Spinner) getActivity().findViewById(R.id.ageSpinner);
-        spinnerWeight= (Spinner) getActivity().findViewById(R.id.weightSpinner);
-        ArrayList<Integer>ageArray=new ArrayList<>();
-        ArrayList<Integer>weightArray=new ArrayList<>();
-        HashMap<String,String> infoToPass;
-        for(int age=18;age<=70;age++){
-            ageArray.add(age);
-        }
-        for(int weight=30;weight<200;weight++){
-            weightArray.add(weight);
-        }
-        ArrayAdapter<Integer> adapterAge=new ArrayAdapter<Integer>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,ageArray);
-        ArrayAdapter<Integer> adapterWeight=new ArrayAdapter<Integer>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,weightArray);
-        spinnerAge.setAdapter(adapterAge);
-        spinnerWeight.setAdapter(adapterWeight);
-        spinnerAge.setDropDownVerticalOffset(1000);
-        spinnerWeight.setDropDownVerticalOffset(900);
-        //make the drop down menu not to be SO BIG, resize it.
-
-        try {
-            Field popup = Spinner.class.getDeclaredField("mPopup");
-            popup.setAccessible(true);
-
-            // Get private mPopup member variable and try cast to ListPopupWindow
-            android.widget.ListPopupWindow popupWindowAge = (android.widget.ListPopupWindow) popup.get(spinnerAge);
-            android.widget.ListPopupWindow popupWindowWeight = (android.widget.ListPopupWindow) popup.get(spinnerWeight);
-
-            // Set popupWindow height to 500px
-            popupWindowAge.setHeight(1000);
-            popupWindowWeight.setHeight(900);
-        }
-        catch (Exception e) {
-            // silently fail...
-        }
 
     }
 
@@ -152,8 +108,6 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
                 infoToUpdate.put("surname", surname);
                 infoToUpdate.put("email", email);
                 infoToUpdate.put("phone", phone);
-                infoToUpdate.put("age", spinnerAge.getSelectedItem().toString());
-                infoToUpdate.put("weight", spinnerWeight.getSelectedItem().toString());
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -162,23 +116,14 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
     }
 
     @Override
-    public void setInfo(int fragmentNumber, ArrayList<String> infoToUpdate,ArrayList<String> infoToUpdate2) {
+    public void setInfo(int fragmentNumber, ArrayList<String> infoToUpdate, String foodPref) {
 
     }
+
 
     @Override
     public void showInfo(HashMap<String, String> infoToUpdate) {
-        List<String> keys = new ArrayList<String>(infoToUpdate.keySet());
-        for(String key:keys)
-        {
-            try
-            {
-                Log.i("Info" + key, infoToUpdate.get(key));
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
+
 
     }
 
@@ -188,18 +133,4 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
     }
 
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
 }
