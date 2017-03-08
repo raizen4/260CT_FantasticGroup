@@ -3,7 +3,8 @@
 
     <string name="SHARED_PREFERENCES_KEY">123456789</string>
     <string name="USER_LOGIN_SESSION_KEY">user_login_session_key</string>
-
+    <string name="title_activity_registering">RegisteringActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
     <string name="action_logout">Logout</string>
 
     <string name="login_title">Login</string>
@@ -24,5 +25,6 @@
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="call_reception_text"><u>Call Reception</u></string>
     <string name="title_activity_sessions">SessionsActivity</string>
-
+    <string name="hello_blank_fragment">hello_blank_frag</string>
+    <string name="action_settings">action_settings</string>
 </resources>
