@@ -34,6 +34,7 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
     User newUser;
     HashMap<String,String> masterInfoCopy=new HashMap<>();
 
+
     public LoginDetailsFragment() {
         // Required empty public constructor
     }
@@ -69,12 +70,12 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
 
 
     @Override
-    public void setInfo(int fragmentNumber, HashMap<String, String> infoToUpdate) {
+    public void setInfo(String fragmentName, HashMap<String, String> infoToUpdate) {
 
     }
 
     @Override
-    public void setInfo(int fragmentNumber, ArrayList<String> infoToUpdate, ArrayList<String> infoToUpdate2) {
+    public void setInfo(String fragmentName, ArrayList<String> infoToUpdate, ArrayList<String> infoToUpdate2) {
 
     }
 

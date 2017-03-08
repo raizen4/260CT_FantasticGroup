@@ -24,18 +24,6 @@
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:id="@+id/login_username_input"
-        android:hint="@string/username"
-        android:layout_below="@+id/image_view"
-        android:nextFocusDown="@+id/login_password_input"/>
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
         android:layout_below="@+id/login_username_input"
@@ -70,12 +58,24 @@
         android:layout_marginBottom="20dp"
         android:textAppearance="?android:textAppearanceMedium"/>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_marginTop="48dp"
+        android:id="@+id/login_username_input"
+        android:hint="@string/username"
+        android:nextFocusDown="@+id/login_password_input"
+        android:layout_below="@+id/image_view"
+        android:layout_alignParentStart="true" />
+
     <Button
         android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_above="@+id/login_phone_button"
         android:layout_marginBottom="20dp"
-        android:id="@+id/login_button" />
+        android:id="@+id/login_button"
+        android:layout_above="@+id/login_phone_button"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

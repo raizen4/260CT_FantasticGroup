@@ -3,17 +3,8 @@
 
     <string name="SHARED_PREFERENCES_KEY">123456789</string>
     <string name="USER_LOGIN_SESSION_KEY">user_login_session_key</string>
-    <
-    <
-    <
-    <
-    <
-    <
-    < HEAD
     <string name="title_activity_registering">RegisteringActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    =======
-
     <string name="action_logout">Logout</string>
 
     <string name="login_title">Login</string>

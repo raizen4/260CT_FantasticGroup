@@ -12,7 +12,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="91dp"
-        android:id="@+id/textView13"
+        android:id="@+id/firstName_text_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="120dp" />
 
@@ -20,10 +20,10 @@
         android:text="Surname:"
         android:layout_height="wrap_content"
         android:layout_marginTop="57dp"
-        android:id="@+id/textView14"
+        android:id="@+id/surname_text_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="120dp"
-        android:layout_below="@+id/textView13"
+        android:layout_below="@+id/firstName_text_view"
         android:layout_alignParentStart="true" />
 
     <EditText
@@ -31,27 +31,27 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText4"
+        android:id="@+id/firstName_edit_text"
         android:hint="Name goes here..."
-        android:layout_alignBaseline="@+id/textView13"
-        android:layout_alignBottom="@+id/textView13"
-        android:layout_toEndOf="@+id/textView13" />
+        android:layout_alignBaseline="@+id/firstName_text_view"
+        android:layout_alignBottom="@+id/firstName_text_view"
+        android:layout_toEndOf="@+id/firstName_text_view" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText6"
+        android:id="@+id/surname_edit_text"
         android:hint="Name goes here..."
-        android:layout_alignBaseline="@+id/textView14"
-        android:layout_alignBottom="@+id/textView14"
-        android:layout_toEndOf="@+id/textView14" />
+        android:layout_alignBaseline="@+id/surname_text_view"
+        android:layout_alignBottom="@+id/surname_text_view"
+        android:layout_toEndOf="@+id/surname_text_view" />
 
     <TextView
         android:text="Phone:"
         android:layout_height="wrap_content"
-        android:id="@+id/textView15"
+        android:id="@+id/phone_text_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="120dp"
         android:layout_centerVertical="true"
@@ -60,32 +60,21 @@
     <TextView
         android:text="Date of Birth"
         android:layout_height="wrap_content"
-        android:id="@+id/textView16"
+        android:id="@+id/dob_text_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="120dp"
-        android:layout_below="@+id/textView15"
+        android:layout_below="@+id/phone_text_view"
         android:layout_alignParentStart="true"
         android:layout_marginTop="38dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/editText7"
-        android:hint="Name goes here..."
-        android:layout_alignBaseline="@+id/textView15"
-        android:layout_alignBottom="@+id/textView15"
-        android:layout_toEndOf="@+id/textView15" />
 
     <TextView
         android:text="Email"
         android:layout_height="wrap_content"
-        android:id="@+id/nameTextView"
+        android:id="@+id/email_text_view"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="120dp"
         android:layout_marginTop="40dp"
-        android:layout_below="@+id/textView16"
+        android:layout_below="@+id/dob_text_view"
         android:layout_alignParentStart="true" />
 
     <EditText
@@ -93,17 +82,32 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:id="@+id/editText5"
+        android:id="@+id/email_edit_text"
         android:hint="Email goes here.."
-        android:layout_alignBaseline="@+id/nameTextView"
-        android:layout_alignBottom="@+id/nameTextView"
-        android:layout_toEndOf="@+id/nameTextView" />
+        android:layout_alignBaseline="@+id/email_text_view"
+        android:layout_alignBottom="@+id/email_text_view"
+        android:layout_toEndOf="@+id/email_text_view" />
 
-    <DatePicker
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/datePicker"
-        android:layout_above="@+id/textView16"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/editText4" />
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/phone_edit_text"
+        android:hint="Name goes here..."
+        android:layout_alignBaseline="@+id/phone_text_view"
+        android:layout_alignBottom="@+id/phone_text_view"
+        android:layout_toEndOf="@+id/phone_text_view" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/dob_edit_text"
+        android:hint="Name goes here..."
+        android:layout_alignBaseline="@+id/dob_text_view"
+        android:layout_alignBottom="@+id/dob_text_view"
+        android:layout_toEndOf="@+id/dob_text_view" />
+
 </RelativeLayout>

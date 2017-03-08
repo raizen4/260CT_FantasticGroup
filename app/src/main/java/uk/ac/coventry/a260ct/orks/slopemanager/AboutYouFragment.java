@@ -4,6 +4,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +26,7 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
     EditText surnameField;
     EditText emailField;
     EditText phoneField;
+    EditText dobField;
 
 
     public AboutYouFragment() {
@@ -48,10 +51,10 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if(savedInstanceState!=null){
-            firstNameField= (EditText) getActivity().findViewById(R.id.firstNameField);
-            surnameField= (EditText) getActivity().findViewById(R.id.surnameField);
-            emailField= (EditText) getActivity().findViewById(R.id.emailField);
-            phoneField= (EditText) getActivity().findViewById(R.id.phoneField);
+            firstNameField= (EditText) getActivity().findViewById(R.id.firstName_edit_text);
+            surnameField= (EditText) getActivity().findViewById(R.id.surname_edit_text);
+            emailField= (EditText) getActivity().findViewById(R.id.email_edit_text);
+            phoneField= (EditText) getActivity().findViewById(R.id.phone_edit_text);
             firstNameField.setText(savedInstanceState.getString("firstName"));
             surnameField.setText(savedInstanceState.getString("surname"));
             emailField.setText(savedInstanceState.getString("email"));
@@ -69,36 +72,47 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
     }
 
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
 
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        firstNameField= (EditText) getActivity().findViewById(R.id.firstNameField);
-        surnameField= (EditText) getActivity().findViewById(R.id.surnameField);
-        emailField= (EditText) getActivity().findViewById(R.id.emailField);
-        phoneField= (EditText) getActivity().findViewById(R.id.phoneField);
+        firstNameField= (EditText) getActivity().findViewById(R.id.firstName_edit_text);
+        surnameField= (EditText) getActivity().findViewById(R.id.surname_edit_text);
+        emailField= (EditText) getActivity().findViewById(R.id.email_edit_text);
+        phoneField= (EditText) getActivity().findViewById(R.id.phone_edit_text);
+        dobField=(EditText)getActivity().findViewById(R.id.dob_edit_text);
+        dobField.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b==true){
+                    DatePickerFragment picker=new DatePickerFragment(view);
+                    FragmentTransaction transaction=getFragmentManager().beginTransaction();
+                    picker.show(transaction,"DATE_PICKER");
+                }
+            }
+        });
+
 
     }
 
 
+
     @Override
-    public void setInfo(int fragmentNumber, HashMap<String, String> infoToUpdate) {
-        if(fragmentNumber==0) {
+    public void setInfo(String fragmentName, HashMap<String, String> infoToUpdate) {
+        if(fragmentName.matches("AboutYouFragment")) {
             String firstName=null;
             String surname=null ;
             String phone=null ;
             String email=null ;
+            String dob=null;
             try {
                  firstName = firstNameField.getText().toString();
                  surname = surnameField.getText().toString();
                  phone = phoneField.getText().toString();
                  email = emailField.getText().toString();
+                 dob=dobField.getText().toString();
+
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -108,6 +122,7 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
                 infoToUpdate.put("surname", surname);
                 infoToUpdate.put("email", email);
                 infoToUpdate.put("phone", phone);
+                infoToUpdate.put("dob",dob);
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -116,10 +131,15 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
     }
 
     @Override
-    public void setInfo(int fragmentNumber, ArrayList<String> infoToUpdate, String foodPref) {
+    public void setInfo(String fragmentName, ArrayList<String> infoToUpdate, String foodPref) {
 
     }
 
+
+    @Override
+    public void setInfo(String fragmentName, ArrayList<String> infoToUpdate, ArrayList<String> infoToUpdate2) {
+
+    }
 
     @Override
     public void showInfo(HashMap<String, String> infoToUpdate) {

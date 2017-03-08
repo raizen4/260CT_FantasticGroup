@@ -8,8 +8,11 @@ import java.util.HashMap;
  */
 
 public interface UpdateInfo {
-    void setInfo(int fragmentNumber,HashMap<String,String> infoToUpdate);
-    void setInfo(int fragmentNumber, ArrayList<String> infoToUpdate, String foodPref);
+    void setInfo(String fragmentName,HashMap<String,String> infoToUpdate);
+    void setInfo(String fragmentName, ArrayList<String> infoToUpdate, String foodPref);
+
+    void setInfo(String fragmentName, ArrayList<String> infoToUpdate, ArrayList<String> infoToUpdate2);
+
     void showInfo(HashMap<String,String>infoToUpdate);
     void showInfo(ArrayList<String>info);
 
