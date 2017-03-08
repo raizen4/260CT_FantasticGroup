@@ -33,7 +33,7 @@ public class RegisteringActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private HashMap<String,String> masterInfo=new HashMap<>();
-    private UpdateInfo callback;
+    private SendInfo callback;
     private UpdateInfo callback1;
     private UpdateInfo callback2;
     private UpdateInfo callback3;
@@ -62,8 +62,8 @@ public class RegisteringActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 Fragment curFragment=mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
                 if (curFragment.getArguments().getString("TAG").matches("AboutYouFragment")){
-                    callback4 = (SendInfo) curFragment;
-                    callback4.sendHashMap(MasterInfo, allergensInfo);
+                    callback = (SendInfo) curFragment;
+                    callback.sendHashMap(masterInfo);
 
 
                 }
@@ -75,17 +75,16 @@ public class RegisteringActivity extends AppCompatActivity {
                 switch (curFragment.getArguments().getString("TAG")) {
                     case "AboutYouFragment":
                         callback = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
-                        callback.setInfo(tab.getPosition(), MasterInfo);
-                        callback.showInfo(MasterInfo);
+                        callback.setInfo(tab.getPosition(), masterInfo);
+                        callback.showInfo(masterInfo);
                         break;
                     case "MembershipPayment":
-                        callback2 = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
-                        callback2.setInfo(tab.getPosition(), allergensInfo, foodTypePref);
+                       // callback2 = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
+                      //  callback2.setInfo(tab.getPosition(), allergensInfo, foodTypePref);
                         break;
                     case "LoginDetailsFragment":
                         callback3 = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
-                        callback3.setInfo(tab.getPosition(), masterInfo);
-                        callback3.showInfo(masterInfo);
+                        callback3.setInfo("LoginDetailsFragment", masterInfo);
                         break;
                 }
 

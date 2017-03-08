@@ -1,16 +1,23 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import java.util.HashMap;
+
 /**
  * Created by boldurbogdan on 28/02/2017.
  */
 
 public class SlopeOperator extends  User {
-    public SlopeOperator(int ID, String firstName, String surname, String phone, String email, int membership) {
-        super(ID, firstName, surname, phone, email, membership);
+    private String referenceWork;
+    public SlopeOperator(HashMap<String, String> info) {
+        super(info);
+        this.referenceWork=info.get("referenceWork");
     }
 
-    @Override
-    public User getType(String type) {
-        return null;
+    public String getReferenceWork() {
+        return referenceWork;
+    }
+
+    public void setReferenceWork(String referenceWork) {
+        this.referenceWork = referenceWork;
     }
 }

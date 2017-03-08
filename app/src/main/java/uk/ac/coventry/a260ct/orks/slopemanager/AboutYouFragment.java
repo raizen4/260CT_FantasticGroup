@@ -130,10 +130,6 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
         }
     }
 
-    @Override
-    public void setInfo(String fragmentName, ArrayList<String> infoToUpdate, String foodPref) {
-
-    }
 
 
     @Override
@@ -141,16 +137,6 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
 
     }
 
-    @Override
-    public void showInfo(HashMap<String, String> infoToUpdate) {
-
-
-    }
-
-    @Override
-    public void showInfo(ArrayList<String> info) {
-
-    }
 
 
 }

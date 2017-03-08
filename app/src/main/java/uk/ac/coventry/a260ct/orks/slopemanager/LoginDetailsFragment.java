@@ -12,10 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -56,12 +52,14 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        username= (EditText) getActivity().findViewById(R.id.usernameField);
-        password= (EditText) getActivity().findViewById(R.id.passwordField);
+        username= (EditText) getActivity().findViewById(R.id.username_edit_text_login_frag);
+        password= (EditText) getActivity().findViewById(R.id.user_password_loggin_fragment);
         submitForm= (Button) getActivity().findViewById(R.id.buttonSubmitForm);
         submitForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                SlopeDatabase database=new SlopeDatabase(getActivity().getApplicationContext());
+
 
             }
         });
@@ -71,7 +69,8 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
 
     @Override
     public void setInfo(String fragmentName, HashMap<String, String> infoToUpdate) {
-
+        if(fragmentName.matches("LoginDetailsFragment"))
+             masterInfoCopy=infoToUpdate;
     }
 
     @Override
@@ -79,23 +78,7 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
 
     }
 
-    @Override
-    public void showInfo(HashMap<String, String> infoToUpdate) {
-        try {
-            infoToUpdate.put("username", username.getText().toString());
-            infoToUpdate.put("password", password.getText().toString());
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
 
-        masterInfoCopy=infoToUpdate;
-    }
-
-    @Override
-    public void showInfo(ArrayList<String> info) {
-
-    }
 
     /**
      * This interface must be implemented by activities that contain this
