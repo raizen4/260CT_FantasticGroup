@@ -8,9 +8,11 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by boldurbogdan on 28/02/2017.
@@ -26,7 +28,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 9;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";
@@ -41,18 +43,13 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private static final String COL_LAST_NAME = "last_name";
     private static final String COL_EMAIL = "email";
     private static final String COL_PHONE = "phone";
+    private static final String COL_DOB = "dob";
     private static final String COL_MEMBERSHIP = "membership";
 
-    // Permission table constants
-    private static final String PERMISSIONS_TABLE =  "permissions";
-    public static final String COL_VIEW_BOOKINGS_PERMISSION = "view_bookings_permission";
-    public static final String COL_VIEW_DETAILS_PERMISSION = "view_details_permission";
-    public static final String COL_VIEW_ALL_DETAILS_PERMISSION = "view_all_details_permission";
-    public static final String COL_VIEW_ALL_BOOKINGS_PERMISSION = "view_all_bookings_permission";
-    public static final String COL_REGISTER_USER_PERMISSION = "register_user_permission";
-    public static final String COL_VIEW_SESSIONS_PERMISSION = "view_sessions_permission";
-    public static final String COL_VIEW_INSTRUCTORS_PERMISSION = "view_instructors_permission";
-    public static final String COL_CHANGE_SESSIONS_PERMISSION = "change_sessions_permission";
+    // User Type table constants
+    private static final String USER_TYPES_TABLE =  "user_types";
+    private static final String COL_USER_TYPE_ID = "user_type_id";
+    private static final String COL_NAME = "user_type_name";
 
     // Session table constants
     private static final String SESSIONS_TABLE = "sessions";
@@ -66,23 +63,13 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private static final String COL_BOOKING_ID = "booking_id";
     private static final String COL_PAID = "paid";
 
-    //Hashmap for permission table
-  private static final HashMap<Integer,String> hashForTypeOfUsers;
-    static{
-        hashForTypeOfUsers=new HashMap<>();
-        hashForTypeOfUsers.put(0,"NormalUser");
-        hashForTypeOfUsers.put(1,"Member");
-        hashForTypeOfUsers.put(2,"SlopeOperator");
-    }
-
-
-
 
     private static final String[] ALL_TABLES =
             new String[]{
+                    CREDENTIALS_TABLE,
                     USERS_TABLE,
                     BOOKINGS_TABLE,
-                    PERMISSIONS_TABLE,
+                    USER_TYPES_TABLE,
                     SESSIONS_TABLE
             };
 
@@ -95,12 +82,24 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
         if (getUserIdFromCredentials("lol", "lol") == -1) {
             Log.v(TAG, "Adding test data");
-            addUser(21312432, "Jim", "Jiggles", "test@test.com", "07283929394", 3);
-            setPermissions(21312432, true, true, true, true, true, true, true, true);
-            registerCredentials(21312432, "lol", "lol");
-            addSession(new Date(), 0);
-        }
 
+            try {
+                addUser(21312432,
+                        "Jim",
+                        "Jiggles",
+                        "test@test.com",
+                        "07283929394",
+                        new SimpleDateFormat("yyyy-mm-dd", Locale.UK).parse("1996-11-28"),
+                        1,
+                        3);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            registerCredentials(21312432, "lol", "lol"); // Login credentials
+
+            addSession(new Date(), 0); // Add a session today;
+        }
     }
 
     /**
@@ -117,7 +116,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                         COL_USERNAME + " varchar(255) NOT NULL PRIMARY KEY, " +
                         COL_PASSWORD + " varchar(255) NOT NULL, " +
                         COL_USER_ID + " INTEGER NOT NULL" +
-                        ");";
+                        ")";
 
         String createUsers =
                 "CREATE TABLE IF NOT EXISTS "+ USERS_TABLE + "(" +
@@ -126,25 +125,19 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                         COL_LAST_NAME + " varchar(255), " +
                         COL_EMAIL + " varchar(255) NOT NULL, " +
                         COL_PHONE + " varchar(255) NOT NULL, " +
-                        COL_MEMBERSHIP + " membership int NOT NULL " +
-                        ");";
+                        COL_DOB + " varchar(255) NOT NULL, " +
+                        COL_MEMBERSHIP + " INTEGER NOT NULL, " +
+                        COL_USER_TYPE_ID + " INTEGER NOT NULL" +
+                        ")";
 
         /**
-         * permissions is used to hold what permissions the User has access to
+         * Holds the user type names
          */
-
-        String createPermissions =
-                "CREATE TABLE IF NOT EXISTS "+ PERMISSIONS_TABLE + "(" +
-                        COL_USER_ID + " INTEGER NOT NULL PRIMARY KEY, " +
-                        COL_VIEW_BOOKINGS_PERMISSION + " BOOLEAN, " + // User can view their bookings
-                        COL_VIEW_DETAILS_PERMISSION + " BOOLEAN, " + // User can view their details
-                        COL_VIEW_ALL_DETAILS_PERMISSION + " BOOLEAN, " + // User can view anyone's details
-                        COL_VIEW_ALL_BOOKINGS_PERMISSION +" BOOLEAN, " + // User can view anyone's bookings
-                        COL_REGISTER_USER_PERMISSION + " BOOLEAN, " + // User can register other users
-                        COL_VIEW_SESSIONS_PERMISSION + " BOOLEAN, " + // User can view details of all possible sessions
-                        COL_VIEW_INSTRUCTORS_PERMISSION + " BOOLEAN, " + // User can view and edit instructors
-                        COL_CHANGE_SESSIONS_PERMISSION + " BOOLEAN" + // User can make edits to sessions
-                        ");";
+        String createUserTypes =
+                "CREATE TABLE IF NOT EXISTS "+ USER_TYPES_TABLE + "(" +
+                        COL_USER_TYPE_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
+                        COL_NAME + " VARCHAR(255) NOT NULL" +
+                        ")";
 
         String createSessions =
                 "CREATE TABLE IF NOT EXISTS "+ SESSIONS_TABLE + "(" +
@@ -152,7 +145,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                         COL_INSTRUCTOR_ID + " INTEGER, " +
                         COL_DATE + " DATE NOT NULL, " +
                         COL_SLOT + " INTEGER NOT NULL " +
-                        ");";
+                        ")";
 
         String createBookings =
                 "CREATE TABLE IF NOT EXISTS "+ BOOKINGS_TABLE + "(" +
@@ -160,17 +153,28 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                         COL_USER_ID + " INTEGER NOT NULL, " +
                         COL_PAID + " BOOLEAN NOT NULL, " +
                         COL_SESSION_ID + " INTEGER NOT NULL" +
-                        ");";
+                        ")";
 
         db.execSQL(createUsers);
-        db.execSQL(createPermissions);
+        db.execSQL(createUserTypes);
         db.execSQL(createSessions);
         db.execSQL(createBookings);
         db.execSQL(createCredentials);
+
+        this.db = db;
+
+        addUserType("User");
+        addUserType("Slope Operator");
+        addUserType("Instructor");
+        addUserType("Slope Manager");
+
+
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.v(TAG, "Upgrading");
         for (String table: ALL_TABLES) {
             db.execSQL("DROP TABLE IF EXISTS " + table + ";");
         }
@@ -207,83 +211,15 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     }
 
     /**
-     * Updates the given user ID permissions, if the user doesn't exist in the permissions table,
-     * it will create the entry
-     * @param id user Id
-     * @param viewBookings User can view their bookings
-     * @param viewDetails User can view their details
-     * @param viewAllDetails User can view anyone's details
-     * @param viewAllBookings User can view anyone's bookings
-     * @param registerUser User can register other users
-     * @param viewSessions User can view details of all possible sessions
-     * @param viewInstructors User can view and edit instructors
-     * @param changeSessions User can make edits to sessions
+     * Adds a user type to the table. Not normally edited after created.
+     * @param name User Type name
      */
-    public void setPermissions(int id,
-                               boolean viewBookings,
-                               boolean viewDetails,
-                               boolean viewAllDetails,
-                               boolean viewAllBookings,
-                               boolean registerUser,
-                               boolean viewSessions,
-                               boolean viewInstructors,
-                               boolean changeSessions) {
+    public void addUserType(String name) {
 
         ContentValues values = new ContentValues();
-        values.put(COL_USER_ID, id);
-        values.put(COL_VIEW_BOOKINGS_PERMISSION, viewBookings);
-        values.put(COL_VIEW_DETAILS_PERMISSION, viewDetails);
-        values.put(COL_VIEW_ALL_DETAILS_PERMISSION, viewAllDetails);
-        values.put(COL_VIEW_ALL_BOOKINGS_PERMISSION, viewAllBookings);
-        values.put(COL_REGISTER_USER_PERMISSION, registerUser);
-        values.put(COL_VIEW_SESSIONS_PERMISSION, viewSessions);
-        values.put(COL_VIEW_INSTRUCTORS_PERMISSION, viewInstructors);
-        values.put(COL_CHANGE_SESSIONS_PERMISSION, changeSessions);
+        values.put(COL_NAME, name);
 
-        db.insertWithOnConflict(PERMISSIONS_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-    }
-
-
-    public HashMap<String, Boolean> getPermissionsForId(int id) {
-
-        String query = "SELECT * FROM " + PERMISSIONS_TABLE + " WHERE " + COL_USER_ID + "=?";
-
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
-
-        HashMap<String, Boolean> permissions = new HashMap<>();
-
-        if (cursor != null) {
-            if (cursor.moveToFirst()) {
-
-                permissions.put(COL_VIEW_BOOKINGS_PERMISSION,
-                        cursor.getInt(cursor.getColumnIndex(COL_VIEW_BOOKINGS_PERMISSION)) > 0);
-
-                permissions.put(COL_VIEW_DETAILS_PERMISSION,
-                        cursor.getInt(cursor.getColumnIndex(COL_VIEW_DETAILS_PERMISSION)) > 0);
-
-                permissions.put(COL_VIEW_ALL_DETAILS_PERMISSION,
-                        cursor.getInt(cursor.getColumnIndex(COL_VIEW_ALL_DETAILS_PERMISSION)) > 0);
-
-                permissions.put(COL_VIEW_ALL_BOOKINGS_PERMISSION,
-                        cursor.getInt(cursor.getColumnIndex(COL_VIEW_ALL_BOOKINGS_PERMISSION)) > 0);
-
-                permissions.put(COL_REGISTER_USER_PERMISSION,
-                        cursor.getInt(cursor.getColumnIndex(COL_REGISTER_USER_PERMISSION)) > 0);
-
-                permissions.put(COL_VIEW_SESSIONS_PERMISSION,
-                        cursor.getInt(cursor.getColumnIndex(COL_VIEW_SESSIONS_PERMISSION)) > 0);
-
-                permissions.put(COL_VIEW_INSTRUCTORS_PERMISSION,
-                        cursor.getInt(cursor.getColumnIndex(COL_VIEW_INSTRUCTORS_PERMISSION)) > 0);
-
-                permissions.put(COL_CHANGE_SESSIONS_PERMISSION,
-                        cursor.getInt(cursor.getColumnIndex(COL_CHANGE_SESSIONS_PERMISSION)) > 0);
-
-                cursor.close();
-            }
-        }
-
-        return permissions;
+        db.insertWithOnConflict(USER_TYPES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
 
     public void addUser(int id,
@@ -291,7 +227,9 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                         String lastName,
                         String email,
                         String phone,
-                        int membership) {
+                        Date dob,
+                        int membership,
+                        int userType) {
 
         ContentValues values = new ContentValues();
         values.put(COL_ID, id);
@@ -299,7 +237,9 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         values.put(COL_LAST_NAME, lastName);
         values.put(COL_EMAIL, email);
         values.put(COL_PHONE, phone);
+        values.put(COL_DOB, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(dob));
         values.put(COL_MEMBERSHIP, membership);
+        values.put(COL_USER_TYPE_ID, userType);
 
         db.insert(
                 USERS_TABLE,
@@ -307,7 +247,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 values
         );
 
-        setPermissions(id, true, true, false, false, false, false, false, false);
+        Log.v(TAG, "Added user");
     }
 
     public void createBooking(int userId, boolean paid, int sessionId) {
@@ -354,40 +294,43 @@ public class SlopeDatabase extends SQLiteOpenHelper {
      * @param slot slot of the session
      * @return
      */
-    @SuppressLint("SimpleDateFormat")
     public int addSession(Date date, int slot) {
         ContentValues values = new ContentValues();
 
         values.put(COL_SLOT, slot);
-        values.put(COL_DATE, new SimpleDateFormat("yyyy-mm-dd").format(date));
+        values.put(COL_DATE, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(date));
 
         return (int) db.insert(SESSIONS_TABLE, null, values);
     }
 
     public User getUserFromId(int id) {
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE " + COL_ID + "=?";
+
         UserFactory factory=new UserFactory();
-        HashMap<String,String>map=new HashMap<>();
+        HashMap<User.ATTRIBUTES,String>map=new HashMap<>();
+
+
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
-        User user = null;
-        int permission=-1;
+        int userType=-1;
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                               //get the right permission so that factory can generate the correct user
-                                permission=cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP));
-                                //put details of the user in hashmap.
-                                map.put("ID",cursor.getString(cursor.getColumnIndex(COL_ID)));
-                                map.put("firstName",cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)));
-                                map.put("surname",cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
-                                map.put("phone",cursor.getString(cursor.getColumnIndex(COL_PHONE)));
-                                map.put("email",cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
-                                map.put("permission",String.valueOf(cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP))));
+               //get the right permission so that factory can generate the correct user
+                userType = cursor.getInt(cursor.getColumnIndex(COL_USER_TYPE_ID));
+                //put details of the user in hashmap.
+                map.put(User.ATTRIBUTES.ID,cursor.getString(cursor.getColumnIndex(COL_ID)));
+                map.put(User.ATTRIBUTES.FIRST_NAME,cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)));
+                map.put(User.ATTRIBUTES.SURNAME,cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
+                map.put(User.ATTRIBUTES.PHONE,cursor.getString(cursor.getColumnIndex(COL_PHONE)));
+                map.put(User.ATTRIBUTES.EMAIL,cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
+                map.put(User.ATTRIBUTES.DOB, cursor.getString(cursor.getColumnIndex(COL_DOB)));
+                map.put(User.ATTRIBUTES.MEMBERSHIP, String.valueOf(cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP))));
                 cursor.close();
             }
         }
-        user=factory.getUser(hashForTypeOfUsers.get(permission),map);
-        return user;
+        Log.v(TAG, "Test");
+        Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
+        return UserFactory.getUser(userType,map);
     }
 
 

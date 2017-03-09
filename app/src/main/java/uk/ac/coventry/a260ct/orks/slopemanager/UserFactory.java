@@ -1,5 +1,7 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import android.util.Log;
+
 import java.util.HashMap;
 
 /**
@@ -10,17 +12,20 @@ public class UserFactory {
 
     public UserFactory(){}
 
-    public static User getUser(String type, HashMap<String,String>userDetails){
+    public static User getUser(int userType, HashMap<User.ATTRIBUTES, String> userDetails){
         User user=null;
-        switch (type){
-            case "Member":
+        switch (userType){
+            case 0:
                  user=new Member(userDetails);
                 break;
-            case "SlopeOperator":
+            case 1:
                  user=new SlopeOperator(userDetails);
                 break;
-            case "NormalUser":
+            case 2:
                 user = new NormalUser(userDetails);
+                break;
+            case 3:
+                user = new Member(userDetails);
                 break;
 
         }

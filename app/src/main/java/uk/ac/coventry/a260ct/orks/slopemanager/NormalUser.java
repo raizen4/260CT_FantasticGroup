@@ -7,7 +7,7 @@ import java.util.HashMap;
  */
 public class NormalUser extends User {
 
-    public NormalUser(HashMap<String, String> userDetails) {
+    public NormalUser(HashMap<User.ATTRIBUTES, String> userDetails) {
         super(userDetails);
 
     }

@@ -1,14 +1,15 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import java.text.ParseException;
 import java.util.HashMap;
 
 /**
  * Created by boldurbogdan on 28/02/2017.
  */
 
-public class SlopeOperator extends  User {
+public class SlopeOperator extends User {
     private String referenceWork;
-    public SlopeOperator(HashMap<String, String> info) {
+    public SlopeOperator(HashMap<User.ATTRIBUTES, String> info){
         super(info);
         this.referenceWork=info.get("referenceWork");
     }
