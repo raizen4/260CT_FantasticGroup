@@ -30,6 +30,7 @@ public class LoginActivity extends AppCompatActivity {
     private EditText usernameInput;
     private EditText passwordInput;
     private Button loginButton;
+    private Button registerButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +40,14 @@ public class LoginActivity extends AppCompatActivity {
 
         usernameInput = (EditText) findViewById(R.id.login_username_input);
         passwordInput = (EditText) findViewById(R.id.login_password_input);
+        registerButton= (Button) findViewById(R.id.login_register_button);
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                launchRegistration();
+            }
+        });
 
         passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -120,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void launchRegistration() {
-        startActivity(new Intent(this, UserRegistrationActivity.class));
+        startActivity(new Intent(this, RegisteringActivity.class));
     }
 
     private void alertLoginDenied() {

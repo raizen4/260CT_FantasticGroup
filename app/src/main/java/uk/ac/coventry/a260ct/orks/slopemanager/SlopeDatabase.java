@@ -11,6 +11,7 @@ import android.util.Log;
 import java.text.ParseException;
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.Locale;
 
 /**
@@ -27,7 +28,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 3;
+    private static final int DATABASE_VERSION = 9;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";
@@ -65,6 +66,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
     private static final String[] ALL_TABLES =
             new String[]{
+                    CREDENTIALS_TABLE,
                     USERS_TABLE,
                     BOOKINGS_TABLE,
                     USER_TYPES_TABLE,
@@ -74,21 +76,25 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private SQLiteDatabase db;
 
 
-    public SlopeDatabase(Context c) throws ParseException {
+    public SlopeDatabase(Context c) {
         super(c, DATABASE_NAME, null, DATABASE_VERSION);
         db = getReadableDatabase();
 
         if (getUserIdFromCredentials("lol", "lol") == -1) {
             Log.v(TAG, "Adding test data");
 
-            addUser(21312432,
-                    "Jim",
-                    "Jiggles",
-                    "test@test.com",
-                    "07283929394",
-                    new SimpleDateFormat("yyyy-mm-dd", Locale.UK).parse("1996-11-28"),
-                    1,
-                    3);
+            try {
+                addUser(21312432,
+                        "Jim",
+                        "Jiggles",
+                        "test@test.com",
+                        "07283929394",
+                        new SimpleDateFormat("yyyy-mm-dd", Locale.UK).parse("1996-11-28"),
+                        1,
+                        3);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
 
             registerCredentials(21312432, "lol", "lol"); // Login credentials
 
@@ -120,7 +126,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                         COL_EMAIL + " varchar(255) NOT NULL, " +
                         COL_PHONE + " varchar(255) NOT NULL, " +
                         COL_DOB + " varchar(255) NOT NULL, " +
-                        COL_MEMBERSHIP + " INTEGER NOT NULL " +
+                        COL_MEMBERSHIP + " INTEGER NOT NULL, " +
                         COL_USER_TYPE_ID + " INTEGER NOT NULL" +
                         ")";
 
@@ -130,7 +136,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         String createUserTypes =
                 "CREATE TABLE IF NOT EXISTS "+ USER_TYPES_TABLE + "(" +
                         COL_USER_TYPE_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                        COL_NAME + "VARCHAR(255) NOT NULL" +
+                        COL_NAME + " VARCHAR(255) NOT NULL" +
                         ")";
 
         String createSessions =
@@ -155,17 +161,20 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         db.execSQL(createBookings);
         db.execSQL(createCredentials);
 
+        this.db = db;
+
         addUserType("User");
         addUserType("Slope Operator");
         addUserType("Instructor");
         addUserType("Slope Manager");
 
-        this.db = db;
+
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        Log.v(TAG, "Upgrading");
         for (String table: ALL_TABLES) {
             db.execSQL("DROP TABLE IF EXISTS " + table + ";");
         }
@@ -237,6 +246,8 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 null,
                 values
         );
+
+        Log.v(TAG, "Added user");
     }
 
     public void createBooking(int userId, boolean paid, int sessionId) {
@@ -292,30 +303,34 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return (int) db.insert(SESSIONS_TABLE, null, values);
     }
 
-    public User getUserFromId(int id) throws ParseException {
+    public User getUserFromId(int id) {
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE " + COL_ID + "=?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        UserFactory factory=new UserFactory();
+        HashMap<User.ATTRIBUTES,String>map=new HashMap<>();
 
-        User user = null;
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
+        int userType=-1;
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                user = new User(
-                        id,
-                        cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)),
-                        cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)),
-                        cursor.getString(cursor.getColumnIndex(COL_PHONE)),
-                        cursor.getString(cursor.getColumnIndex(COL_EMAIL)),
-                        new SimpleDateFormat("yyyy-mm-dd", Locale.UK).parse(cursor.getString(cursor.getColumnIndex(COL_DOB))),
-                        cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP)),
-                        cursor.getInt(cursor.getColumnIndex(COL_USER_TYPE_ID))
-                );
+               //get the right permission so that factory can generate the correct user
+                userType = cursor.getInt(cursor.getColumnIndex(COL_USER_TYPE_ID));
+                //put details of the user in hashmap.
+                map.put(User.ATTRIBUTES.ID,cursor.getString(cursor.getColumnIndex(COL_ID)));
+                map.put(User.ATTRIBUTES.FIRST_NAME,cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)));
+                map.put(User.ATTRIBUTES.SURNAME,cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
+                map.put(User.ATTRIBUTES.PHONE,cursor.getString(cursor.getColumnIndex(COL_PHONE)));
+                map.put(User.ATTRIBUTES.EMAIL,cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
+                map.put(User.ATTRIBUTES.DOB, cursor.getString(cursor.getColumnIndex(COL_DOB)));
+                map.put(User.ATTRIBUTES.MEMBERSHIP, String.valueOf(cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP))));
                 cursor.close();
             }
         }
-
-        return user;
+        Log.v(TAG, "Test");
+        Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
+        return UserFactory.getUser(userType,map);
     }
 
 
