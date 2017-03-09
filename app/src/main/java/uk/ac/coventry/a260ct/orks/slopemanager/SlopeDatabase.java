@@ -66,6 +66,15 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private static final String COL_BOOKING_ID = "booking_id";
     private static final String COL_PAID = "paid";
 
+    //Hashmap for permission table
+  private static final HashMap<Integer,String> hashForTypeOfUsers;
+    static{
+        hashForTypeOfUsers=new HashMap<>();
+        hashForTypeOfUsers.put(0,"NormalUser");
+        hashForTypeOfUsers.put(1,"Member");
+        hashForTypeOfUsers.put(2,"SlopeOperator");
+    }
+
 
 
 
@@ -355,15 +364,19 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return (int) db.insert(SESSIONS_TABLE, null, values);
     }
 
-    public User getUserFromId(int id,String type) {
+    public User getUserFromId(int id) {
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE " + COL_ID + "=?";
         UserFactory factory=new UserFactory();
         HashMap<String,String>map=new HashMap<>();
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
         User user = null;
+        int permission=-1;
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
+                               //get the right permission so that factory can generate the correct user
+                                permission=cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP));
+                                //put details of the user in hashmap.
                                 map.put("ID",cursor.getString(cursor.getColumnIndex(COL_ID)));
                                 map.put("firstName",cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)));
                                 map.put("surname",cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
@@ -373,7 +386,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-        user=factory.getUser(type,map);
+        user=factory.getUser(hashForTypeOfUsers.get(permission),map);
         return user;
     }
 

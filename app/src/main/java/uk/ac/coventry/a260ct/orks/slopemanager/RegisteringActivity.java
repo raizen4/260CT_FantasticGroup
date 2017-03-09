@@ -39,6 +39,7 @@ public class RegisteringActivity extends AppCompatActivity {
     private SendInfo callback4;
     private TabLayout tabLayout;
     private String userType;
+    private int paid=-1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,12 +76,7 @@ public class RegisteringActivity extends AppCompatActivity {
                 switch (curFragment.getArguments().getString("TAG")) {
                     case "AboutYouFragment":
                         callback1 = (UpdateInfo) curFragment;
-                        callback1.sendHashMap("AboutYouFragment", masterInfo);
-                        callback1.showInfo(masterInfo);
-                        break;
-                    case "MembershipPayment":
-                       // callback2 = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
-                      //  callback2.setInfo(tab.getPosition(), allergensInfo, foodTypePref);
+                        callback1.setInfo("AboutYouFragment", masterInfo);
                         break;
                     case "LoginDetailsFragment":
                         callback3 = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());

@@ -19,7 +19,7 @@ public class UserFactory {
             case "SlopeOperator":
                  user=new SlopeOperator(userDetails);
                 break;
-            case "normalUser":
+            case "NormalUser":
                 user = new NormalUser(userDetails);
                 break;
 
