@@ -10,16 +10,16 @@ public class UserFactory {
 
     public UserFactory(){}
 
-    public static User getUser(String type, HashMap<String,String>userDetails){
+    public User getUser(int type, HashMap<String,String>userDetails){
         User user=null;
         switch (type){
-            case "Member":
-                 user=new Member(userDetails);
+            case 0:
+                 //user=new Member(userDetails);
                 break;
-            case "SlopeOperator":
+            case 1:
                  user=new SlopeOperator(userDetails);
                 break;
-            case "NormalUser":
+            case 2:
                 user = new NormalUser(userDetails);
                 break;
 

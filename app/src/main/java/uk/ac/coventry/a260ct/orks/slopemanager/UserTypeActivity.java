@@ -30,8 +30,9 @@ public class UserTypeActivity extends AppCompatActivity {
         spinnerType= (Spinner) findViewById(R.id.spinner_user_type);
         final ArrayList<String> typesOfUsers=new ArrayList<>();
         typesOfUsers.add(0,"User");
-        typesOfUsers.add(1,"Member");
+        typesOfUsers.add(1,"Instructor");
         typesOfUsers.add(2,"Operator");
+        typesOfUsers.add(3,"Manager");
         ArrayAdapter<String>adapter=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,typesOfUsers);
         spinnerType.setAdapter(adapter);
         spinnerType.setOnItemClickListener(new AdapterView.OnItemClickListener() {

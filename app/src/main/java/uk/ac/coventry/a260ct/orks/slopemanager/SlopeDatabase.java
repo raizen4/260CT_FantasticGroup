@@ -70,9 +70,10 @@ public class SlopeDatabase extends SQLiteOpenHelper {
   private static final HashMap<Integer,String> hashForTypeOfUsers;
     static{
         hashForTypeOfUsers=new HashMap<>();
-        hashForTypeOfUsers.put(0,"NormalUser");
-        hashForTypeOfUsers.put(1,"Member");
-        hashForTypeOfUsers.put(2,"SlopeOperator");
+        hashForTypeOfUsers.put(1,"User");
+        hashForTypeOfUsers.put(2,"Instructor");
+        hashForTypeOfUsers.put(3,"SlopeOperator");
+        hashForTypeOfUsers.put(4,"Manager");
     }
 
 
@@ -286,20 +287,15 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return permissions;
     }
 
-    public void addUser(int id,
-                        String firstName,
-                        String lastName,
-                        String email,
-                        String phone,
-                        int membership) {
+    public void addUser(HashMap<String,String>userDetails) {
 
         ContentValues values = new ContentValues();
-        values.put(COL_ID, id);
-        values.put(COL_FIRST_NAME, firstName);
-        values.put(COL_LAST_NAME, lastName);
-        values.put(COL_EMAIL, email);
-        values.put(COL_PHONE, phone);
-        values.put(COL_MEMBERSHIP, membership);
+        values.put(COL_ID, userDetails.get("ID"));
+        values.put(COL_FIRST_NAME, userDetails.get("firstName"));
+        values.put(COL_LAST_NAME, userDetails.get("lastName"));
+        values.put(COL_EMAIL, userDetails.get("email"));
+        values.put(COL_PHONE, userDetails.get("phone"));
+        values.put(COL_MEMBERSHIP,userDetails.get("permission"));
 
         db.insert(
                 USERS_TABLE,
@@ -307,7 +303,6 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 values
         );
 
-        setPermissions(id, true, true, false, false, false, false, false, false);
     }
 
     public void createBooking(int userId, boolean paid, int sessionId) {
@@ -364,6 +359,9 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return (int) db.insert(SESSIONS_TABLE, null, values);
     }
 
+
+
+
     public User getUserFromId(int id) {
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE " + COL_ID + "=?";
         UserFactory factory=new UserFactory();
@@ -371,6 +369,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
         User user = null;
         int permission=-1;
+
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
@@ -386,7 +385,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-        user=factory.getUser(hashForTypeOfUsers.get(permission),map);
+        user=factory.getUser(Integer.parseInt(hashForTypeOfUsers.get(permission)),map);
         return user;
     }
 

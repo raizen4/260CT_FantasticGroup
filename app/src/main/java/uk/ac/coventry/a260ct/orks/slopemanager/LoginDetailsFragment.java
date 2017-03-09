@@ -59,6 +59,7 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
             @Override
             public void onClick(View view) {
                 SlopeDatabase database=new SlopeDatabase(getActivity().getApplicationContext());
+                database.addUser();
 
 
             }
