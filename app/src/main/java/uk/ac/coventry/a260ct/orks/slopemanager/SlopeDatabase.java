@@ -355,27 +355,25 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return (int) db.insert(SESSIONS_TABLE, null, values);
     }
 
-    public User getUserFromId(int id) {
+    public User getUserFromId(int id,String type) {
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE " + COL_ID + "=?";
-
+        UserFactory factory=new UserFactory();
+        HashMap<String,String>map=new HashMap<>();
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
-
         User user = null;
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                user = new User(
-                        id,
-                        cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)),
-                        cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)),
-                        cursor.getString(cursor.getColumnIndex(COL_PHONE)),
-                        cursor.getString(cursor.getColumnIndex(COL_EMAIL)),
-                        cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP)));
-
+                                map.put("ID",cursor.getString(cursor.getColumnIndex(COL_ID)));
+                                map.put("firstName",cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)));
+                                map.put("surname",cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
+                                map.put("phone",cursor.getString(cursor.getColumnIndex(COL_PHONE)));
+                                map.put("email",cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
+                                map.put("permission",String.valueOf(cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP))));
                 cursor.close();
             }
         }
-
+        user=factory.getUser(type,map);
         return user;
     }
 
