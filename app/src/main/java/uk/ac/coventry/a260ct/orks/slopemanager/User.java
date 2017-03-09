@@ -1,5 +1,7 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import java.util.Date;
+
 /**
  * Created by boldurbogdan on 28/02/2017.
  */
@@ -10,17 +12,22 @@ public class User {
     private String surname;
     private String phone;
     private String email;
+    private Date dob;
     private int membership;
+    private int userType;
 
     public User(int ID, String firstName,
                 String surname, String phone,
-                String email, int membership) {
+                String email, Date dob,
+                int membership, int userType) {
         this.ID = ID;
         this.firstName = firstName;
         this.surname = surname;
         this.phone = phone;
         this.email = email;
+        this.dob = dob;
         this.membership = membership;
+        this.userType = userType;
     }
 
     public int getID() {
