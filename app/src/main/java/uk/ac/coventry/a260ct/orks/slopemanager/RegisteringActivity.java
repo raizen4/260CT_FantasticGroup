@@ -33,10 +33,10 @@ public class RegisteringActivity extends AppCompatActivity {
      */
     private ViewPager mViewPager;
     private HashMap<String,String> masterInfo=new HashMap<>();
-    private SendInfo callback;
     private UpdateInfo callback1;
     private UpdateInfo callback2;
     private UpdateInfo callback3;
+    private SendInfo callback4;
     private TabLayout tabLayout;
     private String userType;
 
@@ -62,8 +62,8 @@ public class RegisteringActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 Fragment curFragment=mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
                 if (curFragment.getArguments().getString("TAG").matches("AboutYouFragment")){
-                    callback = (SendInfo) curFragment;
-                    callback.sendHashMap(masterInfo);
+                    callback4 = (SendInfo) curFragment;
+                    callback4.sendHashMap(masterInfo);
 
 
                 }
@@ -74,9 +74,9 @@ public class RegisteringActivity extends AppCompatActivity {
                 Fragment curFragment=mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
                 switch (curFragment.getArguments().getString("TAG")) {
                     case "AboutYouFragment":
-                        callback = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
-                        callback.setInfo(tab.getPosition(), masterInfo);
-                        callback.showInfo(masterInfo);
+                        callback1 = (UpdateInfo) curFragment;
+                        callback1.sendHashMap("AboutYouFragment", masterInfo);
+                        callback1.showInfo(masterInfo);
                         break;
                     case "MembershipPayment":
                        // callback2 = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());

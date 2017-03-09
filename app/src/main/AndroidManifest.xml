@@ -24,9 +24,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/login_title"
-
-            android:launchMode="singleTop"/>
-
+            android:launchMode="singleTop" />
         <activity
             android:name=".RegisteringActivity"
             android:label="@string/title_activity_registration"
@@ -39,7 +37,11 @@
         <activity
             android:name=".SessionsActivity"
             android:label="@string/title_activity_sessions"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UserTypeActivity"
+            android:label="@string/title_activity_user_type"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
-</manifest>
 
+</manifest>

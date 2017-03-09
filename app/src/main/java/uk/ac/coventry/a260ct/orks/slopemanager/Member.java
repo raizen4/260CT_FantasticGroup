@@ -8,7 +8,6 @@ import java.util.HashMap;
 
 public class Member extends User {
 
-
     public Member( HashMap<String, String> info) {
         super(info);
     }

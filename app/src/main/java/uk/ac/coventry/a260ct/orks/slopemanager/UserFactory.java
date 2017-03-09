@@ -8,6 +8,8 @@ import java.util.HashMap;
 
 public class UserFactory {
 
+    public UserFactory(){}
+
     public static User getUser(String type, HashMap<String,String>userDetails){
         User user=null;
         switch (type){

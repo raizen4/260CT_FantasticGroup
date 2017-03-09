@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app2=""
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_login_layout"
     android:layout_width="match_parent"
@@ -33,31 +34,6 @@
         android:hint="@string/password_input_hint"
         android:imeOptions="actionDone"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/login_register_button"
-        android:text="@string/login_register_string"
-        android:clickable="true"
-        android:textAlignment="center"
-        android:background="?selectableItemBackground"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:textAppearance="?android:textAppearanceMedium"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/login_phone_button"
-        android:text="@string/call_reception_text"
-        android:clickable="true"
-        android:textAlignment="center"
-        android:background="?selectableItemBackground"
-        android:layout_above="@+id/login_register_button"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:textAppearance="?android:textAppearanceMedium"/>
-
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,12 +46,38 @@
         android:layout_below="@+id/image_view"
         android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_phone_button"
+        android:text="@string/call_reception_text"
+        android:clickable="true"
+        android:textAlignment="center"
+        android:background="?selectableItemBackground"
+        android:layout_marginBottom="20dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_above="@+id/login_register_button"
+        android:layout_centerHorizontal="true" />
+
     <Button
         android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
         android:id="@+id/login_button"
-        android:layout_above="@+id/login_phone_button"
+        android:layout_below="@+id/login_password_input"
+        android:layout_alignStart="@+id/image_view" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/login_register_button"
+        android:text="@string/login_register_string"
+        android:clickable="true"
+        android:textAlignment="center"
+        android:background="?selectableItemBackground"
+        android:layout_marginBottom="20dp"
+        android:textAppearance="?android:textAppearanceMedium"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
