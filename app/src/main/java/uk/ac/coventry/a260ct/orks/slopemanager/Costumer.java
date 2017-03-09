@@ -1,5 +1,6 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import java.text.ParseException;
 import java.util.HashMap;
 
 /**
@@ -8,7 +9,7 @@ import java.util.HashMap;
 
 public class Costumer extends User {
 
-    public Costumer(HashMap<String, String> info) {
+    public Member(HashMap<User.ATTRIBUTES, String> info) {
         super(info);
     }
 }

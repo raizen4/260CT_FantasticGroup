@@ -1,36 +1,70 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by boldurbogdan on 28/02/2017.
  */
 
 public abstract class User {
+    public enum ATTRIBUTES{
+        ID,
+        FIRST_NAME,
+        SURNAME,
+        PHONE,
+        EMAIL,
+        DOB,
+        MEMBERSHIP
+    }
+
     private int ID;
     private String firstName;
     private String surname;
     private String phone;
     private String email;
-    private int permissionLevel;
+    private Date dob;
+    private int membership;
+
     private String type;
 
-    User(HashMap<String, String> info) {
-        this.ID = Integer.parseInt(info.get("ID"));
-        this.firstName = info.get("firstName");
-        this.surname = info.get("surname");
-        this.phone = info.get("phone");
-        this.email =info.get("email") ;
-        this.permissionLevel = Integer.parseInt(info.get("permissionLevel"));
+    User(HashMap<ATTRIBUTES, String> info) {
+        this.ID = Integer.parseInt(info.get(ATTRIBUTES.ID));
+        this.firstName = info.get(ATTRIBUTES.FIRST_NAME);
+        this.surname = info.get(ATTRIBUTES.SURNAME);
+        this.phone = info.get(ATTRIBUTES.PHONE);
+        this.email = info.get(ATTRIBUTES.EMAIL);
+        try {
+            this.dob = new SimpleDateFormat("yyyy-mm-dd", Locale.UK).parse(info.get(ATTRIBUTES.DOB));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        this.membership = Integer.valueOf(info.get(ATTRIBUTES.MEMBERSHIP));
+    }
+
+    public User(int ID, String firstName,
+                String surname, String phone,
+                String email, Date dob,
+                int membership) {
+        this.ID = ID;
+        this.firstName = firstName;
+        this.surname = surname;
+        this.phone = phone;
+        this.email = email;
+        this.dob = dob;
+        this.membership = membership;
     }
 
 
     public int getMembership() {
-        return permissionLevel;
+        return membership;
     }
 
     public void setMembership(int permissionLevel) {
-        this.permissionLevel = permissionLevel;
+        this.membership = permissionLevel;
     }
 
     public String getType() {
