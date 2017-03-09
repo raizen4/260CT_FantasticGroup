@@ -13,6 +13,7 @@ public class UserFactory {
     public UserFactory(){}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     public User getUser(int type, HashMap<String,String>userDetails){
         User user=null;
         switch (type){
@@ -21,6 +22,10 @@ public class UserFactory {
 =======
     public static User getUser(int userType, HashMap<User.ATTRIBUTES, String> userDetails){
         User user=null;
+=======
+    public static User getUser(int userType, HashMap<User.ATTRIBUTES, String> userDetails){
+        User user=null;
+>>>>>>> master
         switch (userType){
             case 0:
                  user=new Member(userDetails);
