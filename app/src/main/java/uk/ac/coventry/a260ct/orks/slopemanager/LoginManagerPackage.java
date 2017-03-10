@@ -15,7 +15,7 @@ public class LoginManagerPackage {
 
     String permission;
     private static final String costumerPermission = "Costumer";
-    private static final String memberPersmission = "Member";
+    private static final String instructorPermission="Instructor";
     private static final String operatorPersmission = "Operator";
     private static final String managerPersmission = "Manager";
 

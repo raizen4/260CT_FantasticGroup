@@ -46,7 +46,7 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void setupOptions() {
-        if (user instanceof Member) {
+        if (user instanceof Costumer) {
 
         }
         findViewById(R.id.dashboard_slopemanager_buttons_card).setVisibility(View.GONE);

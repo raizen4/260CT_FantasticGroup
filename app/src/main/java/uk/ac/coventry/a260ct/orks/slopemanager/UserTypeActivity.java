@@ -29,22 +29,30 @@ public class UserTypeActivity extends AppCompatActivity {
         goToRegisteringAct= (Button) findViewById(R.id.button_advance_to_register_act);
         spinnerType= (Spinner) findViewById(R.id.spinner_user_type);
         final ArrayList<String> typesOfUsers=new ArrayList<>();
-        typesOfUsers.add(0,"User");
-        typesOfUsers.add(1,"Member");
+        typesOfUsers.add(0,"Costumer");
+        typesOfUsers.add(1,"Instructor");
         typesOfUsers.add(2,"Operator");
+        typesOfUsers.add(3,"Manager");
         ArrayAdapter<String>adapter=new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item,typesOfUsers);
         spinnerType.setAdapter(adapter);
-        spinnerType.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinnerType.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 type=typesOfUsers.get(i);
                 Toast.makeText(getApplicationContext(),type,Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
         goToRegisteringAct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(UserTypeActivity.this,RegisteringActivity.class));
+                Intent newIntent=new Intent(UserTypeActivity.this,RegisteringActivity.class);
+                newIntent.putExtra("type",type);
+                startActivity(newIntent);
             }
         });
 

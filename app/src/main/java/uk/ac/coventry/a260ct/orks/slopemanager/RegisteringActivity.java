@@ -1,8 +1,6 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
 import android.content.Intent;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -12,13 +10,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,19 +25,25 @@ public class RegisteringActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private HashMap<String,String> masterInfo=new HashMap<>();
     private UpdateInfo callback1;
-    private UpdateInfo callback2;
-    private UpdateInfo callback3;
-    private SendInfo callback4;
+    private SendInfo callback2;
     private TabLayout tabLayout;
     private String userType;
     private int paid=-1;
+    enum hashAttribtues{
+        FIRST_NAME,
+        SURNAME,
+        PHONE,
+        EMAIL,
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registering);
         Intent getType=getIntent();
-        userType=getType.getStringExtra("TYPE");
+        userType=getType.getStringExtra("type");
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
@@ -62,9 +59,9 @@ public class RegisteringActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Fragment curFragment=mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
-                if (curFragment.getArguments().getString("TAG").matches("AboutYouFragment")){
-                    callback4 = (SendInfo) curFragment;
-                    callback4.sendHashMap(masterInfo);
+                if (curFragment.getArguments().getString("TAG").matches("LoginDetailsFragment")){
+                    callback2 = (SendInfo) curFragment;
+                    callback2.sendHashMap(masterInfo);
 
 
                 }
@@ -77,10 +74,6 @@ public class RegisteringActivity extends AppCompatActivity {
                     case "AboutYouFragment":
                         callback1 = (UpdateInfo) curFragment;
                         callback1.setInfo("AboutYouFragment", masterInfo);
-                        break;
-                    case "LoginDetailsFragment":
-                        callback3 = (UpdateInfo) mSectionsPagerAdapter.getItem(tabLayout.getSelectedTabPosition());
-                        callback3.setInfo("LoginDetailsFragment", masterInfo);
                         break;
                 }
 
@@ -106,19 +99,12 @@ public class RegisteringActivity extends AppCompatActivity {
         public SectionsPagerAdapter(FragmentManager fm,String typeOfUser) {
             super(fm);
             arrayOfFragments=new ArrayList<>();
-            if(typeOfUser.matches("User")){
-                arrayOfFragments.add(new AboutYouFragment());
-                arrayOfFragments.add(new LoginDetailsFragment());
-            }
-            else if(typeOfUser.matches("Member")) {
+            arrayOfFragments.add(0,new AboutYouFragment());
+            arrayOfFragments.add(1,new MembershipPayment());
+            arrayOfFragments.add(2,new LoginDetailsFragment());
 
-                arrayOfFragments.add(new AboutYouFragment());
-                arrayOfFragments.add(new MembershipPayment());
-                arrayOfFragments.add(new LoginDetailsFragment());
-            }
-            else if(typeOfUser.matches("Operator")){
-                arrayOfFragments.add(new AboutYouFragment());
-                arrayOfFragments.add(new LoginDetailsFragment());
+             if(typeOfUser.matches("Operator") ||typeOfUser.matches("Manager") || typeOfUser.matches("Instructor")){
+                arrayOfFragments.remove(1);
             }
 
         }
@@ -127,9 +113,11 @@ public class RegisteringActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             Fragment fragmentToReturn=arrayOfFragments.get(position);
-            Bundle bundle=new Bundle();
-            bundle.putString("TAG",fragmentToReturn.getClass().getSimpleName());
-            fragmentToReturn.setArguments(bundle);
+            if(!fragmentToReturn.isAdded()) {
+                Bundle bundle = new Bundle();
+                bundle.putString("TAG", fragmentToReturn.getClass().getSimpleName());
+                fragmentToReturn.setArguments(bundle);
+            }
             return fragmentToReturn;
         }
 
@@ -141,7 +129,15 @@ public class RegisteringActivity extends AppCompatActivity {
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return arrayOfFragments.get(position).getTag();
+            switch (position){
+                case 0:
+                    return "About Me";
+                case 1:
+                    return "Membership Payment";
+                case 2:
+                    return "Login Details";
+            }
+            return null;
         }
     }
 }

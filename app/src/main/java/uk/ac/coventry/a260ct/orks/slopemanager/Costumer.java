@@ -7,9 +7,9 @@ import java.util.HashMap;
  * Created by boldurbogdan on 28/02/2017.
  */
 
-public class Member extends User {
+public class Costumer extends User {
 
-    public Member(HashMap<User.ATTRIBUTES, String> info) {
+    public Costumer(HashMap<User.ATTRIBUTES, String> info) {
         super(info);
     }
 }

@@ -18,7 +18,8 @@ public abstract class User {
         PHONE,
         EMAIL,
         DOB,
-        MEMBERSHIP
+        MEMBERSHIP,
+        REFERENCE_WORK
     }
 
     private int ID;
