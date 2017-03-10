@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class Costumer extends User {
 
-    public Member(HashMap<User.ATTRIBUTES, String> info) {
+    public Costumer(HashMap<User.ATTRIBUTES, String> info) {
         super(info);
     }
 }

@@ -11,7 +11,7 @@ public class SlopeOperator extends User {
     private String referenceWork;
     public SlopeOperator(HashMap<User.ATTRIBUTES, String> info){
         super(info);
-        this.referenceWork=info.get("referenceWork");
+        this.referenceWork=info.get(ATTRIBUTES.REFERENCE_WORK);
     }
 
     public String getReferenceWork() {

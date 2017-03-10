@@ -50,7 +50,7 @@ public class LoginSessionManager {
 
     public User getUser() {
         if (user != null) {
-            Log.v(TAG, "User is logged in, already");
+           // Log.v(TAG, "User is logged in, already");
             return user;
         }
 
@@ -60,7 +60,7 @@ public class LoginSessionManager {
         int userId = sharedPreferences.getInt(context.getString(R.string.USER_LOGIN_SESSION_KEY), 0);
 
         if (userId > -1) {
-            Log.v(TAG, "User has a stored login");
+          //  Log.v(TAG, "User has a stored login");
             setUser(userId);
         } 
 
@@ -81,10 +81,10 @@ public class LoginSessionManager {
 
         if (userId > -1) { // User is valid
             setUser(userId);
-            Log.v(TAG, "Login granted");
+          //  Log.v(TAG, "Login granted");
             callback.onGranted();
         } else {
-            Log.v(TAG, "Login denied");
+           // Log.v(TAG, "Login denied");
             callback.onDenied();
         }
     }
@@ -93,7 +93,7 @@ public class LoginSessionManager {
         user = getUser();
 
         if (user == null) { // No user logged in so go to login screen
-            Log.v(TAG, "User not logged in, launching login");
+           // Log.v(TAG, "User not logged in, launching login");
             launchLogin();
         }
 
@@ -101,7 +101,7 @@ public class LoginSessionManager {
     }
 
     public void logout() {
-        Log.v(TAG, "Logging out");
+        //Log.v(TAG, "Logging out");
         setUser(-1);
     }
 }

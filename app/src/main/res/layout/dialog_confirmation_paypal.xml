@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="State of transaction:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_state_transaction"
+        android:layout_marginTop="32dp"
+        android:layout_below="@+id/textView_date"
+        android:layout_alignStart="@+id/textView_date" />
+
+    <TextView
+        android:text="Paypal ID:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="29dp"
+        android:id="@+id/textView_paypal_id"
+        android:layout_below="@+id/textView_state_transaction"
+        android:layout_alignStart="@+id/textView_state_transaction" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/editText_date"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_alignBaseline="@+id/textView_date"
+        android:layout_alignBottom="@+id/textView_date"
+        android:layout_toEndOf="@+id/textView_date" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:id="@+id/editText_state_transaction"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_above="@+id/textView_paypal_id"
+        android:layout_toEndOf="@+id/textView_state_transaction" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:ems="10"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_alignBaseline="@+id/textView_paypal_id"
+        android:layout_alignBottom="@+id/textView_paypal_id"
+        android:layout_toEndOf="@+id/textView_paypal_id"
+        android:id="@+id/editText_paypal_id" />
+
+    <TextView
+        android:text="Date:"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView_date"
+        android:layout_marginStart="87dp"
+        android:layout_marginTop="95dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

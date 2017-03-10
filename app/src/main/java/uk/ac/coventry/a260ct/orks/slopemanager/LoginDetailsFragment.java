@@ -23,7 +23,8 @@ import java.util.HashMap;
  * to handle interaction events.
  * create an instance of this fragment.
  */
-public class LoginDetailsFragment extends Fragment implements UpdateInfo {
+public class LoginDetailsFragment extends Fragment implements SendInfo
+{
     EditText username;
     EditText password;
     Button submitForm;
@@ -58,8 +59,15 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
         submitForm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SlopeDatabase database=new SlopeDatabase(getActivity().getApplicationContext());
-                database.addUser();
+                if(!username.getText().toString().matches("") && !password.getText().toString().matches("")) {
+                    SlopeDatabase database = new SlopeDatabase(getActivity().getApplicationContext());
+                    Toast.makeText(getActivity().getApplicationContext(),"All details needed are here, wait for the function to be implemented",Toast.LENGTH_SHORT).show();
+                    // database.addUser();
+                }
+                else{
+                    Toast.makeText(getActivity().getApplicationContext(),"You must have both username and password setted",Toast.LENGTH_SHORT).show();
+
+                }
 
 
             }
@@ -69,16 +77,9 @@ public class LoginDetailsFragment extends Fragment implements UpdateInfo {
 
 
     @Override
-    public void setInfo(String fragmentName, HashMap<String, String> infoToUpdate) {
-        if(fragmentName.matches("LoginDetailsFragment"))
-             masterInfoCopy=infoToUpdate;
+    public void sendHashMap(HashMap<String, String> masterInfo) {
+        masterInfoCopy=masterInfo;
     }
-
-    @Override
-    public void setInfo(String fragmentName, ArrayList<String> infoToUpdate, ArrayList<String> infoToUpdate2) {
-
-    }
-
 
 
     /**
