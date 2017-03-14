@@ -1,5 +1,6 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +29,7 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
     EditText phoneField;
     EditText dobField;
 
+
     public AboutYouFragment() {
         // Required empty public constructor
     }
@@ -44,6 +46,11 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
         outState.putString("email", email);
         outState.putString("phone", phone);
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override

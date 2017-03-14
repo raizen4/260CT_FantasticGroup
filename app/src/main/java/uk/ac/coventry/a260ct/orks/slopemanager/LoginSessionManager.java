@@ -40,17 +40,20 @@ public class LoginSessionManager {
      */
     public void setUser(int id) {
         user = loginManagerPackage.getUser(id);
-        SharedPreferences sharedPreferences = context.
-                getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt(context.getString(R.string.USER_LOGIN_SESSION_KEY), id);
-        editor.apply();
+        if (user != null) {
+            Log.v(TAG, user.getFirstName());
+            SharedPreferences sharedPreferences = context.
+                    getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putInt(context.getString(R.string.USER_LOGIN_SESSION_KEY), id);
+            editor.apply();
+        }
 
     }
 
     public User getUser() {
         if (user != null) {
-           // Log.v(TAG, "User is logged in, already");
+            Log.v(TAG, "User is logged in, already");
             return user;
         }
 
@@ -60,7 +63,7 @@ public class LoginSessionManager {
         int userId = sharedPreferences.getInt(context.getString(R.string.USER_LOGIN_SESSION_KEY), 0);
 
         if (userId > -1) {
-          //  Log.v(TAG, "User has a stored login");
+            Log.v(TAG, "User has a stored login");
             setUser(userId);
         } 
 
@@ -81,10 +84,10 @@ public class LoginSessionManager {
 
         if (userId > -1) { // User is valid
             setUser(userId);
-          //  Log.v(TAG, "Login granted");
+            Log.v(TAG, "Login granted");
             callback.onGranted();
         } else {
-           // Log.v(TAG, "Login denied");
+            Log.v(TAG, "Login denied");
             callback.onDenied();
         }
     }

@@ -19,7 +19,7 @@ public abstract class User {
         EMAIL,
         DOB,
         MEMBERSHIP,
-        REFERENCE_WORK
+        USER_TYPE_ID, REFERENCE_WORK
     }
 
     private int ID;

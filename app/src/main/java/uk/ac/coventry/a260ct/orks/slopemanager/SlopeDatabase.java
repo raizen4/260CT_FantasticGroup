@@ -28,7 +28,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";
@@ -231,7 +231,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         values.put(COL_PHONE, user.getPhone());
         values.put(COL_DOB, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(user.getDob()));
         values.put(COL_MEMBERSHIP, user.getMembership());
-        values.put(COL_USER_TYPE_ID, user.getType());
+        values.put(COL_USER_TYPE_ID, UserFactory.getUserType(user));
         db.insert(
                 USERS_TABLE,
                 null,
@@ -252,8 +252,8 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         values.put(COL_EMAIL, details.get(User.ATTRIBUTES.EMAIL));
         values.put(COL_PHONE, details.get(User.ATTRIBUTES.PHONE));
         values.put(COL_DOB, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(User.ATTRIBUTES.DOB));
-        values.put(COL_MEMBERSHIP, details.get(User.ATTRIBUTES.ID));
-        values.put(COL_USER_TYPE_ID, details.get(User.ATTRIBUTES.MEMBERSHIP));
+        values.put(COL_MEMBERSHIP, details.get(User.ATTRIBUTES.MEMBERSHIP));
+        values.put(COL_USER_TYPE_ID, details.get(User.ATTRIBUTES.USER_TYPE_ID));
         db.insert(
                 USERS_TABLE,
                 null,

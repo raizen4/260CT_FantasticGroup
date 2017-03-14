@@ -31,4 +31,18 @@ public class UserFactory {
         }
         return user;
     }
+
+    public static int getUserType(User user) {
+        if (user instanceof Costumer) {
+            return 0;
+        } else if (user instanceof Instructor) {
+            return 1;
+        } else if (user instanceof SlopeOperator) {
+            return 2;
+        } else if (user instanceof Manager) {
+            return 3;
+        } else {
+            return -1;
+        }
+    }
 }

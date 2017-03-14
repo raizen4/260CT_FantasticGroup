@@ -139,10 +139,12 @@ public class MembershipPayment extends Fragment {
                     });
                     AlertDialog dialog=builder.create();
                     View dialogView=getActivity().getLayoutInflater().inflate(R.layout.dialog_confirmation_paypal,null);
-                    EditText date= ((EditText) dialogView.findViewById(R.id.editText_date));
+                    TextView date= ((TextView) dialogView.findViewById(R.id.editText_date));
                     date.setText(jsonObject.getJSONObject("response").getString("create_time"), TextView.BufferType.EDITABLE);
-                    EditText paypalId=((EditText) dialogView.findViewById(R.id.editText_paypal_id));
+                    TextView paypalId=((TextView) dialogView.findViewById(R.id.editText_paypal_id));
                     paypalId.setText(jsonObject.getJSONObject("response").getString("id"), TextView.BufferType.EDITABLE);
+                    TextView status= ((TextView) dialogView.findViewById(R.id.editText_state_transaction));
+                    status.setText(jsonObject.getJSONObject("response").getString("state"));
                     dialog.setView(dialogView);
                     dialog.show();
                     paid=1;
