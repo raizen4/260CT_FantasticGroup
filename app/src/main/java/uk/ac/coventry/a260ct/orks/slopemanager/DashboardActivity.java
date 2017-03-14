@@ -26,6 +26,7 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard_layout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.dashboard_activity_toolbar);
+        toolbar.setTitle(getString(R.string.dashboard_title));
         setSupportActionBar(toolbar);
 
         slopeManagerApplication = (SlopeManagerApplication) getApplication();

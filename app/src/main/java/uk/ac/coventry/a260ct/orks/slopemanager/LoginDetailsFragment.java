@@ -1,6 +1,7 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -85,6 +86,7 @@ public class LoginDetailsFragment extends Fragment implements SendInfo
                      User user=UserFactory.getUser(mapTypes.get(userType),masterInfoCopy);
                      database.addUser(user);
                      database.registerCredentials(userId,username.getText().toString(),password.getText().toString());
+
 
                     Toast.makeText(getActivity().getApplicationContext(),"I have created the user"+user.getFirstName()+"which is a "+user.getMembership(),Toast.LENGTH_SHORT).show();
                 }
