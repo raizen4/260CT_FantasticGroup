@@ -13,8 +13,6 @@ public class LoginSessionManager {
 
     private static final String TAG = LoginSessionManager.class.getSimpleName();
 
-    private LoginManagerPackage loginManagerPackage;
-
     private Context context;
     private User user;
 
@@ -27,7 +25,6 @@ public class LoginSessionManager {
     }
 
     public LoginSessionManager(Context appContext) {
-        loginManagerPackage = new LoginManagerPackage();
         context = appContext;
         application = SlopeManagerApplication.getInstance();
     }
@@ -39,7 +36,7 @@ public class LoginSessionManager {
      * @param id
      */
     public void setUser(int id) {
-        user = loginManagerPackage.getUser(id);
+        user = application.getSlopeDatabase().getUserFromId(id);
         SharedPreferences sharedPreferences = context.
                 getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -50,7 +47,7 @@ public class LoginSessionManager {
 
     public User getUser() {
         if (user != null) {
-           // Log.v(TAG, "User is logged in, already");
+            Log.v(TAG, "User is logged in, already");
             return user;
         }
 
@@ -77,7 +74,7 @@ public class LoginSessionManager {
                              String password,
                              RequestLoginCallback callback) {
 
-        int userId = loginManagerPackage.requestUserIdFromCredentials(username, password);
+        int userId = application.getSlopeDatabase().getUserIdFromCredentials(username, password);
 
         if (userId > -1) { // User is valid
             setUser(userId);
