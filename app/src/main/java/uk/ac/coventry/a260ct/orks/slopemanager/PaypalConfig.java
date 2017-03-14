@@ -10,6 +10,6 @@ import com.paypal.android.sdk.payments.PayPalConfiguration;
 
 public class PaypalConfig {
 
-     final static String CLIENT_ID="To be implemented when i get access to the APP ID from the paypal website;";
+     final static String CLIENT_ID="Abclu7e7ZD-jflNse0MeMHIH8v3ZpgfLP9HiCguIDbjiwvNO7_RhlvQpbO0NIooMagODS4MY_T7ozdiP";
      static final String PAYPAL_ENVIRONMENT_SANDBOX= PayPalConfiguration.ENVIRONMENT_SANDBOX;
 }

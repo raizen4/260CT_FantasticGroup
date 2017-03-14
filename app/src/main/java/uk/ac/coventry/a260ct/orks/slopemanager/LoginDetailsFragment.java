@@ -12,8 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 
 /**
@@ -29,7 +29,17 @@ public class LoginDetailsFragment extends Fragment implements SendInfo
     EditText password;
     Button submitForm;
     User newUser;
-    HashMap<String,String> masterInfoCopy=new HashMap<>();
+    int membershipPaid=-1;
+    String userType;
+    HashMap<User.ATTRIBUTES,String> masterInfoCopy=new HashMap<>();
+    static HashMap<String,Integer> mapTypes;
+    static{
+    mapTypes=new HashMap<>();
+        mapTypes.put("Costumer",0);
+        mapTypes.put("Instructor",1);
+        mapTypes.put("Operator",2);
+        mapTypes.put("Manager",3);
+}
 
 
     public LoginDetailsFragment() {
@@ -53,6 +63,7 @@ public class LoginDetailsFragment extends Fragment implements SendInfo
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Toast.makeText(getActivity().getApplicationContext(),userType,Toast.LENGTH_SHORT).show();
         username= (EditText) getActivity().findViewById(R.id.username_edit_text_login_frag);
         password= (EditText) getActivity().findViewById(R.id.user_password_loggin_fragment);
         submitForm= (Button) getActivity().findViewById(R.id.buttonSubmitForm);
@@ -60,9 +71,22 @@ public class LoginDetailsFragment extends Fragment implements SendInfo
             @Override
             public void onClick(View view) {
                 if(!username.getText().toString().matches("") && !password.getText().toString().matches("")) {
+                    if(membershipPaid!=-1)
+                    {
+                        masterInfoCopy.put(User.ATTRIBUTES.MEMBERSHIP,"0");//basic user
+                    }
+                    else{
+                        masterInfoCopy.put(User.ATTRIBUTES.MEMBERSHIP,"1");//member
+                    }
+                    Random randomGenerator=new Random();
+                    int userId=randomGenerator.nextInt(10043)+2;
+                    masterInfoCopy.put(User.ATTRIBUTES.ID, String.valueOf(userId));
                     SlopeDatabase database = new SlopeDatabase(getActivity().getApplicationContext());
-                    Toast.makeText(getActivity().getApplicationContext(),"All details needed are here, wait for the function to be implemented",Toast.LENGTH_SHORT).show();
-                    // database.addUser();
+                     User user=UserFactory.getUser(mapTypes.get(userType),masterInfoCopy);
+                     database.addUser(user);
+                     database.registerCredentials(userId,username.getText().toString(),password.getText().toString());
+
+                    Toast.makeText(getActivity().getApplicationContext(),"I have created the user"+user.getFirstName()+"which is a"+user.getMembership(),Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(),"You must have both username and password setted",Toast.LENGTH_SHORT).show();
@@ -77,8 +101,18 @@ public class LoginDetailsFragment extends Fragment implements SendInfo
 
 
     @Override
-    public void sendHashMap(HashMap<String, String> masterInfo) {
+    public void sendHashMap(HashMap<User.ATTRIBUTES, String> masterInfo) {
         masterInfoCopy=masterInfo;
+    }
+
+    @Override
+    public void sendConfPayment(int successful) {
+        membershipPaid=successful;
+    }
+
+    @Override
+    public void sendTypeOfUser(String type) {
+        userType=type;
     }
 
 
