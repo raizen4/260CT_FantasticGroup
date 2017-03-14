@@ -27,6 +27,8 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
     private HashMap<User.ATTRIBUTES,String> masterInfo=new HashMap<>();
     private UpdateInfo callback1;
     private SendInfo callback2;
+    private SendInfo sendConfirmationPaymentInfo;
+    private SendInfo sendTypeUserCallback;
     private TabLayout tabLayout;
     private String userType;
     private int paid=-1;
@@ -70,8 +72,11 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
                 }
                 if (curFragment.getArguments().getString("TAG").matches("LoginDetailsFragment")){
                     callback2 = (SendInfo) curFragment;
+                    sendTypeUserCallback= (SendInfo) curFragment;
+                    sendConfirmationPaymentInfo= (SendInfo) curFragment;
                     callback2.sendHashMap(masterInfo);
-                    callback2.sendConfPayment(paid);
+                    sendConfirmationPaymentInfo.sendConfPayment(paid);
+                    sendTypeUserCallback.sendTypeOfUser(userType);
 
 
                 }
@@ -159,7 +164,7 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
             super(fm);
             arrayOfFragments=new ArrayList<>();
             arrayOfFragments.add(0,new AboutYouFragment());
-            arrayOfFragments.add(2,new LoginDetailsFragment());
+            arrayOfFragments.add(1,new LoginDetailsFragment());
 
         }
 
@@ -186,7 +191,7 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
             switch (position){
                 case 0:
                     return "About Me";
-                case 2:
+                case 1:
                     return "Login Details";
             }
             return null;
@@ -194,7 +199,7 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
     }
     @Override
     public void sendHashMap(HashMap<User.ATTRIBUTES, String> masterInfo) {
-
+        //just had to implement it
     }
 
     @Override
@@ -205,6 +210,6 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
 
     @Override
     public void sendTypeOfUser(String type) {
-        userType=type;
+        //just had to implement it
     }
 }

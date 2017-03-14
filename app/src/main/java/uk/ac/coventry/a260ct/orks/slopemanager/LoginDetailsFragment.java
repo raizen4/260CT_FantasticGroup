@@ -79,14 +79,14 @@ public class LoginDetailsFragment extends Fragment implements SendInfo
                         masterInfoCopy.put(User.ATTRIBUTES.MEMBERSHIP,"1");//member
                     }
                     Random randomGenerator=new Random();
-                    int userId=randomGenerator.nextInt(10043)+2;
+                    int userId=randomGenerator.nextInt(10043)+1;
                     masterInfoCopy.put(User.ATTRIBUTES.ID, String.valueOf(userId));
                     SlopeDatabase database = new SlopeDatabase(getActivity().getApplicationContext());
                      User user=UserFactory.getUser(mapTypes.get(userType),masterInfoCopy);
                      database.addUser(user);
                      database.registerCredentials(userId,username.getText().toString(),password.getText().toString());
 
-                    Toast.makeText(getActivity().getApplicationContext(),"I have created the user"+user.getFirstName()+"which is a"+user.getMembership(),Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity().getApplicationContext(),"I have created the user"+user.getFirstName()+"which is a "+user.getMembership(),Toast.LENGTH_SHORT).show();
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(),"You must have both username and password setted",Toast.LENGTH_SHORT).show();
