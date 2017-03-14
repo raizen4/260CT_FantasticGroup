@@ -21,22 +21,22 @@
         android:layout_below="@+id/textView_state_transaction"
         android:layout_alignStart="@+id/textView_state_transaction" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:text="Name"
         android:ems="10"
         android:id="@+id/editText_date"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:layout_alignBaseline="@+id/textView_date"
         android:layout_alignBottom="@+id/textView_date"
-        android:layout_toEndOf="@+id/textView_date" />
+        android:layout_toEndOf="@+id/textView_date"
+        android:inputType="text" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="text|textPersonName"
         android:text="Name"
         android:ems="10"
         android:id="@+id/editText_state_transaction"
@@ -44,10 +44,10 @@
         android:layout_above="@+id/textView_paypal_id"
         android:layout_toEndOf="@+id/textView_state_transaction" />
 
-    <EditText
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="text|textPersonName"
         android:text="Name"
         android:ems="10"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"

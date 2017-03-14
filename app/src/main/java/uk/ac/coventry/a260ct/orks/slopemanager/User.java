@@ -19,7 +19,7 @@ public abstract class User {
         EMAIL,
         DOB,
         MEMBERSHIP,
-        REFERENCE_WORK
+        USER_TYPE_ID, REFERENCE_WORK
     }
 
     private int ID;
@@ -28,7 +28,7 @@ public abstract class User {
     private String phone;
     private String email;
     private Date dob;
-    private int membership;
+    private int membership;//0,for normal user,1 for member (if he pays when register),2 for loyalty member
 
     private String type;
 
@@ -59,6 +59,13 @@ public abstract class User {
         this.membership = membership;
     }
 
+    public Date getDob() {
+        return dob;
+    }
+
+    public void setDob(Date dob) {
+        this.dob = dob;
+    }
 
     public int getMembership() {
         return membership;

@@ -1,5 +1,6 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AboutYouFragment extends Fragment implements UpdateInfo {
-    private HashMap<String,String> infoEntered;
+    private HashMap<User.ATTRIBUTES,String> infoEntered;
 
     EditText firstNameField;
     EditText surnameField;
@@ -45,6 +46,11 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
         outState.putString("email", email);
         outState.putString("phone", phone);
 
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
     }
 
     @Override
@@ -88,7 +94,7 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
                 if(b==true){
                     DatePickerFragment picker=new DatePickerFragment(view);
                     FragmentTransaction transaction=getFragmentManager().beginTransaction();
-                    picker.show(transaction,"DATE_PICKER");
+                    picker.show(transaction,"Date Piker");
                 }
             }
         });
@@ -99,7 +105,7 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
 
 
     @Override
-    public void setInfo(String fragmentName, HashMap<String, String> infoToUpdate) {
+    public void setInfo(String fragmentName, HashMap<User.ATTRIBUTES, String> infoToUpdate) {
         if(fragmentName.matches("AboutYouFragment")) {
             String firstName=null;
             String surname=null ;
@@ -118,11 +124,11 @@ public class AboutYouFragment extends Fragment implements UpdateInfo {
                 e.printStackTrace();
             }
             try {
-                infoToUpdate.put("firstName", firstName);
-                infoToUpdate.put("surname", surname);
-                infoToUpdate.put("email", email);
-                infoToUpdate.put("phone", phone);
-                infoToUpdate.put("dob",dob);
+                infoToUpdate.put(User.ATTRIBUTES.FIRST_NAME, firstName);
+                infoToUpdate.put(User.ATTRIBUTES.SURNAME, surname);
+                infoToUpdate.put(User.ATTRIBUTES.EMAIL, email);
+                infoToUpdate.put(User.ATTRIBUTES.PHONE, phone);
+                infoToUpdate.put(User.ATTRIBUTES.DOB,dob);
             }
             catch (Exception e){
                 e.printStackTrace();

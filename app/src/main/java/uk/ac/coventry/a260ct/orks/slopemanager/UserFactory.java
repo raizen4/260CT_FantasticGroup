@@ -19,16 +19,30 @@ public class UserFactory {
                  user=new Costumer(userDetails);
                 break;
             case 1:
-                 user=new SlopeOperator(userDetails);
+                 user=new Instructor(userDetails);
                 break;
             case 2:
-                user = new Costumer(userDetails);
+                user = new SlopeOperator(userDetails);//Instructor here
                 break;
             case 3:
-                user = new Costumer(userDetails);//Manager here
+                user = new Manager(userDetails);//Manager here
                 break;
 
         }
         return user;
+    }
+
+    public static int getUserType(User user) {
+        if (user instanceof Costumer) {
+            return 0;
+        } else if (user instanceof Instructor) {
+            return 1;
+        } else if (user instanceof SlopeOperator) {
+            return 2;
+        } else if (user instanceof Manager) {
+            return 3;
+        } else {
+            return -1;
+        }
     }
 }

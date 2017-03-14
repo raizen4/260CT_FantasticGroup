@@ -2,6 +2,7 @@ package uk.ac.coventry.a260ct.orks.slopemanager;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +38,8 @@ import java.math.BigDecimal;
  */
 public class MembershipPayment extends Fragment {
     private static int PAYPAL_CODE=1234;
+    private SendInfo confPaymentToActivity;
+    private int paid=-1;
     //set the environment for production/sandbox/no netowrkOX
     //Paypal Configuration Object
     private static PayPalConfiguration config = new PayPalConfiguration()
@@ -48,6 +51,12 @@ public class MembershipPayment extends Fragment {
     Button payFee;
     public MembershipPayment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        confPaymentToActivity= (SendInfo) getActivity();
     }
 
     @Override
@@ -100,7 +109,7 @@ public class MembershipPayment extends Fragment {
             goToPaymentScreen.putExtra(PaymentActivity.EXTRA_PAYMENT, payPalPayment);
 
 
-            startActivityForResult(goToPaymentScreen,1234 );
+            startActivityForResult(goToPaymentScreen,PAYPAL_CODE );
 
 
         }
@@ -114,8 +123,8 @@ public class MembershipPayment extends Fragment {
             if(paymentConfirmation!=null){
                 Log.i("details",paymentConfirmation.toString());
                 try {
-                    JSONObject jsonObject=new JSONObject(paymentConfirmation.toString());
-                    AlertDialog.Builder builder=new AlertDialog.Builder(getActivity().getApplicationContext());
+                    JSONObject jsonObject=new JSONObject(paymentConfirmation.toJSONObject().toString());
+                    AlertDialog.Builder builder=new AlertDialog.Builder(getContext());
                     builder.setTitle("Payment Details").setMessage("Please save the following details about your payment")
                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
@@ -130,12 +139,16 @@ public class MembershipPayment extends Fragment {
                     });
                     AlertDialog dialog=builder.create();
                     View dialogView=getActivity().getLayoutInflater().inflate(R.layout.dialog_confirmation_paypal,null);
-                    EditText date= ((EditText) dialogView.findViewById(R.id.editText_date));
+                    TextView date= ((TextView) dialogView.findViewById(R.id.editText_date));
                     date.setText(jsonObject.getJSONObject("response").getString("create_time"), TextView.BufferType.EDITABLE);
-                    EditText paypalId=((EditText) dialogView.findViewById(R.id.editText_paypal_id));
+                    TextView paypalId=((TextView) dialogView.findViewById(R.id.editText_paypal_id));
                     paypalId.setText(jsonObject.getJSONObject("response").getString("id"), TextView.BufferType.EDITABLE);
+                    TextView status= ((TextView) dialogView.findViewById(R.id.editText_state_transaction));
+                    status.setText(jsonObject.getJSONObject("response").getString("state"));
                     dialog.setView(dialogView);
                     dialog.show();
+                    paid=1;
+                    confPaymentToActivity.sendConfPayment(paid);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

@@ -28,7 +28,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 10;
+    private static final int DATABASE_VERSION = 11;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";
@@ -221,7 +221,49 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
         db.insertWithOnConflict(USER_TYPES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
+    ///overloaded addUser to make the adding more flexible
+    public void addUser(User user){
+        ContentValues values=new ContentValues();
+        values.put(COL_ID, user.getID());
+        values.put(COL_FIRST_NAME,user.getFirstName() );
+        values.put(COL_LAST_NAME, user.getSurname());
+        values.put(COL_EMAIL, user.getEmail());
+        values.put(COL_PHONE, user.getPhone());
+        values.put(COL_DOB, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(user.getDob()));
+        values.put(COL_MEMBERSHIP, user.getMembership());
+        values.put(COL_USER_TYPE_ID, UserFactory.getUserType(user));
+        db.insert(
+                USERS_TABLE,
+                null,
+                values
+        );
 
+        Log.v(TAG, "Added user");
+
+
+    }
+
+    //overloaded this method so we can add a user using only the hashmaap given that we use it to construct users
+    public void addUser(HashMap<User.ATTRIBUTES,String>details){
+        ContentValues values=new ContentValues();
+        values.put(COL_ID, details.get(User.ATTRIBUTES.ID));
+        values.put(COL_FIRST_NAME,details.get(User.ATTRIBUTES.FIRST_NAME) );
+        values.put(COL_LAST_NAME, details.get(User.ATTRIBUTES.SURNAME));
+        values.put(COL_EMAIL, details.get(User.ATTRIBUTES.EMAIL));
+        values.put(COL_PHONE, details.get(User.ATTRIBUTES.PHONE));
+        values.put(COL_DOB, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(User.ATTRIBUTES.DOB));
+        values.put(COL_MEMBERSHIP, details.get(User.ATTRIBUTES.MEMBERSHIP));
+        values.put(COL_USER_TYPE_ID, details.get(User.ATTRIBUTES.USER_TYPE_ID));
+        db.insert(
+                USERS_TABLE,
+                null,
+                values
+        );
+
+        Log.v(TAG, "Added user");
+
+
+    }
     public void addUser(int id,
                         String firstName,
                         String lastName,

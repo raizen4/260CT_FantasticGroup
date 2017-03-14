@@ -35,7 +35,8 @@
         android:hint="Name goes here..."
         android:layout_alignBaseline="@+id/firstName_text_view"
         android:layout_alignBottom="@+id/firstName_text_view"
-        android:layout_toEndOf="@+id/firstName_text_view" />
+        android:layout_toEndOf="@+id/firstName_text_view"
+        android:imeOptions="actionDone"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -46,7 +47,8 @@
         android:hint="Name goes here..."
         android:layout_alignBaseline="@+id/surname_text_view"
         android:layout_alignBottom="@+id/surname_text_view"
-        android:layout_toEndOf="@+id/surname_text_view" />
+        android:layout_toEndOf="@+id/surname_text_view"
+        android:imeOptions="actionDone"/>
 
     <TextView
         android:text="Phone:"
@@ -55,7 +57,8 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="120dp"
         android:layout_centerVertical="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
 
     <TextView
         android:text="Date of Birth"
@@ -86,28 +89,31 @@
         android:hint="Email goes here.."
         android:layout_alignBaseline="@+id/email_text_view"
         android:layout_alignBottom="@+id/email_text_view"
-        android:layout_toEndOf="@+id/email_text_view" />
+        android:layout_toEndOf="@+id/email_text_view"
+        android:imeOptions="actionDone"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/phone_edit_text"
         android:hint="Name goes here..."
         android:layout_alignBaseline="@+id/phone_text_view"
         android:layout_alignBottom="@+id/phone_text_view"
-        android:layout_toEndOf="@+id/phone_text_view" />
+        android:layout_toEndOf="@+id/phone_text_view"
+        android:imeOptions="actionDone"
+        android:inputType="phone" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
+        android:inputType="textPersonName|date"
         android:ems="10"
         android:id="@+id/dob_edit_text"
         android:hint="Name goes here..."
         android:layout_alignBaseline="@+id/dob_text_view"
         android:layout_alignBottom="@+id/dob_text_view"
-        android:layout_toEndOf="@+id/dob_text_view" />
+        android:layout_toEndOf="@+id/dob_text_view"
+        android:imeOptions="actionDone"/>
 
 </RelativeLayout>
