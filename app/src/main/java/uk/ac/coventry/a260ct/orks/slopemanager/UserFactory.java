@@ -19,13 +19,13 @@ public class UserFactory {
                  user=new Costumer(userDetails);
                 break;
             case 1:
-                 user=new SlopeOperator(userDetails);
+                 user=new Instructor(userDetails);
                 break;
             case 2:
-                user = new Costumer(userDetails);
+                user = new SlopeOperator(userDetails);//Instructor here
                 break;
             case 3:
-                user = new Costumer(userDetails);//Manager here
+                user = new Manager(userDetails);//Manager here
                 break;
 
         }

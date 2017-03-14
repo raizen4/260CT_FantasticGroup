@@ -7,5 +7,7 @@ import java.util.HashMap;
  */
 
 public interface SendInfo {
-    public void sendHashMap(HashMap<String,String> masterInfo);
+    public void sendHashMap(HashMap<User.ATTRIBUTES, String> masterInfo);
+    public void sendConfPayment(int successful);
+    public void sendTypeOfUser(String type);
 }

@@ -21,7 +21,8 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+@SuppressLint("ValidFragment")
+public class DatePickerFragment extends android.support.v4.app.DialogFragment implements DatePickerDialog.OnDateSetListener {
     EditText textToEdit;
 
     @SuppressLint("ValidFragment")
@@ -44,11 +45,9 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        textToEdit.setText(year+"/"+month+"/"+day, TextView.BufferType.EDITABLE);
+        textToEdit.setText(year+"-"+month+"-"+day, TextView.BufferType.EDITABLE);
 
     }
 
-    public void show(FragmentTransaction transaction, String date_picker) {
-       this.show(transaction,date_picker);
-    }
+
 }

@@ -8,7 +8,7 @@ import java.util.HashMap;
  */
 
 public interface UpdateInfo {
-    void setInfo(String fragmentName,HashMap<String,String> infoToUpdate);
+    void setInfo(String fragmentName,HashMap<User.ATTRIBUTES,String> infoToUpdate);
 
     void setInfo(String fragmentName, ArrayList<String> infoToUpdate, ArrayList<String> infoToUpdate2);
 
