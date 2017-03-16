@@ -37,7 +37,7 @@
                 android:value=".LoginActivity" />
         </activity>
         <activity
-            android:name=".SessionsActivity"
+            android:name=".BookingsActivity"
             android:label="@string/title_activity_sessions"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

@@ -10,7 +10,10 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="uk.ac.coventry.a260ct.orks.slopemanager.SessionsActivity"
-    tools:showIn="@layout/activity_sessions">
-
+    tools:context="uk.ac.coventry.a260ct.orks.slopemanager.BookingsActivity"
+    tools:showIn="@layout/activity_bookings">
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/bookings_recycler_view"/>
 </RelativeLayout>

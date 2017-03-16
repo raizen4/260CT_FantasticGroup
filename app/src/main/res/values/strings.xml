@@ -28,4 +28,7 @@
     <string name="hello_blank_fragment">hello_blank_frag</string>
     <string name="action_settings">action_settings</string>
     <string name="title_activity_user_type">UserTypeActivity</string>
+    <string name="booking_card_instructor">Instructor: %s</string>
+    <string name="booking_paid">Paid</string>
+    <string name="booking_unpaid">Unpaid</string>
 </resources>

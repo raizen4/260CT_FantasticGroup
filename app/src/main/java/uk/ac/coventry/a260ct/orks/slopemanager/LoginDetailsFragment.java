@@ -36,7 +36,7 @@ public class LoginDetailsFragment extends Fragment implements SendInfo
     static HashMap<String,Integer> mapTypes;
     static{
     mapTypes=new HashMap<>();
-        mapTypes.put("Costumer",0);
+        mapTypes.put("Customer",0);
         mapTypes.put("Instructor",1);
         mapTypes.put("Operator",2);
         mapTypes.put("Manager",3);

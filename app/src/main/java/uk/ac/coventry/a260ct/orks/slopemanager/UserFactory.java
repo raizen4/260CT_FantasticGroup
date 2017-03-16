@@ -1,7 +1,5 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
-import android.util.Log;
-
 import java.util.HashMap;
 
 /**
@@ -16,7 +14,7 @@ public class UserFactory {
         User user=null;
         switch (userType){
             case 0:
-                 user=new Costumer(userDetails);
+                 user=new Customer(userDetails);
                 break;
             case 1:
                  user=new Instructor(userDetails);
@@ -33,7 +31,7 @@ public class UserFactory {
     }
 
     public static int getUserType(User user) {
-        if (user instanceof Costumer) {
+        if (user instanceof Customer) {
             return 0;
         } else if (user instanceof Instructor) {
             return 1;

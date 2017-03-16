@@ -1,6 +1,5 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
-import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -8,7 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -28,7 +29,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 11;
+    private static final int DATABASE_VERSION = 12;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";
@@ -54,7 +55,6 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     // Session table constants
     private static final String SESSIONS_TABLE = "sessions";
     private static final String COL_SESSION_ID = "session_id";
-    private static final String COL_INSTRUCTOR_ID = "instructor_id";
     private static final String COL_DATE = "date";
     private static final String COL_SLOT = "slot";
 
@@ -62,6 +62,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private static final String BOOKINGS_TABLE = "bookings";
     private static final String COL_BOOKING_ID = "booking_id";
     private static final String COL_PAID = "paid";
+    private static final String COL_WANTS_INSTRUCTOR = "wants_instructor";
 
 
     private static final String[] ALL_TABLES =
@@ -83,22 +84,20 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         if (getUserIdFromCredentials("lol", "lol") == -1) {
             Log.v(TAG, "Adding test data");
 
-            try {
-                addUser(21312432,
-                        "Jim",
-                        "Jiggles",
-                        "test@test.com",
-                        "07283929394",
-                        new SimpleDateFormat("yyyy-mm-dd", Locale.UK).parse("1996-11-28"),
-                        1,
-                        3);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            addUser(21312432,
+                    "Jim",
+                    "Jiggles",
+                    "test@test.com",
+                    "07283929394",
+                    SlopeManagerApplication.stringToDate("1996-11-28"),
+                    1,
+                    3);
 
             registerCredentials(21312432, "lol", "lol"); // Login credentials
 
             addSession(new Date(), 0); // Add a session today;
+            SkiSession session = getSessionFromDateAndSlot(new Date(), 0); // Get that session
+            createBooking(session.getId(), 21312432, false, false);
         }
     }
 
@@ -142,7 +141,6 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         String createSessions =
                 "CREATE TABLE IF NOT EXISTS "+ SESSIONS_TABLE + "(" +
                         COL_SESSION_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
-                        COL_INSTRUCTOR_ID + " INTEGER, " +
                         COL_DATE + " DATE NOT NULL, " +
                         COL_SLOT + " INTEGER NOT NULL " +
                         ")";
@@ -151,6 +149,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 "CREATE TABLE IF NOT EXISTS "+ BOOKINGS_TABLE + "(" +
                         COL_BOOKING_ID + " INTEGER NOT NULL PRIMARY KEY, " +
                         COL_USER_ID + " INTEGER NOT NULL, " +
+                        COL_WANTS_INSTRUCTOR + " INTEGER NOT NULL," +
                         COL_PAID + " BOOLEAN NOT NULL, " +
                         COL_SESSION_ID + " INTEGER NOT NULL" +
                         ")";
@@ -223,47 +222,25 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     }
     ///overloaded addUser to make the adding more flexible
     public void addUser(User user){
-        ContentValues values=new ContentValues();
-        values.put(COL_ID, user.getID());
-        values.put(COL_FIRST_NAME,user.getFirstName() );
-        values.put(COL_LAST_NAME, user.getSurname());
-        values.put(COL_EMAIL, user.getEmail());
-        values.put(COL_PHONE, user.getPhone());
-        values.put(COL_DOB, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(user.getDob()));
-        values.put(COL_MEMBERSHIP, user.getMembership());
-        values.put(COL_USER_TYPE_ID, UserFactory.getUserType(user));
-        db.insert(
-                USERS_TABLE,
-                null,
-                values
-        );
-
-        Log.v(TAG, "Added user");
-
-
+        addUser(user.getId(),
+                user.getFirstName(),
+                user.getSurname(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getDob(),
+                user.getMembership(),
+                UserFactory.getUserType(user));
     }
 
     //overloaded this method so we can add a user using only the hashmaap given that we use it to construct users
-    public void addUser(HashMap<User.ATTRIBUTES,String>details){
-        ContentValues values=new ContentValues();
-        values.put(COL_ID, details.get(User.ATTRIBUTES.ID));
-        values.put(COL_FIRST_NAME,details.get(User.ATTRIBUTES.FIRST_NAME) );
-        values.put(COL_LAST_NAME, details.get(User.ATTRIBUTES.SURNAME));
-        values.put(COL_EMAIL, details.get(User.ATTRIBUTES.EMAIL));
-        values.put(COL_PHONE, details.get(User.ATTRIBUTES.PHONE));
-        values.put(COL_DOB, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(User.ATTRIBUTES.DOB));
-        values.put(COL_MEMBERSHIP, details.get(User.ATTRIBUTES.MEMBERSHIP));
-        values.put(COL_USER_TYPE_ID, details.get(User.ATTRIBUTES.USER_TYPE_ID));
-        db.insert(
-                USERS_TABLE,
-                null,
-                values
+    public void addUser(HashMap<User.ATTRIBUTES, String> details) throws ParseException {
+        addUser(
+                UserFactory.getUser(
+                        Integer.parseInt(details.get(User.ATTRIBUTES.USER_TYPE_ID)),
+                        details)
         );
-
-        Log.v(TAG, "Added user");
-
-
     }
+
     public void addUser(int id,
                         String firstName,
                         String lastName,
@@ -279,7 +256,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         values.put(COL_LAST_NAME, lastName);
         values.put(COL_EMAIL, email);
         values.put(COL_PHONE, phone);
-        values.put(COL_DOB, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(dob));
+        values.put(COL_DOB, SlopeManagerApplication.dateToString(dob));
         values.put(COL_MEMBERSHIP, membership);
         values.put(COL_USER_TYPE_ID, userType);
 
@@ -292,11 +269,13 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         Log.v(TAG, "Added user");
     }
 
-    public void createBooking(int userId, boolean paid, int sessionId) {
+    public void createBooking(int sessionId, int userId, boolean paid, boolean wantsInstructor) {
 
         ContentValues values = new ContentValues();
         values.put(COL_USER_ID, userId);
         values.put(COL_PAID, paid);
+        values.put(COL_WANTS_INSTRUCTOR, wantsInstructor);
+
         values.put(COL_SESSION_ID, sessionId);
 
         db.insert(
@@ -316,6 +295,42 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 COL_BOOKING_ID + " =?",
                 new String[]{String.valueOf(bookingId)}
         );
+    }
+
+    public Booking[] getBookingsForUser(User user) {
+        ArrayList<Booking> bookings = new ArrayList<>();
+
+
+        String query = "SELECT * FROM " + BOOKINGS_TABLE + " WHERE " + COL_USER_ID + "=?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(user.getId())});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    bookings.add(
+                            new Booking(
+                                    cursor.getInt(
+                                            cursor.getColumnIndex(COL_BOOKING_ID)
+                                    ),
+                                    getSessionFromId(
+                                            cursor.getInt(cursor.getColumnIndex(COL_SESSION_ID)
+                                            )
+                                    ),
+                                    cursor.getInt(
+                                            cursor.getColumnIndex(COL_WANTS_INSTRUCTOR)
+                                    ) != 0,
+                                    cursor.getInt(
+                                            cursor.getColumnIndex(COL_PAID)
+                                    ) != 0
+                            )
+                    );
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return bookings.toArray(new Booking[bookings.size()]);
     }
 
     public void registerCredentials(int id,
@@ -345,10 +360,65 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return (int) db.insert(SESSIONS_TABLE, null, values);
     }
 
+    public SkiSession getSessionFromDateAndSlot(Date date, int slot) {
+        SkiSession session = null;
+        String query =
+                "SELECT * FROM " + SESSIONS_TABLE + " WHERE " + COL_DATE + "=? AND " + COL_SLOT + "=?";
+
+        Cursor cursor =
+                db.rawQuery(
+                    query,
+                    new String[]{SlopeManagerApplication.dateToString(date), String.valueOf(slot)}
+                );
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                session = buildSessionFromCursor(cursor);
+            }
+            cursor.close();
+        }
+
+        return session;
+    }
+
+    private SkiSession buildSessionFromCursor(Cursor cursor) {
+        return
+                new SkiSession(
+                        cursor.getInt(
+                                cursor.getColumnIndex(COL_SESSION_ID)
+                        ),
+                        SlopeManagerApplication.stringToDate(
+                                cursor.getString(
+                                        cursor.getColumnIndex(COL_DATE)
+                                )
+                        ),
+                        cursor.getInt(
+                                cursor.getColumnIndex(COL_SLOT)
+                        )
+                );
+    }
+
+    public SkiSession getSessionFromId(int sessionId) {
+        String query = "SELECT * FROM " + SESSIONS_TABLE + " WHERE " + COL_SESSION_ID + "=?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(sessionId)});
+
+        SkiSession session = null;
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                session = buildSessionFromCursor(cursor);
+
+            }
+            cursor.close();
+        }
+
+        return session;
+    }
+
     public User getUserFromId(int id) {
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE " + COL_ID + "=?";
 
-        UserFactory factory=new UserFactory();
         HashMap<User.ATTRIBUTES,String>map=new HashMap<>();
 
 
@@ -374,50 +444,4 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         //Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
         return UserFactory.getUser(userType,map);
     }
-
-
-    /*
-    public void updateNumberOfTracks(String playlistName,int newNumberOfTracks){
-        db=this.getWritableDatabase();
-        ContentValues valueToInsert=new ContentValues();
-        valueToInsert.put("notrack",newNumberOfTracks);
-        db.update(DatabaseTablePlaylist,valueToInsert,"name=?",new String[]{playlistName});
-    }
-    public void insertPlaylist(Playlist playlist) {
-        db = this.getWritableDatabase();
-        ContentValues valuetoinsert = new ContentValues();
-        valuetoinsert.put("name", playlist.getName());
-        valuetoinsert.put("notrack", playlist.getNumber_of_tracks());
-        db.insert(DatabaseTablePlaylist, null, valuetoinsert);
-    }
-
-    public void insertSong(Song song) {
-        db = this.getWritableDatabase();
-        ContentValues valuesToInsert = new ContentValues();
-        valuesToInsert.put("id", song.getId());
-        valuesToInsert.put("name", song.getName());
-        valuesToInsert.put("duration", song.getDuration());
-        valuesToInsert.put("path", song.getPath());
-        valuesToInsert.put("art", String.valueOf(song.getArt()));
-        valuesToInsert.put("artist", song.getArtist());
-        db.insert("song", null, valuesToInsert);
-    }
-
-    public ArrayList<String> retrivesongnames() {
-        db = this.getReadableDatabase();
-        ArrayList<String> names = new ArrayList<>();
-        String select = "select * from (select  from " + DatabaseTableSong + ";";
-        Cursor cursor = db.rawQuery(select, null);
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                String name = cursor.getString(cursor.getColumnIndex("name"));
-                names.add(name);
-
-            } while (cursor.moveToNext());
-        }
-        cursor.close();
-        return names;
-    }*/
-
-    /// LOOK ON THE METHODS ABOVE FOR SEEING HOW TO USE CURSOR, CONTENTVALUES to add, delete rows in the database
 }

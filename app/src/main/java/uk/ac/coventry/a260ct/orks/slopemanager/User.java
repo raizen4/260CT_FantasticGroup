@@ -83,7 +83,7 @@ public abstract class User {
         this.type = type;
     }
 
-    public int getID() {
+    public int getId() {
         return ID;
     }
 
