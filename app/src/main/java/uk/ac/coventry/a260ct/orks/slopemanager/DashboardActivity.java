@@ -25,12 +25,28 @@ public class DashboardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.dashboard_activity_toolbar);
-        toolbar.setTitle(getString(R.string.dashboard_title));
+        String Title = "";
         setSupportActionBar(toolbar);
 
         slopeManagerApplication = (SlopeManagerApplication) getApplication();
         loginSessionManager = slopeManagerApplication.getLoginSessionManager();
         user = loginSessionManager.getUserOrLogout();
+
+        switch(UserFactory.getUserType(user)){
+            case 0:
+                Title = " - Customer";
+                break;
+            case 1:
+                Title = " - Intrusctor";
+                break;
+            case 2:
+                Title = " - Slope Operator";
+                break;
+            case 3:
+                Title = " - Manager";
+                break;
+        }
+        getSupportActionBar().setTitle(getString(R.string.dashboard_title) + Title);
 
         if (user == null) {
             loginSessionManager.launchLogin();
@@ -46,16 +62,55 @@ public class DashboardActivity extends AppCompatActivity {
     }
 
     public void setupOptions() {
-        if (user instanceof Customer) {
-
+        switch(UserFactory.getUserType(user)) {
+            case 0:
+                findViewById(R.id.dashboard_slopeoperator_buttons_card).setVisibility(View.GONE);
+                findViewById(R.id.dashboard_instructor_buttons_card).setVisibility(View.GONE);
+                findViewById(R.id.dashboard_slopemanager_buttons_card).setVisibility(View.GONE);
+                break;
+            case 1:
+                findViewById(R.id.dashboard_slopeoperator_buttons_card).setVisibility(View.GONE);
+                findViewById(R.id.dashboard_slopemanager_buttons_card).setVisibility(View.GONE);
+                break;
+            case 2:
+                findViewById(R.id.dashboard_instructor_buttons_card).setVisibility(View.GONE);
+                findViewById(R.id.dashboard_slopemanager_buttons_card).setVisibility(View.GONE);
+                break;
         }
-        findViewById(R.id.dashboard_slopemanager_buttons_card).setVisibility(View.GONE);
         findViewById(R.id.view_sessions_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), BookingsActivity.class));
             }
         });
+
+        findViewById(R.id.personal_details_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivity(new Intent(getApplicationContext(), ViewDetailsActivity.class));
+            }
+        });
+        findViewById(R.id.view_members_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivity(new Intent(getApplicationContext(), ViewMembers.class));
+            }
+        });
+        findViewById(R.id.view_slope_schedule_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivity(new Intent(getApplicationContext(), ViewSlopeSchedule.class));
+            }
+        });
+        findViewById(R.id.view_instructors_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //startActivity(new Intent(getApplicationContext(), ViewInstructors.class));
+            }
+        });
+
+
+
     }
 
     @Override
