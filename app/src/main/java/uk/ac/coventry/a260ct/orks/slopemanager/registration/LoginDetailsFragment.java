@@ -1,7 +1,6 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.registration;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,6 +14,12 @@ import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Random;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.R;
+import uk.ac.coventry.a260ct.orks.slopemanager.payment.SendInfo;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.UserFactory;
 
 
 /**
@@ -83,7 +88,7 @@ public class LoginDetailsFragment extends Fragment implements SendInfo
                     int userId=randomGenerator.nextInt(10043)+1;
                     masterInfoCopy.put(User.ATTRIBUTES.ID, String.valueOf(userId));
                     SlopeDatabase database = new SlopeDatabase(getActivity().getApplicationContext());
-                     User user=UserFactory.getUser(mapTypes.get(userType),masterInfoCopy);
+                     User user= UserFactory.getUser(mapTypes.get(userType),masterInfoCopy);
                      database.addUser(user);
                      database.registerCredentials(userId,username.getText().toString(),password.getText().toString());
 

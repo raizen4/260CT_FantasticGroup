@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,13 +7,12 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
-import java.util.Locale;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
 /**
  * Created by boldurbogdan on 28/02/2017.

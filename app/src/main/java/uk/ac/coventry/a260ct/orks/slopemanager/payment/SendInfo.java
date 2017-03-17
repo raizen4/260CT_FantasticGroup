@@ -1,6 +1,8 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.payment;
 
 import java.util.HashMap;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 
 /**
  * Created by boldurbogdan on 08/03/2017.

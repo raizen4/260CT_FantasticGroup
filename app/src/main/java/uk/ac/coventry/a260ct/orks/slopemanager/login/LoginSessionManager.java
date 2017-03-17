@@ -1,9 +1,13 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.login;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
+import uk.ac.coventry.a260ct.orks.slopemanager.R;
+import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
 /**
  * Created by boldurbogdan on 28/02/2017.
@@ -37,8 +41,7 @@ public class LoginSessionManager {
      */
     public void setUser(int id) {
         user = application.getSlopeDatabase().getUserFromId(id);
-        if (user != null) {
-            Log.v(TAG, user.getFirstName());
+        if (user != null || id == -1) {
             SharedPreferences sharedPreferences = context.
                     getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -92,7 +95,7 @@ public class LoginSessionManager {
         user = getUser();
 
         if (user == null) { // No user logged in so go to login screen
-           // Log.v(TAG, "User not logged in, launching login");
+            Log.v(TAG, "User not logged in, launching login");
             launchLogin();
         }
 
@@ -100,7 +103,7 @@ public class LoginSessionManager {
     }
 
     public void logout() {
-        //Log.v(TAG, "Logging out");
+        Log.v(TAG, "Logging out");
         setUser(-1);
     }
 }

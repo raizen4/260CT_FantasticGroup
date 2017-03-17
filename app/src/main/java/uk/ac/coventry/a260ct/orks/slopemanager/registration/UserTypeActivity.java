@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.R;
 
 public class UserTypeActivity extends AppCompatActivity {
     private Spinner spinnerType;

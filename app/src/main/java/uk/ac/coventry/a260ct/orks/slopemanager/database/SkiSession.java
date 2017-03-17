@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.database;
 
 import android.annotation.SuppressLint;
 
@@ -6,6 +6,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
 /**
  * Created by Freshollie on 15/03/2017.

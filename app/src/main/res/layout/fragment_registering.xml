@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="uk.ac.coventry.a260ct.orks.slopemanager.RegisteringActivity$PlaceholderFragment">
+    tools:context="uk.ac.coventry.a260ct.orks.slopemanager.registration.RegisteringActivity$PlaceholderFragment">
 
     <TextView
         android:id="@+id/section_label"

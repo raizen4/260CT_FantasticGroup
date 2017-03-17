@@ -1,8 +1,7 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.registration;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -14,6 +13,12 @@ import android.os.Bundle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.payment.MembershipPayment;
+import uk.ac.coventry.a260ct.orks.slopemanager.R;
+import uk.ac.coventry.a260ct.orks.slopemanager.payment.SendInfo;
+import uk.ac.coventry.a260ct.orks.slopemanager.payment.UpdateInfo;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 
 public class RegisteringActivity extends AppCompatActivity implements SendInfo {
 

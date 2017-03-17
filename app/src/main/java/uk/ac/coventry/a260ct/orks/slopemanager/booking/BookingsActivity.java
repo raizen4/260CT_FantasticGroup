@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.booking;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +15,12 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.R;
+import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.Booking;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 
 public class BookingsActivity extends AppCompatActivity {
 

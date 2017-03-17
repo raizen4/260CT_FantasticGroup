@@ -6,7 +6,10 @@ import android.app.Application;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.login.LoginSessionManager;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 
 /**
  * Created by Freshollie on 03/03/2017.
