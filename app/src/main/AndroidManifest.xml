@@ -38,12 +38,14 @@
         </activity>
         <activity
             android:name=".BookingsActivity"
-            android:label="@string/title_activity_sessions"
+            android:label="@string/title_activity_bookings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UserTypeActivity"
             android:label="@string/title_activity_user_type"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <!-- PayPal SDK ! -->
         <service
             android:name="com.paypal.android.sdk.payments.PayPalService"
             android:exported="false" />
@@ -59,6 +61,15 @@
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation" />
         <activity android:name="io.card.payment.DataEntryActivity" />
+        <activity
+            android:name=".CreateBookingActivity"
+            android:label="@string/title_activity_create_booking"
+            android:parentActivityName=".BookingsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.coventry.a260ct.orks.slopemanager.BookingsActivity" />
+        </activity>
     </application>
 
 </manifest>

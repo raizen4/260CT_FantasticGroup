@@ -29,7 +29,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 12;
+    private static final int DATABASE_VERSION = 15;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";
@@ -355,7 +355,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
 
         values.put(COL_SLOT, slot);
-        values.put(COL_DATE, new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(date));
+        values.put(COL_DATE, SlopeManagerApplication.dateToString(date));
 
         return (int) db.insert(SESSIONS_TABLE, null, values);
     }
@@ -382,6 +382,9 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     }
 
     private SkiSession buildSessionFromCursor(Cursor cursor) {
+        Log.v(TAG, "Session date: " + cursor.getString(
+                cursor.getColumnIndex(COL_DATE)
+        ));
         return
                 new SkiSession(
                         cursor.getInt(

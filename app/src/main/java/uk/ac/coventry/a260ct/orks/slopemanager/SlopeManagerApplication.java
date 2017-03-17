@@ -1,5 +1,6 @@
 package uk.ac.coventry.a260ct.orks.slopemanager;
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 
 import java.text.ParseException;
@@ -12,6 +13,7 @@ import java.util.Locale;
  */
 
 public class SlopeManagerApplication extends Application {
+    public static String DATE_FORMAT = "yyyy-MM-dd";
     public static int OPENING_TIME = 9; //24 hour clock
 
     private SlopeDatabase slopeDatabase;
@@ -23,6 +25,7 @@ public class SlopeManagerApplication extends Application {
 
     @Override
     public void onCreate() {
+        super.onCreate();
         INSTANCE = this;
         slopeDatabase = new SlopeDatabase(getApplicationContext());
         loginSessionManager = new LoginSessionManager(getApplicationContext());
@@ -48,14 +51,16 @@ public class SlopeManagerApplication extends Application {
         return observeCustomer;
     }
 
+    @SuppressLint("SimpleDateFormat")
     public static String dateToString(Date date) {
-        return new SimpleDateFormat("yyyy-mm-dd", Locale.UK).format(date);
+        return new SimpleDateFormat(DATE_FORMAT).format(date);
     }
 
+    @SuppressLint("SimpleDateFormat")
     public static Date stringToDate(String dateString) {
 
         try {
-            return new SimpleDateFormat("yyyy-mm-dd", Locale.UK).parse(dateString);
+            return new SimpleDateFormat(DATE_FORMAT).parse(dateString);
         } catch (ParseException e) {
             e.printStackTrace();
             return null;
