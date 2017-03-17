@@ -29,7 +29,7 @@ public class UserTypeActivity extends AppCompatActivity {
         goToRegisteringAct= (Button) findViewById(R.id.button_advance_to_register_act);
         spinnerType= (Spinner) findViewById(R.id.spinner_user_type);
         final ArrayList<String> typesOfUsers=new ArrayList<>();
-        typesOfUsers.add(0,"Costumer");
+        typesOfUsers.add(0,"Customer");
         typesOfUsers.add(1,"Instructor");
         typesOfUsers.add(2,"Operator");
         typesOfUsers.add(3,"Manager");

@@ -35,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login_layout);
+        setContentView(R.layout.activity_login);
         application = SlopeManagerApplication.getInstance();
 
         usernameInput = (EditText) findViewById(R.id.login_username_input);
@@ -54,10 +54,8 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     onLoginClicked();
-                    return true;
-                } else {
-                    return false;
                 }
+                    return false;
             }
         });
 

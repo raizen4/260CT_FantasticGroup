@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +23,7 @@ public class DashboardActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard_layout);
+        setContentView(R.layout.activity_dashboard);
         Toolbar toolbar = (Toolbar) findViewById(R.id.dashboard_activity_toolbar);
         String Title = "";
         setSupportActionBar(toolbar);
@@ -77,15 +76,11 @@ public class DashboardActivity extends AppCompatActivity {
                 findViewById(R.id.dashboard_instructor_buttons_card).setVisibility(View.GONE);
                 findViewById(R.id.dashboard_slopemanager_buttons_card).setVisibility(View.GONE);
                 break;
-
-
-
-
         }
         findViewById(R.id.view_sessions_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), SessionsActivity.class));
+                startActivity(new Intent(getApplicationContext(), BookingsActivity.class));
             }
         });
 
