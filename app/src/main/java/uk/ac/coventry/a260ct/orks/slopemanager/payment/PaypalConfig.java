@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.payment;
 
 import android.os.Environment;
 

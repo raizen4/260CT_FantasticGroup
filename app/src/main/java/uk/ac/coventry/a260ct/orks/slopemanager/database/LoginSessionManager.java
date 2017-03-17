@@ -1,9 +1,13 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.database;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.Log;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.login.LoginActivity;
+import uk.ac.coventry.a260ct.orks.slopemanager.R;
+import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
 /**
  * Created by boldurbogdan on 28/02/2017.

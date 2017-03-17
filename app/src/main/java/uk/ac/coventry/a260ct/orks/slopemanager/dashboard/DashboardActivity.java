@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.dashboard;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.R;
+import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
+import uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsActivity;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.LoginSessionManager;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.UserFactory;
 
 /**
  * Created by Freshollie on 01/03/2017.

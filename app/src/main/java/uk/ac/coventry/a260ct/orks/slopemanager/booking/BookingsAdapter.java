@@ -1,7 +1,6 @@
-package uk.ac.coventry.a260ct.orks.slopemanager;
+package uk.ac.coventry.a260ct.orks.slopemanager.booking;
 
 import android.support.v4.content.ContextCompat;
-import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +9,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.HashMap;
+
+import uk.ac.coventry.a260ct.orks.slopemanager.R;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.Booking;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.SkiSession;
 
 /**
  * Created by Freshollie on 15/03/2017.
