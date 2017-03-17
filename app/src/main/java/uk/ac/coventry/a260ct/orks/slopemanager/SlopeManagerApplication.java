@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import uk.ac.coventry.a260ct.orks.slopemanager.database.LoginSessionManager;
+import uk.ac.coventry.a260ct.orks.slopemanager.login.LoginSessionManager;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 

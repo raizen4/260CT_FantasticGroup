@@ -23,7 +23,6 @@ import android.widget.Toast;
 import uk.ac.coventry.a260ct.orks.slopemanager.dashboard.DashboardActivity;
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
-import uk.ac.coventry.a260ct.orks.slopemanager.database.LoginSessionManager;
 import uk.ac.coventry.a260ct.orks.slopemanager.registration.UserTypeActivity;
 
 public class LoginActivity extends AppCompatActivity {
