@@ -18,14 +18,30 @@
     <string name="login">Login</string>
     <string name="username">Username</string>
     <string name="requesting_login">Requesting login</string>
-    <string name="dashboard_session_button_text">Sessions</string>
+
+    <string name="dashboard_bookings_button_text">My bookings</string>
     <string name="dashboard_personal_details_button_text">Edit My Details</string>
     <string name="dashboard_view_membership_button_text">Become a member</string>
+
     <string name="login_register_string"><u>Register</u></string>
     <string name="title_activity_registration">RegistrationActivity</string>
     <string name="call_reception_text"><u>Call Reception</u></string>
-    <string name="title_activity_sessions">SessionsActivity</string>
+
+    <string name="title_activity_bookings">Your Bookings</string>
     <string name="hello_blank_fragment">hello_blank_frag</string>
     <string name="action_settings">action_settings</string>
     <string name="title_activity_user_type">UserTypeActivity</string>
+
+    <string name="booking_card_instructor">Instructor: %s</string>
+    <string name="booking_paid">Paid</string>
+    <string name="booking_unpaid">Unpaid</string>
+
+    <string name="dashboard_members_button_text">Check in customer</string>
+    <string name="dashboard_slope_schedule_button_text">Slope Schedule</string>
+    <string name="dashboard_view_instructors_button_text">View Instructors</string>
+    <string name="dashboard_register_user_text">Register User</string>
+
+    <string name="self_bookings_title">Your Bookings</string>
+    <string name="title_activity_create_booking">CreateBooking</string>
+
 </resources>
