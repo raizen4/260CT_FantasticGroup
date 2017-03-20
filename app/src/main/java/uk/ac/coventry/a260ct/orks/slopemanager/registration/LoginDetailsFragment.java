@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
-import uk.ac.coventry.a260ct.orks.slopemanager.payment.SendInfo;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.UserFactory;

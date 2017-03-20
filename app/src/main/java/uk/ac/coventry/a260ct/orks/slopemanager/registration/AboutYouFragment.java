@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
-import uk.ac.coventry.a260ct.orks.slopemanager.payment.UpdateInfo;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 
 public class AboutYouFragment extends Fragment implements UpdateInfo {
