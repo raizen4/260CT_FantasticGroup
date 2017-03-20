@@ -1,4 +1,4 @@
-package uk.ac.coventry.a260ct.orks.slopemanager.payment;
+package uk.ac.coventry.a260ct.orks.slopemanager.registration;
 
 import java.util.ArrayList;
 import java.util.HashMap;

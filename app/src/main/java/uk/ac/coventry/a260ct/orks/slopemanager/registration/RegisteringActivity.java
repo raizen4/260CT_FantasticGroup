@@ -14,10 +14,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import uk.ac.coventry.a260ct.orks.slopemanager.payment.MembershipPayment;
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
-import uk.ac.coventry.a260ct.orks.slopemanager.payment.SendInfo;
-import uk.ac.coventry.a260ct.orks.slopemanager.payment.UpdateInfo;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 
 public class RegisteringActivity extends AppCompatActivity implements SendInfo {
@@ -52,11 +49,11 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
         mViewPager = (ViewPager) findViewById(R.id.container);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        if(!userType.matches("Costumer")) {
+        if(!userType.matches("Customer")) {
             mSectionsPagerAdapterStaff = new SectionsPagerAdapterStaff(getSupportFragmentManager());
             mViewPager.setAdapter(mSectionsPagerAdapterStaff);
         }
-        else{
+        else if (userType.matches("Customer")){
             mSectionsPagerAdapterCostumer = new SectionsPagerAdapterCostumer(getSupportFragmentManager());
             mViewPager.setAdapter(mSectionsPagerAdapterCostumer);
         }
@@ -69,7 +66,7 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Fragment curFragment=null;
-                if(userType.matches("Costumer")) {
+                if(userType.matches("Customerx")) {
                      curFragment = mSectionsPagerAdapterCostumer.getItem(tabLayout.getSelectedTabPosition());
                 }
                 else{
@@ -90,7 +87,7 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
                 Fragment curFragment=null;
-                if(userType.matches("Costumer")) {
+                if(userType.matches("Customer")) {
                     curFragment = mSectionsPagerAdapterCostumer.getItem(tabLayout.getSelectedTabPosition());
                 }
                 else{
