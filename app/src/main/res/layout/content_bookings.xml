@@ -16,4 +16,11 @@
         android:paddingTop="@dimen/activity_vertical_margin"
         android:id="@+id/bookings_recycler_view"
         android:clipToPadding="false"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_bookings"
+        android:layout_centerInParent="true"
+        android:id="@+id/no_bookings_text"
+        android:visibility="invisible"/>
 </RelativeLayout>

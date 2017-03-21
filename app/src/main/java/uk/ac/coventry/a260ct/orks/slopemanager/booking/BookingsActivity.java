@@ -116,8 +116,15 @@ public class BookingsActivity extends AppCompatActivity {
 
         Log.v(TAG, Arrays.toString(bookings));
 
-        adapter.setBookings(filterBookings(bookings));
-        bookingsRecyclerView.setAdapter(adapter);
+        bookings = filterBookings(bookings);
+
+        if (bookings.length > 0) {
+            findViewById(R.id.no_bookings_text).setVisibility(View.GONE);
+            adapter.setBookings(filterBookings(bookings));
+            bookingsRecyclerView.setAdapter(adapter);
+        } else {
+            findViewById(R.id.no_bookings_text).setVisibility(View.VISIBLE);
+        }
     }
 
     public void onBookingClicked(int id) {
