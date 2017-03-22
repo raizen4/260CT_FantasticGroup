@@ -32,6 +32,8 @@ public class BookingsActivity extends AppCompatActivity {
 
     private SlopeDatabase database;
 
+    private BookingsAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +74,13 @@ public class BookingsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refreshAdapter();
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -105,15 +114,8 @@ public class BookingsActivity extends AppCompatActivity {
         return newBookings.toArray(new Booking[newBookings.size()]);
     }
 
-    public void setupPage() {
-        RecyclerView bookingsRecyclerView =
-                (RecyclerView) findViewById(R.id.bookings_recycler_view);
-
-        bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        BookingsAdapter adapter = new BookingsAdapter(this);
+    public void refreshAdapter() {
         Booking[] bookings = database.getBookingsForUser(customer);
-
-
         Log.v(TAG, Arrays.toString(bookings));
 
         bookings = filterBookings(bookings);
@@ -121,10 +123,19 @@ public class BookingsActivity extends AppCompatActivity {
         if (bookings.length > 0) {
             findViewById(R.id.no_bookings_text).setVisibility(View.GONE);
             adapter.setBookings(filterBookings(bookings));
-            bookingsRecyclerView.setAdapter(adapter);
         } else {
             findViewById(R.id.no_bookings_text).setVisibility(View.VISIBLE);
         }
+    }
+
+    public void setupPage() {
+        RecyclerView bookingsRecyclerView =
+                (RecyclerView) findViewById(R.id.bookings_recycler_view);
+
+        bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new BookingsAdapter(this);
+        bookingsRecyclerView.setAdapter(adapter);
+        refreshAdapter();
     }
 
     public void onBookingClicked(int id) {
