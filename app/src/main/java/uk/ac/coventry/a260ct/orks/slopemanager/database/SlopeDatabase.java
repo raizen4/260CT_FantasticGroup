@@ -9,8 +9,10 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
@@ -28,7 +30,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 15;
+    private static final int DATABASE_VERSION = 17;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";
@@ -76,8 +78,8 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private SQLiteDatabase db;
 
 
-    public SlopeDatabase(Context c) {
-        super(c, DATABASE_NAME, null, DATABASE_VERSION);
+    public SlopeDatabase(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         db = getReadableDatabase();
 
         if (getUserIdFromCredentials("lol", "lol") == -1) {
@@ -93,11 +95,25 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                     3);
 
             registerCredentials(21312432, "lol", "lol"); // Login credentials
+            Calendar calendar = Calendar.getInstance();
+            Random random = new Random();
 
-            addSession(new Date(), 0); // Add a session today;
+            for (int j = 0; j < 100; j++) {
+                calendar.setTime(new Date());
+                calendar.add(Calendar.DATE, j);  // number of days to add
+
+                if (random.nextInt(20) > 0 && j != 1) {
+                    for (int i = 0; i < 10; i++) {
+                        if (random.nextInt(100) != 0) {
+                            addSession(calendar.getTime(), i); // Add a session today;
+                        }
+                    }
+                }
+            }
             SkiSession session = getSessionFromDateAndSlot(new Date(), 0); // Get that session
             createBooking(session.getId(), 21312432, false, false);
         }
+
     }
 
     /**
@@ -445,5 +461,24 @@ public class SlopeDatabase extends SQLiteOpenHelper {
        // Log.v(TAG, "Test");
         //Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
         return UserFactory.getUser(userType,map);
+    }
+
+    public SkiSession[] getSessionsForDate(Date sessionDate) {
+        String query = "SELECT * FROM " + SESSIONS_TABLE + " WHERE " + COL_DATE + "=?";
+        Log.v(TAG, query);
+        Log.v(TAG, SlopeManagerApplication.dateToString(sessionDate));
+
+        Cursor cursor = db.rawQuery(query, new String[]{SlopeManagerApplication.dateToString(sessionDate)});
+        ArrayList<SkiSession> sessions = new ArrayList<>();
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    sessions.add(buildSessionFromCursor(cursor));
+                    Log.v(TAG, "Found a session");
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return sessions.toArray(new SkiSession[sessions.size()]);
     }
 }

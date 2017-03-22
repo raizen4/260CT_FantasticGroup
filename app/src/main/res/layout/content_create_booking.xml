@@ -18,26 +18,69 @@
         android:id="@+id/date_label"/>
     <EditText
         android:layout_width="100dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:inputType="date"
         android:labelFor="@+id/date_label"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/date_label"/>
+        android:layout_alignTop="@+id/date_label"
+        android:id="@+id/booking_date_input"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Session Date:  "
+        android:text="Session Time:  "
         android:textAppearance="?android:textAppearanceMedium"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/date_label"
         android:layout_alignParentStart="true"
-        android:id="@+id/date_label"/>
-    <EditText
-        android:layout_width="100dp"
+        android:id="@+id/time_label"
+        android:layout_marginTop="50dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instructor  "
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_below="@+id/pay_now_label"
+        android:layout_alignParentStart="true"
+        android:id="@+id/instructor_label"
+        android:layout_marginTop="50dp"/>
+    <CheckBox
+        android:layout_width="30dp"
         android:layout_height="30dp"
         android:inputType="date"
-        android:labelFor="@+id/date_label"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/date_label"/>
-
+        android:layout_alignTop="@+id/instructor_label"
+        android:id="@+id/instructor_checkbox"/>
+    <Spinner
+        android:layout_width="160dp"
+        android:layout_height="30dp"
+        android:inputType="date"
+        android:labelFor="@+id/time_label"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/time_label"
+        android:id="@+id/booktime_spinner"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay Now  "
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_below="@id/time_label"
+        android:layout_alignParentStart="true"
+        android:id="@+id/pay_now_label"
+        android:layout_marginTop="50dp"/>
+    <CheckBox
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:inputType="date"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/pay_now_label"
+        android:id="@+id/pay_now_checkbox"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book"
+        android:layout_below="@id/instructor_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:id="@+id/book_button" />
 
 </RelativeLayout>
