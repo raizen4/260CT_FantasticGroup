@@ -14,6 +14,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
@@ -119,6 +120,12 @@ public class BookingsActivity extends AppCompatActivity {
         Log.v(TAG, Arrays.toString(bookings));
 
         bookings = filterBookings(bookings);
+        Arrays.sort(bookings, new Comparator<Booking>() {
+            @Override
+            public int compare(Booking o1, Booking o2) {
+                return o1.getSession().getDate().compareTo(o2.getSession().getDate());
+            }
+        });
 
         if (bookings.length > 0) {
             findViewById(R.id.no_bookings_text).setVisibility(View.GONE);
