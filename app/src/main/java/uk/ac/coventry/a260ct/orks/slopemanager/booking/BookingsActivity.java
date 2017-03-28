@@ -14,6 +14,7 @@ import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
@@ -31,6 +32,8 @@ public class BookingsActivity extends AppCompatActivity {
     private User customer;
 
     private SlopeDatabase database;
+
+    private BookingsAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,13 @@ public class BookingsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refreshAdapter();
+
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
@@ -105,26 +115,34 @@ public class BookingsActivity extends AppCompatActivity {
         return newBookings.toArray(new Booking[newBookings.size()]);
     }
 
+    public void refreshAdapter() {
+        Booking[] bookings = database.getBookingsForUser(customer);
+        Log.v(TAG, Arrays.toString(bookings));
+
+        bookings = filterBookings(bookings);
+        Arrays.sort(bookings, new Comparator<Booking>() {
+            @Override
+            public int compare(Booking o1, Booking o2) {
+                return o1.getSession().getDate().compareTo(o2.getSession().getDate());
+            }
+        });
+
+        if (bookings.length > 0) {
+            findViewById(R.id.no_bookings_text).setVisibility(View.GONE);
+            adapter.setBookings(filterBookings(bookings));
+        } else {
+            findViewById(R.id.no_bookings_text).setVisibility(View.VISIBLE);
+        }
+    }
+
     public void setupPage() {
         RecyclerView bookingsRecyclerView =
                 (RecyclerView) findViewById(R.id.bookings_recycler_view);
 
         bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        BookingsAdapter adapter = new BookingsAdapter(this);
-        Booking[] bookings = database.getBookingsForUser(customer);
-
-
-        Log.v(TAG, Arrays.toString(bookings));
-
-        bookings = filterBookings(bookings);
-
-        if (bookings.length > 0) {
-            findViewById(R.id.no_bookings_text).setVisibility(View.GONE);
-            adapter.setBookings(filterBookings(bookings));
-            bookingsRecyclerView.setAdapter(adapter);
-        } else {
-            findViewById(R.id.no_bookings_text).setVisibility(View.VISIBLE);
-        }
+        adapter = new BookingsAdapter(this);
+        bookingsRecyclerView.setAdapter(adapter);
+        refreshAdapter();
     }
 
     public void onBookingClicked(int id) {

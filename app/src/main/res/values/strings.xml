@@ -42,8 +42,11 @@
     <string name="dashboard_register_user_text">Register User</string>
 
     <string name="self_bookings_title">Your Bookings</string>
-    <string name="title_activity_create_booking">CreateBooking</string>
+    <string name="title_activity_create_booking">Book A Session</string>
     <string name="no_bookings">No Bookings</string>
+
     <string name="title_activity_checkin">CheckinActivity</string>
+
+    <string name="no_sessions">No sessions</string>
 
 </resources>
