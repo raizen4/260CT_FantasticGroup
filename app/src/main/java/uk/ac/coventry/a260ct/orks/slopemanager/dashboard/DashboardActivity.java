@@ -100,7 +100,8 @@ public class DashboardActivity extends AppCompatActivity {
         findViewById(R.id.view_members_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(getApplicationContext(), ViewMembers.class));
+                Intent goToViewMembersActivity=new Intent(DashboardActivity.this, CheckinActivity.class);
+                startActivity(goToViewMembersActivity);
             }
         });
         findViewById(R.id.view_slope_schedule_button).setOnClickListener(new View.OnClickListener() {

@@ -446,4 +446,27 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         //Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
         return UserFactory.getUser(userType,map);
     }
+
+    public User[] getUserFromName(String first_name, String last_name) {
+
+        ArrayList<User> users = new ArrayList<>();
+
+        String query = "SELECT * FROM " + USERS_TABLE +" WHERE first_name=? AND last_name=?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{first_name, last_name});
+
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                   users.add(getUserFromId(cursor.getInt(cursor.getColumnIndex(COL_ID))));
+
+
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+
+        return users.toArray(new User[users.size()]);
+    }
 }
