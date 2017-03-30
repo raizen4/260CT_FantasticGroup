@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
+import uk.ac.coventry.a260ct.orks.slopemanager.TestUtils;
 
 import static android.support.test.espresso.Espresso.closeSoftKeyboard;
 import static android.support.test.espresso.Espresso.onView;
@@ -35,10 +36,6 @@ public class LoginInputTest {
     @Rule
     public ActivityTestRule<LoginActivity> mActivityRule = new ActivityTestRule<>(
             LoginActivity.class);
-
-    private String getString(int res) {
-        return InstrumentationRegistry.getTargetContext().getString(res);
-    }
 
     private void inputUsername(String text) {
         onView(withId(R.id.login_username_input)).perform(clearText());
@@ -81,7 +78,7 @@ public class LoginInputTest {
         closeSoftKeyboard();
         clickLogin();
 
-        checkSnackbarText(getString(R.string.login_no_username));
+        checkSnackbarText(TestUtils.getString(R.string.login_no_username));
     }
 
     @Test
@@ -91,7 +88,7 @@ public class LoginInputTest {
         closeSoftKeyboard();
         clickLogin();
 
-        checkSnackbarText(getString(R.string.login_no_password));
+        checkSnackbarText(TestUtils.getString(R.string.login_no_password));
     }
 
     @Test
@@ -101,18 +98,18 @@ public class LoginInputTest {
         closeSoftKeyboard();
         clickLogin();
 
-        checkSnackbarText(getString(R.string.login_invalid));
+        checkSnackbarText(TestUtils.getString(R.string.login_invalid));
     }
 
     @Test
-    public void keyboardActionComplete_text() {
+    public void keyboardActionComplete_test() {
         inputCredentials("username", "password");
 
         sendPasswordDoneButton();
         InstrumentationRegistry.getInstrumentation().waitForIdle(new Runnable() {
             @Override
             public void run() {
-                checkSnackbarText(getString(R.string.login_invalid));
+                checkSnackbarText(TestUtils.getString(R.string.login_invalid));
             }
         });
     }

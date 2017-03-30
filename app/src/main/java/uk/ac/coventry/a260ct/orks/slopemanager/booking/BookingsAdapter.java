@@ -65,9 +65,9 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
         holder.bookingDate.setText(session.getDateString());
         holder.bookingTime.setText(session.getTimeString());
 
-        String instructorString = "No Instructor";
+        String instructorString = bookingsActivity.getString(R.string.no_instructor);
         if (bookings[position].wantsInstructor()) {
-            instructorString = "With Instructor";
+            instructorString = bookingsActivity.getString(R.string.with_instructor);
         }
 
         holder.bookingInstructor.setText(instructorString);
