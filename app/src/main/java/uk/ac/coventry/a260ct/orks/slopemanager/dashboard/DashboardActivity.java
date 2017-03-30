@@ -11,6 +11,7 @@ import android.view.View;
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 import uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsActivity;
+import uk.ac.coventry.a260ct.orks.slopemanager.checkin.CheckinActivity;
 import uk.ac.coventry.a260ct.orks.slopemanager.login.LoginSessionManager;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.UserFactory;

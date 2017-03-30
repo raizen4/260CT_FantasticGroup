@@ -463,14 +463,13 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return UserFactory.getUser(userType,map);
     }
 
-    public User[] getUserFromName(String first_name, String last_name) {
+    public User[] getUsersFromName(String first_name, String last_name) {
 
         ArrayList<User> users = new ArrayList<>();
 
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE first_name=? AND last_name=?";
 
         Cursor cursor = db.rawQuery(query, new String[]{first_name, last_name});
-
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
