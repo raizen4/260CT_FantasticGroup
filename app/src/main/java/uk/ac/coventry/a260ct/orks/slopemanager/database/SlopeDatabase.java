@@ -30,7 +30,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 18;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";

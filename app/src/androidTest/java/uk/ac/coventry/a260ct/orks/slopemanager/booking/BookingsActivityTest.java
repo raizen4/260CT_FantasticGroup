@@ -9,7 +9,9 @@ import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.filters.SmallTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.MonitoringInstrumentation;
+import android.support.v7.widget.RecyclerView;
 
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -42,12 +44,15 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isClickable;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 import static uk.ac.coventry.a260ct.orks.slopemanager.TestUtils.getApplication;
+import static uk.ac.coventry.a260ct.orks.slopemanager.TestUtils.getDatabase;
 
 /**
  * Created by freshollie on 30/03/17.
@@ -127,23 +132,45 @@ public class BookingsActivityTest {
     }
 
     public void checkForBooking(Booking booking) {
-        onView(withId(R.id.bookings_recycler_view)).check(matches(isDisplayed()))
-                .perform(RecyclerViewActions.actionOnItem(
-                        allOf(
-                                hasDescendant(withText(booking.getSession().getDateString())),
-                                hasDescendant(withText(booking.getSession().getTimeString())),
-                                hasDescendant(withText(
-                                        booking.isPaid() ?
-                                                TestUtils.getString(R.string.booking_paid):
-                                                TestUtils.getString(R.string.booking_unpaid)
-                                )),
-                                hasDescendant(withText(
-                                        booking.wantsInstructor() ?
-                                                TestUtils.getString(R.string.with_instructor):
-                                                TestUtils.getString(R.string.no_instructor)
-                                ))
-                        ),
-                        click()));
+        onView(withId(R.id.bookings_recycler_view)).perform(RecyclerViewActions.scrollTo(
+                allOf(
+                        hasDescendant(withText(booking.getSession().getDateString())),
+                        hasDescendant(withText(booking.getSession().getTimeString())),
+                        hasDescendant(withText(
+                                booking.isPaid() ?
+                                        TestUtils.getString(R.string.booking_paid):
+                                        TestUtils.getString(R.string.booking_unpaid)
+                        )),
+                        hasDescendant(withText(
+                                booking.wantsInstructor() ?
+                                        TestUtils.getString(R.string.with_instructor):
+                                        TestUtils.getString(R.string.no_instructor)
+                        ))
+                )));
+    }
+
+    public void checkNoBooking(Booking booking, Activity activity) {
+        Booking[] bookings =
+                ((BookingsAdapter)
+                        ((RecyclerView)
+                                activity.findViewById(R.id.bookings_recycler_view))
+                                .getAdapter())
+                        .getBookings();
+
+        for (Booking thisBooking: bookings) {
+            if (thisBooking.getId() == booking.getId()) {
+                Assert.fail("Item still in recyclerview");
+            }
+        }
+    }
+
+    public void refreshActivity(final Activity activity) {
+        getInstrumentation().runOnMainSync(new Runnable() {
+            @Override
+            public void run() {
+                activity.recreate();
+            }
+        });
     }
 
     @Test
@@ -169,7 +196,7 @@ public class BookingsActivityTest {
     }
 
     @Test
-    public void noBookings_test() {
+    public void displayNoBookings_test() {
         Instrumentation.ActivityMonitor monitor =
                 getInstrumentation()
                         .addMonitor(BookingsActivity.class.getName(), null, false);
@@ -182,12 +209,7 @@ public class BookingsActivityTest {
 
         removeAllBookings();
 
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.recreate();
-            }
-        });
+        refreshActivity(activity);
 
         onView(withId(R.id.no_bookings_text)).check(matches(isDisplayed()));
     }
@@ -220,18 +242,13 @@ public class BookingsActivityTest {
                                 false
                         ));
 
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.recreate();
-            }
-        });
+        refreshActivity(activity);
 
         checkForBooking(booking);
     }
 
     @Test
-    public void checkNewRandomBookings_test() {
+    public void displayRandomBookings_test() {
         ArrayList<Booking> bookings = new ArrayList<>();
 
         Random random = new Random();
@@ -251,15 +268,77 @@ public class BookingsActivityTest {
             bookings.add(bookRandomSession());
         }
 
-        getInstrumentation().runOnMainSync(new Runnable() {
-            @Override
-            public void run() {
-                activity.recreate();
-            }
-        });
+        refreshActivity(activity);
 
         for (Booking booking: bookings) {
             checkForBooking(booking);
         }
+    }
+
+    public void removeRandomBooking_test() {
+        Instrumentation.ActivityMonitor monitor =
+                getInstrumentation()
+                        .addMonitor(BookingsActivity.class.getName(), null, false);
+
+        displayRandomBookings_test();
+
+        BookingsActivity activity = (BookingsActivity)
+                getInstrumentation().waitForMonitorWithTimeout(monitor, 5);
+
+        Random random = new Random();
+        Booking[] bookings = TestUtils.getDatabase().getBookingsForUser(getObserverCustomer());
+        Booking booking = bookings[random.nextInt(bookings.length)];
+
+        TestUtils.getDatabase().removeBooking(booking.getId());
+
+        monitor = getInstrumentation().addMonitor(BookingsActivity.class.getName(), null, false);
+        refreshActivity(activity);
+
+        activity = (BookingsActivity)
+                getInstrumentation().waitForMonitorWithTimeout(monitor, 5);
+
+        checkNoBooking(booking, activity);
+    }
+
+    @Test
+    public void observeCustomer_test() {
+        Instrumentation.ActivityMonitor monitor =
+                getInstrumentation()
+                        .addMonitor(BookingsActivity.class.getName(), null, false);
+
+        loadBookingsScreen_test();
+
+        BookingsActivity activity = (BookingsActivity)
+                getInstrumentation().waitForMonitorWithTimeout(monitor, 5);
+
+        removeAllBookings();
+        Booking booking1 = bookRandomSession();
+
+        TestUtils.getApplication().setObserveCustomer(TestUtils.getDatabase().getUserFromId(87817382));
+        removeAllBookings();
+
+        monitor =
+                getInstrumentation()
+                        .addMonitor(BookingsActivity.class.getName(), null, false);
+
+        refreshActivity(activity);
+
+        activity = (BookingsActivity)
+                getInstrumentation().waitForMonitorWithTimeout(monitor, 5);
+
+        onView(withId(R.id.no_bookings_text)).check(matches(isDisplayed()));
+
+        Booking booking2 = bookRandomSession();
+
+        refreshActivity(activity);
+
+        checkForBooking(booking2);
+
+        TestUtils.getApplication().setObserveCustomer(null);
+
+        refreshActivity(activity);
+
+        checkForBooking(booking1);
+
     }
 }

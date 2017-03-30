@@ -101,4 +101,8 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
         bookings = newBookings;
         notifyDataSetChanged();
     }
+
+    public Booking[] getBookings() {
+        return bookings;
+    }
 }
