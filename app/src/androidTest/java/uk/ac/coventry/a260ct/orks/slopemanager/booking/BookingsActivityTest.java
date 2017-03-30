@@ -311,33 +311,26 @@ public class BookingsActivityTest {
         BookingsActivity activity = (BookingsActivity)
                 getInstrumentation().waitForMonitorWithTimeout(monitor, 5);
 
+
+        // Make a booking for the main user
         removeAllBookings();
         Booking booking1 = bookRandomSession();
 
+        // Switch to another user remove their bookings and check they have no bookings text
         TestUtils.getApplication().setObserveCustomer(TestUtils.getDatabase().getUserFromId(87817382));
         removeAllBookings();
 
-        monitor =
-                getInstrumentation()
-                        .addMonitor(BookingsActivity.class.getName(), null, false);
-
         refreshActivity(activity);
-
-        activity = (BookingsActivity)
-                getInstrumentation().waitForMonitorWithTimeout(monitor, 5);
-
         onView(withId(R.id.no_bookings_text)).check(matches(isDisplayed()));
 
+        // Make some random booking on the other user and check to see it appears when we refresh
         Booking booking2 = bookRandomSession();
-
         refreshActivity(activity);
-
         checkForBooking(booking2);
 
+        // Switch back to our user and see that it shows the first booking
         TestUtils.getApplication().setObserveCustomer(null);
-
         refreshActivity(activity);
-
         checkForBooking(booking1);
 
     }
