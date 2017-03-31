@@ -38,6 +38,10 @@ public class TestUtils {
         return (SlopeManagerApplication) InstrumentationRegistry.getTargetContext().getApplicationContext();
     }
 
+    public static String getString(int res, Object object) {
+        return InstrumentationRegistry.getTargetContext().getString(res, object);
+    }
+
     public static String getString(int res) {
         return InstrumentationRegistry.getTargetContext().getString(res);
     }

@@ -11,6 +11,9 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,6 +37,7 @@ public class BookingsActivity extends AppCompatActivity {
     private SlopeDatabase database;
 
     private BookingsAdapter adapter;
+    private TextView totalBookingsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +121,8 @@ public class BookingsActivity extends AppCompatActivity {
 
     public void refreshAdapter() {
         Booking[] bookings = database.getBookingsForUser(customer);
+        totalBookingsText.setText(getString(R.string.lifetime_booking_text, bookings.length));
+
         Log.v(TAG, Arrays.toString(bookings));
 
         bookings = filterBookings(bookings);
@@ -138,6 +144,8 @@ public class BookingsActivity extends AppCompatActivity {
     public void setupPage() {
         RecyclerView bookingsRecyclerView =
                 (RecyclerView) findViewById(R.id.bookings_recycler_view);
+
+        totalBookingsText = (TextView) findViewById(R.id.booking_total_number);
 
         bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new BookingsAdapter(this);

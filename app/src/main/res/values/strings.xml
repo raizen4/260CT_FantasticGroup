@@ -50,6 +50,8 @@
     <string name="no_sessions">No sessions</string>
     <string name="no_instructor">No Instructor</string>
     <string name="with_instructor">With Instructor</string>
+    <string name="lifetime_booking_text">Lifetime: %d bookings</string>
+    <string name="party_size_text">Party size: %d</string>
 
     <string name="Select_one">Select one</string>
 

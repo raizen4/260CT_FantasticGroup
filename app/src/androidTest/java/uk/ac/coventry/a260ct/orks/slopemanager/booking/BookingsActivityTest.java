@@ -53,6 +53,7 @@ import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.*;
 import static uk.ac.coventry.a260ct.orks.slopemanager.TestUtils.getApplication;
 import static uk.ac.coventry.a260ct.orks.slopemanager.TestUtils.getDatabase;
+import static uk.ac.coventry.a260ct.orks.slopemanager.TestUtils.getString;
 
 /**
  * Created by freshollie on 30/03/17.
@@ -124,6 +125,7 @@ public class BookingsActivityTest {
                 database.createBooking(
                         session.getId(),
                         user.getId(),
+                        random.nextInt(4) + 1,
                         random.nextBoolean(),
                         random.nextBoolean()
                 );
@@ -145,6 +147,12 @@ public class BookingsActivityTest {
                                 booking.wantsInstructor() ?
                                         TestUtils.getString(R.string.with_instructor):
                                         TestUtils.getString(R.string.no_instructor)
+                        )),
+                        hasDescendant(withText(
+                                getString(
+                                        R.string.party_size_text,
+                                        booking.getNumPeople()
+                                )
                         ))
                 )));
     }
@@ -273,6 +281,8 @@ public class BookingsActivityTest {
         for (Booking booking: bookings) {
             checkForBooking(booking);
         }
+
+        onView(withText(getString(R.string.lifetime_booking_text, bookings.size())));
     }
 
     public void removeRandomBooking_test() {
@@ -332,6 +342,5 @@ public class BookingsActivityTest {
         TestUtils.getApplication().setObserveCustomer(null);
         refreshActivity(activity);
         checkForBooking(booking1);
-
     }
 }
