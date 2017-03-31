@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -500,6 +501,24 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return sessions.toArray(new SkiSession[sessions.size()]);
     }
 
+
+    public ArrayList<String> getPeopleForSession (Date sessionDate) {
+        String query = "SELECT" + COL_USER_ID + "FROM" + BOOKINGS_TABLE + "b" + "WHERE b." + COL_SESSION_ID +
+                "SELECT" + COL_SESSION_ID + "FROM" + SESSIONS_TABLE + "s" + "WHERE s." + COL_DATE + "=?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{SlopeManagerApplication.dateToString(sessionDate)});
+        ArrayList<String> names = new ArrayList<>();
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    names.add(cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        return names;
+    }
+  
     public Booking getBookingFromId(int bookingId) {
         Booking booking = null;
         String query = "SELECT * FROM " + BOOKINGS_TABLE + " WHERE " + COL_BOOKING_ID + "=?";
