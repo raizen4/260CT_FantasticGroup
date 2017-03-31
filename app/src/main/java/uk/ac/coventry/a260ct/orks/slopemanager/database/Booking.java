@@ -5,16 +5,18 @@ package uk.ac.coventry.a260ct.orks.slopemanager.database;
  */
 
 public class Booking {
+    private final int numPeople;
     private int id;
     private SkiSession session;
     private boolean instructor;
     private boolean payStatus;
 
-    public Booking(int id, SkiSession session, boolean wantsInstructor, boolean payStatus) {
+    public Booking(int id, SkiSession session, int numPeople, boolean wantsInstructor, boolean payStatus) {
         this.id = id;
         this.session = session;
         this.instructor = wantsInstructor;
         this.payStatus = payStatus;
+        this.numPeople = numPeople;
     }
 
     public SkiSession getSession() {
@@ -31,5 +33,9 @@ public class Booking {
 
     public boolean isPaid() {
         return payStatus;
+    }
+
+    public int getNumPeople() {
+        return numPeople;
     }
 }

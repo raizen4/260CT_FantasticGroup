@@ -55,6 +55,15 @@
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
                 android:text="Instructor: Mr Jiggles" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:text="Party size: 1"
+                android:id="@+id/num_people_text"/>
+
         </RelativeLayout>
     </android.support.v7.widget.CardView>
 </RelativeLayout>
