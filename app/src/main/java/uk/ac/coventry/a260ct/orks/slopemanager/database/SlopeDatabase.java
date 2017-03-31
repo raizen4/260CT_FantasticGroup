@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.StringTokenizer;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
@@ -480,7 +481,6 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         //Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
         return UserFactory.getUser(userType,map);
     }
-
     public User[] getUsersFromName(String first_name, String last_name) {
 
         ArrayList<User> users = new ArrayList<>();
@@ -498,6 +498,23 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         }
         return users.toArray(new User[users.size()]);
     }
+    public User[] getAllUsers () {
+        ArrayList<User> allUsers = new ArrayList<>();
+        String query = "SELECT * FROM " + USERS_TABLE;
+
+        Cursor cursor = db.rawQuery(query, new String[]{});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    allUsers.add(getUserFromId(cursor.getInt(cursor.getColumnIndex(COL_ID))));
+                } while (cursor.moveToNext());
+            }
+        }
+        return allUsers.toArray(new User[allUsers.size()]);
+
+    }
+
 
     public SkiSession[] getSessionsForDate(Date sessionDate) {
         String query = "SELECT * FROM " + SESSIONS_TABLE + " WHERE " + COL_DATE + "=?";
