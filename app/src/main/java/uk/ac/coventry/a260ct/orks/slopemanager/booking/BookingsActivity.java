@@ -42,11 +42,19 @@ public class BookingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialise the layout
         setContentView(R.layout.activity_bookings);
+
+        // Make an app bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Add a back arrow to the app bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        // Add function to the FAB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.create_booking_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +64,9 @@ public class BookingsActivity extends AppCompatActivity {
         });
 
 
+        // Get the domain data
         application = (SlopeManagerApplication) getApplication();
         database = application.getSlopeDatabase();
-
         customer = application.getObserveCustomer();
 
         if (customer == null) { // We are not observing a specific user
