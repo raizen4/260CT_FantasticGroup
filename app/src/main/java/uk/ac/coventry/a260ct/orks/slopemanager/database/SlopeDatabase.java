@@ -486,9 +486,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-       // Log.v(TAG, "Test");
-        //Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
-        return UserFactory.getUser(userType,map);
+        return UserFactory.getUser(userType, map);
     }
 
     public SkiSession[] getSessionsForDate(Date sessionDate) {

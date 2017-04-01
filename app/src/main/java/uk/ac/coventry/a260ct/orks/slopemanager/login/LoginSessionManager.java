@@ -79,6 +79,7 @@ public class LoginSessionManager {
                              String password,
                              RequestLoginCallback callback) {
 
+        // retrieve the user id using the username and password
         int userId = application.getSlopeDatabase().getUserIdFromCredentials(username, password);
 
         if (userId > -1) { // User is valid
