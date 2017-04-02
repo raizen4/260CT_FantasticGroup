@@ -483,14 +483,15 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return sessions.toArray(new SkiSession[sessions.size()]);
     }
 
-    public ArrayList<String> getPeopleForSession (String sessionDate) {
+    public ArrayList<String> getPeopleForSession (Date sessionDate) {
 
-        String query = "SELECT "+ COL_USER_ID + " FROM " + BOOKINGS_TABLE + " b, " + SESSIONS_TABLE + " s WHERE b." + COL_SESSION_ID +
-                " = s."+ COL_SESSION_ID  + " AND s." + COL_DATE + "=?";
+        String query = "SELECT " + COL_FIRST_NAME + ", " + COL_LAST_NAME + " FROM "+ USERS_TABLE + " WHERE " + COL_ID+ "=" + "(SELECT "+ COL_USER_ID + " FROM " + BOOKINGS_TABLE + " WHERE " + BOOKINGS_TABLE + "." + COL_SESSION_ID +
+                " = (SELECT "+ SESSIONS_TABLE +"." + COL_SESSION_ID  + " FROM " + SESSIONS_TABLE + " WHERE " + SESSIONS_TABLE
+                +"." + COL_DATE + "=?))";
 
-
+        Log.e("Query", query);
         ArrayList<String> names = new ArrayList<>();
-        Cursor cursor = db.rawQuery(query,new String[]{String.valueOf(sessionDate)});
+        Cursor cursor = db.rawQuery(query,new String[]{SlopeManagerApplication.dateToString(sessionDate)});
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
@@ -503,6 +504,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         }
         try {
             Log.v("Test",names.toString());
+
         }
         catch (Exception e)
         {

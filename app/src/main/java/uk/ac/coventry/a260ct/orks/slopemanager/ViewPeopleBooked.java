@@ -67,9 +67,9 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
             @Override
             public void onClick(View v) {
                 ArrayList<String> namesToShowInTheListview=new ArrayList<String>();
-                SlopeDatabase database=new SlopeDatabase(getApplicationContext());
+                SlopeDatabase database= application.getSlopeDatabase();
                 try {
-                    namesToShowInTheListview = database.getPeopleForSession( dateText.getText().toString());
+                    namesToShowInTheListview = database.getPeopleForSession(SlopeManagerApplication.stringToDate(dateText.getText().toString()));
                 }
                 catch (Exception e){
                     //silently fail
@@ -95,6 +95,6 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
         monthFinal = month + 1;
         dayFinal = dayOfMonth;
 
-        dateText.setText(yearFinal+"-" + (+monthFinal) +"-"+dayFinal);
+        dateText.setText(yearFinal + "-" + monthFinal + "-" + dayFinal);
     }
 }
