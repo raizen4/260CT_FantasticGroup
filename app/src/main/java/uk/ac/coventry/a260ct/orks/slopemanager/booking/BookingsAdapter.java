@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.HashMap;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
@@ -27,6 +29,7 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
     private BookingsActivity bookingsActivity;
 
     public static class BookingHolder extends RecyclerView.ViewHolder {
+        public TextView bookingPartySize;
         public TextView bookingDate;
         public TextView bookingTime;
         public TextView bookingPaidStatus;
@@ -40,6 +43,7 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
             bookingPaidStatus = (TextView) v.findViewById(R.id.booking_paid_status);
             bookingInstructor = (TextView) v.findViewById(R.id.booking_instructor_name);
             bookingCardLayout = (RelativeLayout) v.findViewById(R.id.booking_card_layout);
+            bookingPartySize = (TextView) v.findViewById(R.id.num_people_text);
         }
     }
 
@@ -65,9 +69,9 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
         holder.bookingDate.setText(session.getDateString());
         holder.bookingTime.setText(session.getTimeString());
 
-        String instructorString = "No Instructor";
+        String instructorString = bookingsActivity.getString(R.string.no_instructor);
         if (bookings[position].wantsInstructor()) {
-            instructorString = "With Instructor";
+            instructorString = bookingsActivity.getString(R.string.with_instructor);
         }
 
         holder.bookingInstructor.setText(instructorString);
@@ -90,6 +94,10 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
                 bookingsActivity.onBookingClicked(bookings[holder.getAdapterPosition()].getId());
             }
         });
+
+        holder.bookingPartySize.setText(
+                bookingsActivity.getString(R.string.party_size_text, booking.getNumPeople())
+        );
     }
 
     @Override
@@ -100,5 +108,9 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
     public void setBookings(Booking[] newBookings) {
         bookings = newBookings;
         notifyDataSetChanged();
+    }
+
+    public Booking[] getBookings() {
+        return bookings;
     }
 }

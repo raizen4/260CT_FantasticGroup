@@ -31,7 +31,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private final String TAG = this.getClass().getSimpleName();
 
     private static final String DATABASE_NAME = "SBC_System_Database.db";
-    private static final int DATABASE_VERSION = 17;
+    private static final int DATABASE_VERSION = 19;
 
     // Credentials table constants
     private static final String CREDENTIALS_TABLE = "credentials";
@@ -63,6 +63,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     // Bookings table constants
     private static final String BOOKINGS_TABLE = "bookings";
     private static final String COL_BOOKING_ID = "booking_id";
+    private static final String COL_NUM_PEOPLE = "num_people";
     private static final String COL_PAID = "paid";
     private static final String COL_WANTS_INSTRUCTOR = "wants_instructor";
 
@@ -95,7 +96,17 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                     1,
                     3);
 
+            addUser(87817382,
+                    "Sege",
+                    "Tong",
+                    "test@lol.com",
+                    "08273782737",
+                    SlopeManagerApplication.stringToDate("1997-09-3"),
+                    1,
+                    0);
+
             registerCredentials(21312432, "lol", "lol"); // Login credentials
+            registerCredentials(87817382, "lol1", "lol"); // Login credentials
             Calendar calendar = Calendar.getInstance();
             Random random = new Random();
 
@@ -166,6 +177,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                         COL_BOOKING_ID + " INTEGER NOT NULL PRIMARY KEY, " +
                         COL_USER_ID + " INTEGER NOT NULL, " +
                         COL_WANTS_INSTRUCTOR + " INTEGER NOT NULL," +
+                        COL_NUM_PEOPLE + " INTEGER NOT NULL," +
                         COL_PAID + " BOOLEAN NOT NULL, " +
                         COL_SESSION_ID + " INTEGER NOT NULL" +
                         ")";
@@ -182,9 +194,6 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         addUserType("Slope Operator");
         addUserType("Instructor");
         addUserType("Slope Manager");
-
-
-
     }
 
     @Override
@@ -285,20 +294,32 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         Log.v(TAG, "Added user");
     }
 
-    public void createBooking(int sessionId, int userId, boolean paid, boolean wantsInstructor) {
-
+    public int createBooking(int sessionId, int userId, boolean paid, boolean wantsInstructor) {
+        return createBooking(sessionId, userId, 1, paid, wantsInstructor);
+    }
+    
+    public int createBooking(int sessionId, int userId, int numPeople, boolean paid, boolean wantsInstructor) {
         ContentValues values = new ContentValues();
         values.put(COL_USER_ID, userId);
         values.put(COL_PAID, paid);
         values.put(COL_WANTS_INSTRUCTOR, wantsInstructor);
+        values.put(COL_NUM_PEOPLE, numPeople);
 
         values.put(COL_SESSION_ID, sessionId);
 
-        db.insert(
+        return (int) db.insert(
                 BOOKINGS_TABLE,
                 null,
                 values
         );
+    }
+
+    public boolean removeBooking(int bookingId) {
+        return db.delete(
+                BOOKINGS_TABLE,
+                COL_BOOKING_ID + "=?",
+                new String[]{String.valueOf(bookingId)}
+        ) > 0;
     }
 
     public void setBookingPaidStatus(int bookingId, boolean paid) {
@@ -310,6 +331,27 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 values,
                 COL_BOOKING_ID + " =?",
                 new String[]{String.valueOf(bookingId)}
+        );
+    }
+
+    private Booking buildBookingFromCursor(Cursor cursor) {
+        return new Booking(
+                cursor.getInt(
+                        cursor.getColumnIndex(COL_BOOKING_ID)
+                ),
+                getSessionFromId(
+                        cursor.getInt(cursor.getColumnIndex(COL_SESSION_ID)
+                        )
+                ),
+                cursor.getInt(
+                        cursor.getColumnIndex(COL_NUM_PEOPLE)
+                ),
+                cursor.getInt(
+                        cursor.getColumnIndex(COL_WANTS_INSTRUCTOR)
+                ) != 0,
+                cursor.getInt(
+                        cursor.getColumnIndex(COL_PAID)
+                ) != 0
         );
     }
 
@@ -325,21 +367,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
             if (cursor.moveToFirst()) {
                 do {
                     bookings.add(
-                            new Booking(
-                                    cursor.getInt(
-                                            cursor.getColumnIndex(COL_BOOKING_ID)
-                                    ),
-                                    getSessionFromId(
-                                            cursor.getInt(cursor.getColumnIndex(COL_SESSION_ID)
-                                            )
-                                    ),
-                                    cursor.getInt(
-                                            cursor.getColumnIndex(COL_WANTS_INSTRUCTOR)
-                                    ) != 0,
-                                    cursor.getInt(
-                                            cursor.getColumnIndex(COL_PAID)
-                                    ) != 0
-                            )
+                            buildBookingFromCursor(cursor)
                     );
                 } while (cursor.moveToNext());
             }
@@ -459,9 +487,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-       // Log.v(TAG, "Test");
-        //Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
-        return UserFactory.getUser(userType,map);
+        return UserFactory.getUser(userType, map);
     }
 
     public SkiSession[] getSessionsForDate(Date sessionDate) {
@@ -497,7 +523,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 do {
                     String firstName = cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME));
                     String lastName = cursor.getString((cursor.getColumnIndex(COL_LAST_NAME)));
-                    names.add(firstName + lastName);
+                    names.add(firstName + " " + lastName);
                 } while (cursor.moveToNext());
             }
             cursor.close();
@@ -513,4 +539,18 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return names;
     }
 
+    public Booking getBookingFromId(int bookingId) {
+        Booking booking = null;
+        String query = "SELECT * FROM " + BOOKINGS_TABLE + " WHERE " + COL_BOOKING_ID + "=?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(bookingId)});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                    booking = buildBookingFromCursor(cursor);
+            }
+            cursor.close();
+        }
+
+        return booking;
+    }
 }
