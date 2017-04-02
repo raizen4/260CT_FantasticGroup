@@ -45,6 +45,8 @@
     <string name="title_activity_create_booking">Book A Session</string>
     <string name="no_bookings">No Bookings</string>
     <string name="no_sessions">No sessions</string>
+    <string name="title_activity_view_peoeple_booked">ViewPeoepleBooked</string>
+    <string name="title_activity_view_people_booked">ViewPeopleBooked</string>
     <string name="no_instructor">No Instructor</string>
     <string name="with_instructor">With Instructor</string>
     <string name="lifetime_booking_text">Lifetime: %d bookings</string>
