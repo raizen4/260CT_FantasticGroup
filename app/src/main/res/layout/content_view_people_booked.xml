@@ -16,7 +16,9 @@
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="80dp"
         android:layout_below="@+id/button_pickdate"
-        android:layout_centerHorizontal="true" />
+        android:gravity="center"
+        />
+
 
     <Button
         android:id="@+id/button_viewpeople"
@@ -42,6 +44,14 @@
         android:text="pick date"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/nobooks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/button_viewpeople"
+        android:layout_alignStart="@+id/button_pickdate"
+        android:layout_below="@+id/dateText" />
 
 
 </RelativeLayout>

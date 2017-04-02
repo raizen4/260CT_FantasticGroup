@@ -485,8 +485,8 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
     public ArrayList<String> getPeopleForSession (String sessionDate) {
 
-        String query = "SELECT" + COL_USER_ID + "FROM" + BOOKINGS_TABLE + "b" + "WHERE b." + COL_SESSION_ID +
-                "SELECT" + COL_SESSION_ID + "FROM" + SESSIONS_TABLE + "s" + "WHERE s." + COL_DATE + "=?";
+        String query = "SELECT "+ COL_USER_ID + " FROM " + BOOKINGS_TABLE + " b, " + SESSIONS_TABLE + " s WHERE b." + COL_SESSION_ID +
+                " = s."+ COL_SESSION_ID  + " AND s." + COL_DATE + "=?";
 
 
         ArrayList<String> names = new ArrayList<>();
@@ -502,7 +502,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
             cursor.close();
         }
         try {
-            Log.i(names.toString());
+            Log.v("Test",names.toString());
         }
         catch (Exception e)
         {

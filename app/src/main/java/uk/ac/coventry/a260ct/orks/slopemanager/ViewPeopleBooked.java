@@ -27,6 +27,8 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
     TextView dateText;
     int day, month, year;
     int dayFinal, monthFinal, yearFinal;
+    TextView nobooks;
+    String strnobooks;
 
 
 
@@ -41,6 +43,7 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
 
         final ListView listview_people = (ListView) findViewById(R.id.listview_people);
         dateText = (TextView) findViewById(R.id.dateText);
+        nobooks = (TextView) findViewById(R.id.nobooks);
 
         button_pickdate = (Button) findViewById(R.id.button_pickdate);
         button_pickdate.setOnClickListener(new View.OnClickListener() {
@@ -54,10 +57,11 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
                 DatePickerDialog datePickerDialog = new DatePickerDialog(ViewPeopleBooked.this, ViewPeopleBooked.this,
                         year, month, day);
                 datePickerDialog.show();
+                nobooks.setText("");
             }
         });
 
-
+        strnobooks = "No books for today!";
         Button button_viewpeople = (Button) findViewById(R.id.button_viewpeople);
         button_viewpeople.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +79,11 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
                 ArrayAdapter<String> adapter = new ArrayAdapter<String>(
                         getApplicationContext(), android.R.layout.simple_list_item_1,namesToShowInTheListview);
                 listview_people.setAdapter(adapter);
+
+                if(namesToShowInTheListview.isEmpty())
+                    nobooks.setText(strnobooks);
+
+
             }
         });
 
@@ -86,6 +95,6 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
         monthFinal = month + 1;
         dayFinal = dayOfMonth;
 
-        dateText.setText(yearFinal+"-" + (+monthFinal + 1) +"-"+dayFinal);
+        dateText.setText(yearFinal+"-" + (+monthFinal) +"-"+dayFinal);
     }
 }
