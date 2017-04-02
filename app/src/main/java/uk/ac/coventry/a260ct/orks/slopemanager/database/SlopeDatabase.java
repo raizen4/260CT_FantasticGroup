@@ -483,20 +483,32 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return sessions.toArray(new SkiSession[sessions.size()]);
     }
 
-    public ArrayList<String> getPeopleForSession (Date sessionDate) {
+    public ArrayList<String> getPeopleForSession (String sessionDate) {
+
         String query = "SELECT" + COL_USER_ID + "FROM" + BOOKINGS_TABLE + "b" + "WHERE b." + COL_SESSION_ID +
                 "SELECT" + COL_SESSION_ID + "FROM" + SESSIONS_TABLE + "s" + "WHERE s." + COL_DATE + "=?";
 
-        Cursor cursor = db.rawQuery(query, new String[]{SlopeManagerApplication.dateToString(sessionDate)});
+
         ArrayList<String> names = new ArrayList<>();
+        Cursor cursor = db.rawQuery(query,new String[]{String.valueOf(sessionDate)});
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
-                    names.add(cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
+                    String firstName = cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME));
+                    String lastName = cursor.getString((cursor.getColumnIndex(COL_LAST_NAME)));
+                    names.add(firstName + lastName);
                 } while (cursor.moveToNext());
             }
             cursor.close();
         }
+        try {
+            Log.i(names.toString());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         return names;
     }
+
 }

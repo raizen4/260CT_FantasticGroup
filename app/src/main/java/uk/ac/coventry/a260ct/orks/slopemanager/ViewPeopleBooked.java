@@ -7,13 +7,18 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.database.SkiSession;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
 
 public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -22,6 +27,8 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
     TextView dateText;
     int day, month, year;
     int dayFinal, monthFinal, yearFinal;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +39,7 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
         setSupportActionBar(toolbar);
 
 
-
+        final ListView listview_people = (ListView) findViewById(R.id.listview_people);
         dateText = (TextView) findViewById(R.id.dateText);
 
         button_pickdate = (Button) findViewById(R.id.button_pickdate);
@@ -55,9 +62,19 @@ public class ViewPeopleBooked extends AppCompatActivity implements DatePickerDia
         button_viewpeople.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SkiSession[] sessions = application.getSlopeDatabase().getSessionsForDate(SlopeManagerApplication.stringToDate(dateText.getText().toString()));
+                ArrayList<String> namesToShowInTheListview=new ArrayList<String>();
+                SlopeDatabase database=new SlopeDatabase(getApplicationContext());
+                try {
+                    namesToShowInTheListview = database.getPeopleForSession( dateText.getText().toString());
+                }
+                catch (Exception e){
+                    //silently fail
+                    e.printStackTrace();
 
-
+                }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                        getApplicationContext(), android.R.layout.simple_list_item_1,namesToShowInTheListview);
+                listview_people.setAdapter(adapter);
             }
         });
 
