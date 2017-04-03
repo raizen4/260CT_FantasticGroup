@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 
 import java.util.ArrayList;
@@ -45,29 +44,33 @@ public class CheckinActivity extends AppCompatActivity {
         application = (SlopeManagerApplication) getApplication();
         autocomplete = (AutoCompleteTextView) findViewById(R.id.checkin_text);
 
-        ArrayList<String> names = new ArrayList();
+
+        Log.v(TAG, "On search press");
+
+        ArrayList<String> names = new ArrayList<>();
         users = application.getSlopeDatabase().getAllUsers();
         for (User user : users) {
-            names.add(user.getFirstName() + " " +  user.getSurname());
-        }
-
-        ArrayAdapter adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, names);
-        autocomplete.setAdapter(adapter);
-        autocomplete.setThreshold(0);
+            names.add(user.getFirstName() + " " + user.getSurname());
 
 
-        autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if (users.length <= i) {
-                    return;
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, names);
+            autocomplete.setAdapter(adapter);
+            autocomplete.setThreshold(0);
+
+
+            autocomplete.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    if (users.length <= i) {
+                        return;
+                    } else {
+                        application.setObserveCustomer(users[i]);
+                        startActivity(new Intent(getApplication(), BookingsActivity.class));
+                    }
                 }
-                application.setObserveCustomer(users[i]);
-                startActivity(new Intent(getApplication(), BookingsActivity.class));
-
-            }
-        });
+            });
 
 
+        }
     }
 }
