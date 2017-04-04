@@ -3,6 +3,8 @@ package uk.ac.coventry.a260ct.orks.slopemanager.checkin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -12,25 +14,31 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 
 
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 import uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsActivity;
+import uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsAdapter;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.Booking;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.Customer;
+import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 
 
 public class CheckinActivity extends AppCompatActivity {
 
     private static final String TAG = CheckinActivity.class.getSimpleName();
-    private Spinner spinner;
-    private EditText editText;
-    private Button button;
+
     private User[] users;
     private SlopeManagerApplication application;
     private AutoCompleteTextView autocomplete;
+    private SlopeDatabase database;
 
 
     @Override
@@ -72,5 +80,6 @@ public class CheckinActivity extends AppCompatActivity {
 
 
         }
+
     }
 }

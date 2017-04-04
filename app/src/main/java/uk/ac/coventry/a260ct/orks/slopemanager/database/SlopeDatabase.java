@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -487,9 +488,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 cursor.close();
             }
         }
-       // Log.v(TAG, "Test");
-        //Log.v(TAG, map.get(User.ATTRIBUTES.MEMBERSHIP));
-        return UserFactory.getUser(userType,map);
+        return UserFactory.getUser(userType, map);
     }
     public User[] getUsersFromName(String first_name, String last_name) {
 
@@ -543,6 +542,36 @@ public class SlopeDatabase extends SQLiteOpenHelper {
             cursor.close();
         }
         return sessions.toArray(new SkiSession[sessions.size()]);
+    }
+
+    public ArrayList<String> getPeopleForSession (Date sessionDate) {
+
+        String query = "SELECT " + COL_FIRST_NAME + ", " + COL_LAST_NAME + " FROM "+ USERS_TABLE + " WHERE " + COL_ID+ "=" + "(SELECT "+ COL_USER_ID + " FROM " + BOOKINGS_TABLE + " WHERE " + BOOKINGS_TABLE + "." + COL_SESSION_ID +
+                " = (SELECT "+ SESSIONS_TABLE +"." + COL_SESSION_ID  + " FROM " + SESSIONS_TABLE + " WHERE " + SESSIONS_TABLE
+                +"." + COL_DATE + "=?))";
+
+        Log.e("Query", query);
+        ArrayList<String> names = new ArrayList<>();
+        Cursor cursor = db.rawQuery(query,new String[]{SlopeManagerApplication.dateToString(sessionDate)});
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    String firstName = cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME));
+                    String lastName = cursor.getString((cursor.getColumnIndex(COL_LAST_NAME)));
+                    names.add(firstName + " " + lastName);
+                } while (cursor.moveToNext());
+            }
+            cursor.close();
+        }
+        try {
+            Log.v("Test",names.toString());
+
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        return names;
     }
 
     public Booking getBookingFromId(int bookingId) {

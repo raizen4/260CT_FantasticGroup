@@ -6,7 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <appcation
+    <application
         android:name=".SlopeManagerApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -71,6 +71,7 @@
                 android:value="uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsActivity" />
         </activity>
         <activity
+
             android:name=".checkin.CheckinActivity"
             android:label="@string/title_activity_checkin"
             android:parentActivityName=".dashboard.DashboardActivity"
@@ -79,6 +80,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.ac.coventry.a260ct.orks.slopemanager.dashboard.DashboardActivity" />
         </activity>
-    </appcation>
+        <activity
+            android:name=".ViewPeopleBooked"
+            android:label="@string/title_activity_view_people_booked"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+</application>
+
+
+
+
 
 </manifest>
