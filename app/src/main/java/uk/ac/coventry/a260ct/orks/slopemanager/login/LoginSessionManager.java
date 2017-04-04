@@ -34,14 +34,18 @@ public class LoginSessionManager {
     }
 
     /**
-     * We have a user ID from the passwords, so set our currently logged in user to that ID
+     * We have a user ID from the credentials, so set our currently logged in user to that ID
      * and make user object from that ID
      *
      * @param id
      */
     public void setUser(int id) {
         user = application.getSlopeDatabase().getUserFromId(id);
+
         if (user != null || id == -1) {
+            // Save the currently logged in user's ID locally so they don't
+            // need to log in again manually
+
             SharedPreferences sharedPreferences = context.
                     getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -52,20 +56,23 @@ public class LoginSessionManager {
 
     public User getUser() {
         if (user != null) {
+            // We already have the user in memory
             Log.v(TAG, "User is logged in, already");
             return user;
         }
 
+        // Collect the current user ID stored in the apps locals data storage
         SharedPreferences sharedPreferences =
                 context.getSharedPreferences(context.getString(R.string.SHARED_PREFERENCES_KEY), Context.MODE_PRIVATE);
-
-        int userId = sharedPreferences.getInt(context.getString(R.string.USER_LOGIN_SESSION_KEY), 0);
+        int userId = sharedPreferences.getInt(context.getString(R.string.USER_LOGIN_SESSION_KEY), -1);
 
         if (userId > -1) {
+            // Collect the users information from the database
             Log.v(TAG, "User has a stored login");
             setUser(userId);
         } 
 
+        // Return a user or null if none logged in currently
         return user;
     }
 
