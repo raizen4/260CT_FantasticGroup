@@ -2,6 +2,7 @@ package uk.ac.coventry.a260ct.orks.slopemanager.booking;
 
 import android.app.Application;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +16,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -36,6 +38,7 @@ public class CreateBookingActivity extends AppCompatActivity {
     Spinner sessionTimeSpinner;
     CheckBox payNowCheckbox;
     CheckBox instructorCheckbox;
+    TextView totalCost;
     SlopeManagerApplication application;
     SkiSession[] sessions;
     private User customer;
@@ -55,6 +58,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         instructorCheckbox = (CheckBox) findViewById(R.id.instructor_checkbox);
         application = (SlopeManagerApplication) getApplication();
         customer = application.getObserveCustomer();
+        totalCost = (TextView) findViewById(R.id.total_cost_label);
 
         if (customer == null) { // We are not observing a specific user
             customer = application.getLoginSessionManager().getUser();
@@ -111,11 +115,24 @@ public class CreateBookingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 bookSession();
+                }
+            });
+        instructorCheckbox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(instructorCheckbox.isChecked()){
+                    totalCost.setText("£" + String.valueOf(SlopeManagerApplication.INSTRUCTOR_COST
+                            + SlopeManagerApplication.BASIC_COST));
+                }else{
+                    totalCost.setText("£" + String.valueOf(SlopeManagerApplication.BASIC_COST));
+                }
             }
         });
 
-        showDatepicker();
+
     }
+
+
 
     private void onDateSet() {
         Log.v(TAG, "On date set");
@@ -137,6 +154,7 @@ public class CreateBookingActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sessionTimeSpinner.setAdapter(adapter);
         sessionTimeSpinner.setSelection(0);
+        totalCost.setText("£" + String.valueOf(SlopeManagerApplication.BASIC_COST));
     }
 
     private void bookSession() {
@@ -152,6 +170,9 @@ public class CreateBookingActivity extends AppCompatActivity {
                         instructorCheckbox.isChecked()
                 );
         finish();
-    }
+        };
 
 }
+
+
+
