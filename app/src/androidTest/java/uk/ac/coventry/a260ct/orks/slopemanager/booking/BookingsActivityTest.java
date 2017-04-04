@@ -261,27 +261,35 @@ public class BookingsActivityTest {
 
         Random random = new Random();
 
+        // For our current logged in user
         removeAllBookings();
 
+        // Get the activity when it loads
         Instrumentation.ActivityMonitor monitor =
                 getInstrumentation()
                         .addMonitor(BookingsActivity.class.getName(), null, false);
 
+        // This test will take us to the bookings activity
         loadBookingsScreen_test();
 
+        // Found the activity
         final BookingsActivity activity = (BookingsActivity)
                 getInstrumentation().waitForMonitorWithTimeout(monitor, 5);
 
+        // Make a random number of random bookings
         for (int j = 0; j < (random.nextInt(30) + 5); j++) {
             bookings.add(bookRandomSession());
         }
 
+        // The activity needs to be refreshed in order for the information to update
         refreshActivity(activity);
 
+        // Check the list of bookings for every booking we made
         for (Booking booking: bookings) {
             checkForBooking(booking);
         }
 
+        //Check that the lifetime number is correct
         onView(withText(getString(R.string.lifetime_booking_text, bookings.size())));
     }
 

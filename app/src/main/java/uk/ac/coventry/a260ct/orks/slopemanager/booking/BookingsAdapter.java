@@ -23,7 +23,6 @@ import uk.ac.coventry.a260ct.orks.slopemanager.database.SkiSession;
 public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.BookingHolder> {
 
     private static final String TAG = BookingsAdapter.class.getSimpleName();
-    private HashMap<String, Integer> typeColours = new HashMap<>();
 
     private Booking[] bookings = new Booking[0];
     private BookingsActivity bookingsActivity;
@@ -38,6 +37,7 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
 
         public BookingHolder(View v) {
             super(v);
+            // Extract the UI objects from the view
             bookingDate = (TextView) v.findViewById(R.id.booking_date);
             bookingTime = (TextView) v.findViewById(R.id.booking_time);
             bookingPaidStatus = (TextView) v.findViewById(R.id.booking_paid_status);
@@ -51,18 +51,31 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
         bookingsActivity = parentActivity;
     }
 
+    /**
+     * Create a card for every booking
+     */
     @Override
     public BookingHolder onCreateViewHolder(ViewGroup parent,
                                             int viewType) {
+        // Create the card from the card layout
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.card_layout_booking, parent, false);
 
+        // Collect the UI from View
         BookingHolder vh = new BookingHolder(v);
+
         return vh;
     }
 
+    /**
+     * Called when a booking card is going to be displayed on screen,
+     * assigns the information of that booking to the card
+     * @param holder holds the UI elements
+     * @param position position this card is in the list
+     */
     @Override
     public void onBindViewHolder(final BookingHolder holder, int position) {
+        // Get the booking for that position
         Booking booking = bookings[position];
         SkiSession session = booking.getSession();
 
@@ -87,7 +100,8 @@ public class BookingsAdapter extends RecyclerView.Adapter<BookingsAdapter.Bookin
         holder.bookingPaidStatus.setText(bookingsActivity.getString(paidStringResource));
         holder.bookingPaidStatus.setTextColor(ContextCompat.getColor(bookingsActivity, paidColorResource));
 
-
+        // When a booking card is clicked we need to tell the activity so we
+        // can do something with that information
         holder.bookingCardLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

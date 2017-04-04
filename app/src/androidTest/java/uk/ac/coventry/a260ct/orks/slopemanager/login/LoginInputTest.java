@@ -18,6 +18,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
+import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -112,5 +113,17 @@ public class LoginInputTest {
                 checkSnackbarText(TestUtils.getString(R.string.login_invalid));
             }
         });
+    }
+
+    @Test
+    public void badCharacters_test() {
+        inputUsername("' Drop *"); // Checks for SQL injection
+        onView(withId(R.id.login_password_input))
+                .perform(replaceText("@^%^&*((&^£^$}{}{@}:{{{:{}:{~:{:{{}\\\\\\\\}"));
+
+        closeSoftKeyboard();
+        clickLogin();
+
+        checkSnackbarText(TestUtils.getString(R.string.login_invalid));
     }
 }
