@@ -11,6 +11,9 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,15 +37,24 @@ public class BookingsActivity extends AppCompatActivity {
     private SlopeDatabase database;
 
     private BookingsAdapter adapter;
+    private TextView totalBookingsText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Initialise the layout
         setContentView(R.layout.activity_bookings);
+
+        // Make an app bar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // Add a back arrow to the app bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        // Add function to the FAB
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.create_booking_fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,9 +64,9 @@ public class BookingsActivity extends AppCompatActivity {
         });
 
 
+        // Get the domain data
         application = (SlopeManagerApplication) getApplication();
         database = application.getSlopeDatabase();
-
         customer = application.getObserveCustomer();
 
         if (customer == null) { // We are not observing a specific user
@@ -115,10 +127,19 @@ public class BookingsActivity extends AppCompatActivity {
         return newBookings.toArray(new Booking[newBookings.size()]);
     }
 
+    /**
+     * Refreshes the bookings the adapter is displaying
+     */
     public void refreshAdapter() {
+        //Collect the bookings for the user we are looking at
         Booking[] bookings = database.getBookingsForUser(customer);
+
+        totalBookingsText.setText(getString(R.string.lifetime_booking_text, bookings.length));
+
         Log.v(TAG, Arrays.toString(bookings));
 
+        // Filter the books to remove past bookings
+        // and sort them in date order
         bookings = filterBookings(bookings);
         Arrays.sort(bookings, new Comparator<Booking>() {
             @Override
@@ -127,6 +148,7 @@ public class BookingsActivity extends AppCompatActivity {
             }
         });
 
+        // Display the no bookings message if the array is empty
         if (bookings.length > 0) {
             findViewById(R.id.no_bookings_text).setVisibility(View.GONE);
             adapter.setBookings(filterBookings(bookings));
@@ -136,12 +158,20 @@ public class BookingsActivity extends AppCompatActivity {
     }
 
     public void setupPage() {
+        // Collect the UI elements
+        // RecyclerView displays information in an adapter
         RecyclerView bookingsRecyclerView =
                 (RecyclerView) findViewById(R.id.bookings_recycler_view);
+        totalBookingsText = (TextView) findViewById(R.id.booking_total_number);
 
+        // Give the RecyclerView a type of display method,
+        // in this case we want the items in a vertical list
         bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        // Assign the adapter
         adapter = new BookingsAdapter(this);
         bookingsRecyclerView.setAdapter(adapter);
+
         refreshAdapter();
     }
 

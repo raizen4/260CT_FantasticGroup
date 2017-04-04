@@ -38,12 +38,18 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+
+        setContentView(R.layout.activity_login); // Initialise the UI elements
+
+        // Get the application object
         application = SlopeManagerApplication.getInstance();
 
+        // Get the input boxes from the UI
         usernameInput = (EditText) findViewById(R.id.login_username_input);
         passwordInput = (EditText) findViewById(R.id.login_password_input);
 
+        // Set it so when the keyboard "Done" button is clicked the the login
+        // is performed
         passwordInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -54,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Set it so the return key logs the user in
         passwordInput.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 // If the event is a key-down event on the "enter" button
@@ -68,13 +75,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
+        // Set up button functionality's
+
         findViewById(R.id.login_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onLoginClicked();
             }
         });
-
         findViewById(R.id.login_register_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,9 +143,12 @@ public class LoginActivity extends AppCompatActivity {
 
     private void onLoginClicked() {
         Log.v(TAG, "Login clicked");
+
+        // Get the typed text
         String usernameTyped = usernameInput.getText().toString();
         String passwordTyped = passwordInput.getText().toString();
 
+        // Show the relevant error message when information is missing
         if (usernameTyped.isEmpty()) {
             Snackbar.make(
                     findViewById(R.id.activity_login_layout),

@@ -64,7 +64,6 @@ public class SlopeManagerApplication extends Application {
 
     @SuppressLint("SimpleDateFormat")
     public static Date stringToDate(String dateString) {
-
         try {
             return new SimpleDateFormat(DATE_FORMAT).parse(dateString);
         } catch (ParseException e) {
