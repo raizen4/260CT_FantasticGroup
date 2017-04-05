@@ -16,7 +16,7 @@ import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.UserFactory;
 
 /**
- * Created by Freshollie on 01/03/2017.
+ * Created by Oliver Bell SID:6393896 on 01/03/2017.
  */
 
 public class DashboardActivity extends AppCompatActivity {
