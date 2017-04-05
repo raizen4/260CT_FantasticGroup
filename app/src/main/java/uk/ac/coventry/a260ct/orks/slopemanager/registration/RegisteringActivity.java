@@ -66,7 +66,7 @@ public class RegisteringActivity extends AppCompatActivity implements SendInfo {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 Fragment curFragment=null;
-                if(userType.matches("Customerx")) {
+                if(userType.matches("Customer")) {
                      curFragment = mSectionsPagerAdapterCostumer.getItem(tabLayout.getSelectedTabPosition());
                 }
                 else{

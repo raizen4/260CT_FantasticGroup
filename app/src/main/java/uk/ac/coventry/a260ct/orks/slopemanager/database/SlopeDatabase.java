@@ -18,7 +18,8 @@ import java.util.Random;
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
 /**
- * Created by boldurbogdan on 28/02/2017.
+ * Created by Bogdan Boldur and Oliver Bell on 28/02/2017.
+ *
  *
  * This is a supposed to be a database that would be run on a server. It would store attributes
  * about the users and the sessions.
