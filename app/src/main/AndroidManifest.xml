@@ -57,7 +57,6 @@
         <activity android:name="com.paypal.android.sdk.payments.PayPalFuturePaymentActivity" />
         <activity android:name="com.paypal.android.sdk.payments.FuturePaymentConsentActivity" />
         <activity android:name="com.paypal.android.sdk.payments.FuturePaymentInfoActivity" />
-
         <activity
             android:name="io.card.payment.CardIOActivity"
             android:configChanges="keyboardHidden|orientation" />
@@ -71,6 +70,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsActivity" />
         </activity>
+        <activity
+            android:name=".ViewPeopleBooked"
+            android:label="@string/title_activity_view_people_booked"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

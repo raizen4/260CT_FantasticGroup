@@ -42,6 +42,14 @@
     <string name="dashboard_register_user_text">Register User</string>
 
     <string name="self_bookings_title">Your Bookings</string>
-    <string name="title_activity_create_booking">CreateBooking</string>
+    <string name="title_activity_create_booking">Book A Session</string>
+    <string name="no_bookings">No Bookings</string>
+    <string name="no_sessions">No sessions</string>
+    <string name="title_activity_view_peoeple_booked">ViewPeoepleBooked</string>
+    <string name="title_activity_view_people_booked">ViewPeopleBooked</string>
+    <string name="no_instructor">No Instructor</string>
+    <string name="with_instructor">With Instructor</string>
+    <string name="lifetime_booking_text">Lifetime: %d bookings</string>
+    <string name="party_size_text">Party size: %d</string>
 
 </resources>

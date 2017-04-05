@@ -24,14 +24,16 @@ import java.util.Calendar;
 @SuppressLint("ValidFragment")
 public class DatePickerFragment extends android.support.v4.app.DialogFragment implements DatePickerDialog.OnDateSetListener {
     EditText textToEdit;
+    private boolean futureOnly;
 
     @SuppressLint("ValidFragment")
     public DatePickerFragment(View editText) {
        this.textToEdit=(EditText)editText;
     }
 
-
-
+    public void setFutureOnly(boolean futureOnly) {
+        this.futureOnly = futureOnly;
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -40,12 +42,18 @@ public class DatePickerFragment extends android.support.v4.app.DialogFragment im
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         // Create a new instance of DatePickerDialog and return it
-        return new DatePickerDialog(getActivity(),this, year, month, day);
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(),this, year, month, day);
+
+        if (futureOnly) {
+            dialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+        }
+
+        return dialog;
     }
 
     @Override
     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-        textToEdit.setText(year+"-"+month+"-"+day, TextView.BufferType.EDITABLE);
+        textToEdit.setText(year+"-" + (+month + 1) +"-"+day, TextView.BufferType.EDITABLE);
 
     }
 
