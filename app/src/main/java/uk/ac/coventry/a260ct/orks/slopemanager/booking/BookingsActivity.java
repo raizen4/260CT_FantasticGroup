@@ -25,7 +25,9 @@ import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.Booking;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
-
+/*
+Created by Oliver Bell SID:
+ */
 public class BookingsActivity extends AppCompatActivity {
 
     private String TAG = this.getClass().getSimpleName();

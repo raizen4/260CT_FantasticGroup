@@ -38,6 +38,9 @@ public class SlopeManagerApplication extends Application {
         return INSTANCE;
     }
 
+    public static int INSTRUCTOR_COST = 15; //cost of the instructor per hour in pounds
+    public static int BASIC_COST = 20; //cost of session without instructor
+
     public SlopeDatabase getSlopeDatabase() {
         return slopeDatabase;
     }
