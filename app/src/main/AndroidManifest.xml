@@ -71,9 +71,26 @@
                 android:value="uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsActivity" />
         </activity>
         <activity
+
+            android:name=".checkin.CheckinActivity"
+            android:label="@string/title_activity_checkin"
+            android:parentActivityName=".dashboard.DashboardActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="uk.ac.coventry.a260ct.orks.slopemanager.dashboard.DashboardActivity" />
+        </activity>
+        <activity
             android:name=".ViewPeopleBooked"
             android:label="@string/title_activity_view_people_booked"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-    </application>
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+</application>
+
+
+
+
 
 </manifest>

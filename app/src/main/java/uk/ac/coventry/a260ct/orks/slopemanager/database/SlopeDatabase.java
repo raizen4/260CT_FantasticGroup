@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import java.lang.reflect.Array;
 import java.text.ParseException;
@@ -14,6 +15,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.StringTokenizer;
+import java.util.concurrent.atomic.AtomicMarkableReference;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
@@ -79,6 +82,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
             };
 
     private SQLiteDatabase db;
+    private static AtomicMarkableReference instance;
 
 
     public SlopeDatabase(Context context) {
@@ -127,6 +131,10 @@ public class SlopeDatabase extends SQLiteOpenHelper {
             createBooking(session.getId(), 21312432, false, false);
         }
 
+    }
+
+    public static AtomicMarkableReference getInstance() {
+        return instance;
     }
 
     /**
@@ -490,6 +498,45 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         }
         return UserFactory.getUser(userType, map);
     }
+    public User[] getUsersFromName(String first_name, String last_name) {
+
+        HashMap<User.ATTRIBUTES,String>map=new HashMap<>();
+
+        ArrayList<User> users = new ArrayList<>();
+
+        String query = "SELECT * FROM " + USERS_TABLE + " WHERE first_name=? AND last_name=?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{first_name, last_name});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    users.add(getUserFromId(cursor.getInt(cursor.getColumnIndex(COL_ID))));
+                } while (cursor.moveToNext());
+            }
+        }
+        return users.toArray(new User[users.size()]);
+    }
+    public User[] getAllUsers () {
+
+        HashMap<User.ATTRIBUTES,String>map=new HashMap<>();
+
+        ArrayList<User> allUsers = new ArrayList<>();
+        String query = "SELECT * FROM " + USERS_TABLE;
+
+        Cursor cursor = db.rawQuery(query, new String[]{});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    allUsers.add(getUserFromId(cursor.getInt(cursor.getColumnIndex(COL_ID))));
+                } while (cursor.moveToNext());
+            }
+        }
+        return allUsers.toArray(new User[allUsers.size()]);
+
+    }
+
 
     public SkiSession[] getSessionsForDate(Date sessionDate) {
         String query = "SELECT * FROM " + SESSIONS_TABLE + " WHERE " + COL_DATE + "=?";
