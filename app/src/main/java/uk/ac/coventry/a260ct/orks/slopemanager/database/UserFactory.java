@@ -10,6 +10,7 @@ public class UserFactory {
 
     public UserFactory(){}
 
+
     public static User getUser(int userType, HashMap<User.ATTRIBUTES, String> userDetails){
         User user=null;
         switch (userType){

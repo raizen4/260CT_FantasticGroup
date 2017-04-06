@@ -2,36 +2,31 @@ package uk.ac.coventry.a260ct.orks.slopemanager.checkin;
 
 import android.content.Intent;
 import android.os.Bundle;
+
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 
 
 import uk.ac.coventry.a260ct.orks.slopemanager.R;
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 import uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsActivity;
-import uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsAdapter;
-import uk.ac.coventry.a260ct.orks.slopemanager.database.Booking;
-import uk.ac.coventry.a260ct.orks.slopemanager.database.Customer;
-import uk.ac.coventry.a260ct.orks.slopemanager.database.SlopeDatabase;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
-
 
 public class CheckinActivity extends AppCompatActivity {
 
@@ -62,6 +57,7 @@ public class CheckinActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 openBookings();
+                Toast.makeText(getApplicationContext(), "Check in complete", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -81,6 +77,7 @@ public class CheckinActivity extends AppCompatActivity {
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     Log.v(TAG, String.valueOf(i));
                     if (users.length <= i) {
+                        Toast.makeText(getApplicationContext(),"Nothing searched" ,Toast.LENGTH_SHORT).show();
                         return;
                     } else {
                         String email = ((TextView) view).getText().toString().split(" - ")[1];
