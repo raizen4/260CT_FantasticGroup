@@ -1,11 +1,104 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="50dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="uk.ac.coventry.a260ct.orks.slopemanager.booking.CreateBookingActivity"
     tools:showIn="@layout/activity_create_booking">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Session Date:"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/date_label"/>
+    <EditText
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:inputType="date"
+        android:labelFor="@+id/date_label"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/date_label"
+        android:id="@+id/booking_date_input"/>
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Session Time:  "
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_below="@id/date_label"
+        android:layout_alignParentStart="true"
+        android:id="@+id/time_label"
+        android:layout_marginTop="50dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instructor  "
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_below="@+id/pay_now_label"
+        android:layout_alignParentStart="true"
+        android:id="@+id/instructor_label"
+        android:layout_marginTop="50dp"/>
+    <CheckBox
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:inputType="date"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/instructor_label"
+        android:id="@+id/instructor_checkbox"/>
+    <Spinner
+        android:layout_width="160dp"
+        android:layout_height="30dp"
+        android:inputType="date"
+        android:labelFor="@+id/time_label"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/time_label"
+        android:id="@+id/booktime_spinner"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pay Now  "
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_below="@id/time_label"
+        android:layout_alignParentStart="true"
+        android:id="@+id/pay_now_label"
+        android:layout_marginTop="50dp"/>
+    <CheckBox
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:inputType="date"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/pay_now_label"
+        android:id="@+id/pay_now_checkbox"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cost:  "
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_below="@id/instructor_label"
+        android:layout_alignParentStart="true"
+        android:id="@+id/cost_label"
+        android:layout_marginTop="50dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAppearance="?android:textAppearanceMedium"
+        android:layout_below="@id/instructor_checkbox"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/total_cost_label"
+        android:layout_marginTop="50dp"/>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Book"
+        android:layout_below="@id/cost_label"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:id="@+id/book_button" />
+
+</RelativeLayout>

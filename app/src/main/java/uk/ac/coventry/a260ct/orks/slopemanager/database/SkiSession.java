@@ -45,7 +45,7 @@ public class SkiSession {
     public String getTimeString() {
         // Converts slot to the minute it starts in the day
         int slotTimeMins =
-                SlopeManagerApplication.OPENING_TIME * 60 + (SESSION_LENGTHS_MINS / 60) * getSlot();
+                SlopeManagerApplication.OPENING_TIME * 60 + SESSION_LENGTHS_MINS * getSlot();
 
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.HOUR_OF_DAY, slotTimeMins/60);

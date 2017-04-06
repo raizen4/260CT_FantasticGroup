@@ -38,6 +38,9 @@ public class SlopeManagerApplication extends Application {
         return INSTANCE;
     }
 
+    public static int INSTRUCTOR_COST = 15; //cost of the instructor per hour in pounds
+    public static int BASIC_COST = 20; //cost of session without instructor
+
     public SlopeDatabase getSlopeDatabase() {
         return slopeDatabase;
     }
@@ -61,7 +64,6 @@ public class SlopeManagerApplication extends Application {
 
     @SuppressLint("SimpleDateFormat")
     public static Date stringToDate(String dateString) {
-
         try {
             return new SimpleDateFormat(DATE_FORMAT).parse(dateString);
         } catch (ParseException e) {
