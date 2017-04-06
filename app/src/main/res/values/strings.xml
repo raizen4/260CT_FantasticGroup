@@ -44,6 +44,9 @@
     <string name="self_bookings_title">Your Bookings</string>
     <string name="title_activity_create_booking">Book A Session</string>
     <string name="no_bookings">No Bookings</string>
+
+    <string name="title_activity_checkin">CheckinActivity</string>
+
     <string name="no_sessions">No sessions</string>
     <string name="title_activity_view_peoeple_booked">ViewPeoepleBooked</string>
     <string name="title_activity_view_people_booked">ViewPeopleBooked</string>
@@ -51,5 +54,9 @@
     <string name="with_instructor">With Instructor</string>
     <string name="lifetime_booking_text">Lifetime: %d bookings</string>
     <string name="party_size_text">Party size: %d</string>
+
+    <string name="Select_one">Select one</string>
+
+    <string name="enter_name">Enter name</string>
 
 </resources>

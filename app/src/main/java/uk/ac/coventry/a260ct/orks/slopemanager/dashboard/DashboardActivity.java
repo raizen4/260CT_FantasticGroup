@@ -12,6 +12,7 @@ import uk.ac.coventry.a260ct.orks.slopemanager.R;
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 import uk.ac.coventry.a260ct.orks.slopemanager.ViewPeopleBooked;
 import uk.ac.coventry.a260ct.orks.slopemanager.booking.BookingsActivity;
+import uk.ac.coventry.a260ct.orks.slopemanager.checkin.CheckinActivity;
 import uk.ac.coventry.a260ct.orks.slopemanager.login.LoginSessionManager;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.User;
 import uk.ac.coventry.a260ct.orks.slopemanager.database.UserFactory;
@@ -101,7 +102,8 @@ public class DashboardActivity extends AppCompatActivity {
         findViewById(R.id.view_members_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //startActivity(new Intent(getApplicationContext(), ViewMembers.class));
+                Intent goToViewMembersActivity=new Intent(DashboardActivity.this, CheckinActivity.class);
+                startActivity(goToViewMembersActivity);
             }
         });
         findViewById(R.id.view_slope_schedule_button).setOnClickListener(new View.OnClickListener() {

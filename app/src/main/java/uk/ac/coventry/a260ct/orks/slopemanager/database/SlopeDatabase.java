@@ -7,13 +7,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.atomic.AtomicMarkableReference;
 
 import uk.ac.coventry.a260ct.orks.slopemanager.SlopeManagerApplication;
 
@@ -51,7 +51,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     private static final String COL_MEMBERSHIP = "membership";
 
     // User Type table constants
-    private static final String USER_TYPES_TABLE =  "user_types";
+    private static final String USER_TYPES_TABLE = "user_types";
     private static final String COL_USER_TYPE_ID = "user_type_id";
     private static final String COL_NAME = "user_type_name";
 
@@ -75,10 +75,12 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                     USERS_TABLE,
                     BOOKINGS_TABLE,
                     USER_TYPES_TABLE,
-                    SESSIONS_TABLE
+                    SESSIONS_TABLE,
+
             };
 
     private SQLiteDatabase db;
+    private static AtomicMarkableReference instance;
 
 
     public SlopeDatabase(Context context) {
@@ -129,8 +131,13 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
     }
 
+    public static AtomicMarkableReference getInstance() {
+        return instance;
+    }
+
     /**
      * Creates the table if they don't exist and stores the database in the instance
+     *
      * @param db
      */
     public void onCreate(SQLiteDatabase db) {
@@ -146,7 +153,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                         ")";
 
         String createUsers =
-                "CREATE TABLE IF NOT EXISTS "+ USERS_TABLE + "(" +
+                "CREATE TABLE IF NOT EXISTS " + USERS_TABLE + "(" +
                         COL_ID + " INTEGER NOT NULL PRIMARY KEY, " +
                         COL_FIRST_NAME + " varchar(255) NOT NULL, " +
                         COL_LAST_NAME + " varchar(255), " +
@@ -161,20 +168,20 @@ public class SlopeDatabase extends SQLiteOpenHelper {
          * Holds the user type names
          */
         String createUserTypes =
-                "CREATE TABLE IF NOT EXISTS "+ USER_TYPES_TABLE + "(" +
+                "CREATE TABLE IF NOT EXISTS " + USER_TYPES_TABLE + "(" +
                         COL_USER_TYPE_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                         COL_NAME + " VARCHAR(255) NOT NULL" +
                         ")";
 
         String createSessions =
-                "CREATE TABLE IF NOT EXISTS "+ SESSIONS_TABLE + "(" +
+                "CREATE TABLE IF NOT EXISTS " + SESSIONS_TABLE + "(" +
                         COL_SESSION_ID + " INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +
                         COL_DATE + " DATE NOT NULL, " +
                         COL_SLOT + " INTEGER NOT NULL " +
                         ")";
 
         String createBookings =
-                "CREATE TABLE IF NOT EXISTS "+ BOOKINGS_TABLE + "(" +
+                "CREATE TABLE IF NOT EXISTS " + BOOKINGS_TABLE + "(" +
                         COL_BOOKING_ID + " INTEGER NOT NULL PRIMARY KEY, " +
                         COL_USER_ID + " INTEGER NOT NULL, " +
                         COL_WANTS_INSTRUCTOR + " INTEGER NOT NULL," +
@@ -200,7 +207,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.v(TAG, "Upgrading");
-        for (String table: ALL_TABLES) {
+        for (String table : ALL_TABLES) {
             db.execSQL("DROP TABLE IF EXISTS " + table + ";");
         }
 
@@ -210,6 +217,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     /**
      * Used for login, returns the user_id from username and password
      * which can be used to get the user object from the table
+     *
      * @param username
      * @param password
      * @return
@@ -219,7 +227,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
         String query =
                 "SELECT " + COL_USER_ID + " FROM " + CREDENTIALS_TABLE +
-                        " WHERE " + COL_USERNAME + "=? AND " + COL_PASSWORD +"=?";
+                        " WHERE " + COL_USERNAME + "=? AND " + COL_PASSWORD + "=?";
 
         Log.d(TAG, query);
 
@@ -237,6 +245,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
     /**
      * Adds a user type to the table. Not normally edited after created.
+     *
      * @param name User Type name
      */
     public void addUserType(String name) {
@@ -246,8 +255,9 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
         db.insertWithOnConflict(USER_TYPES_TABLE, null, values, SQLiteDatabase.CONFLICT_REPLACE);
     }
+
     ///overloaded addUser to make the adding more flexible
-    public void addUser(User user){
+    public void addUser(User user) {
         addUser(user.getId(),
                 user.getFirstName(),
                 user.getSurname(),
@@ -256,7 +266,10 @@ public class SlopeDatabase extends SQLiteOpenHelper {
                 user.getDob(),
                 user.getMembership(),
                 UserFactory.getUserType(user));
+
     }
+
+
 
     //overloaded this method so we can add a user using only the hashmaap given that we use it to construct users
     public void addUser(HashMap<User.ATTRIBUTES, String> details) throws ParseException {
@@ -298,7 +311,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     public int createBooking(int sessionId, int userId, boolean paid, boolean wantsInstructor) {
         return createBooking(sessionId, userId, 1, paid, wantsInstructor);
     }
-    
+
     public int createBooking(int sessionId, int userId, int numPeople, boolean paid, boolean wantsInstructor) {
         ContentValues values = new ContentValues();
         values.put(COL_USER_ID, userId);
@@ -392,6 +405,7 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
     /**
      * Adds a session and returns the session ID
+     *
      * @param date date of the session
      * @param slot slot of the session
      * @return
@@ -412,8 +426,8 @@ public class SlopeDatabase extends SQLiteOpenHelper {
 
         Cursor cursor =
                 db.rawQuery(
-                    query,
-                    new String[]{SlopeManagerApplication.dateToString(date), String.valueOf(slot)}
+                        query,
+                        new String[]{SlopeManagerApplication.dateToString(date), String.valueOf(slot)}
                 );
 
         if (cursor != null) {
@@ -467,29 +481,73 @@ public class SlopeDatabase extends SQLiteOpenHelper {
     public User getUserFromId(int id) {
         String query = "SELECT * FROM " + USERS_TABLE + " WHERE " + COL_ID + "=?";
 
-        HashMap<User.ATTRIBUTES,String>map=new HashMap<>();
+        HashMap<User.ATTRIBUTES, String> map = new HashMap<>();
 
 
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(id)});
-        int userType=-1;
+        int userType = -1;
 
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-               //get the right permission so that factory can generate the correct user
+                //get the right permission so that factory can generate the correct user
                 userType = cursor.getInt(cursor.getColumnIndex(COL_USER_TYPE_ID));
                 //put details of the user in hashmap.
-                map.put(User.ATTRIBUTES.ID,cursor.getString(cursor.getColumnIndex(COL_ID)));
-                map.put(User.ATTRIBUTES.FIRST_NAME,cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)));
-                map.put(User.ATTRIBUTES.SURNAME,cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
-                map.put(User.ATTRIBUTES.PHONE,cursor.getString(cursor.getColumnIndex(COL_PHONE)));
-                map.put(User.ATTRIBUTES.EMAIL,cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
+                map.put(User.ATTRIBUTES.ID, cursor.getString(cursor.getColumnIndex(COL_ID)));
+                map.put(User.ATTRIBUTES.FIRST_NAME, cursor.getString(cursor.getColumnIndex(COL_FIRST_NAME)));
+                map.put(User.ATTRIBUTES.SURNAME, cursor.getString(cursor.getColumnIndex(COL_LAST_NAME)));
+                map.put(User.ATTRIBUTES.PHONE, cursor.getString(cursor.getColumnIndex(COL_PHONE)));
+                map.put(User.ATTRIBUTES.EMAIL, cursor.getString(cursor.getColumnIndex(COL_EMAIL)));
                 map.put(User.ATTRIBUTES.DOB, cursor.getString(cursor.getColumnIndex(COL_DOB)));
                 map.put(User.ATTRIBUTES.MEMBERSHIP, String.valueOf(cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP))));
                 cursor.close();
             }
         }
         return UserFactory.getUser(userType, map);
+
     }
+
+    public User[] getUsersFromName(String first_name, String last_name) {
+
+        HashMap<User.ATTRIBUTES, String> map = new HashMap<>();
+
+        ArrayList<User> users = new ArrayList<>();
+
+        String query = "SELECT membership FROM " + USERS_TABLE + " WHERE first_name=? AND last_name=?";
+
+        Cursor cursor = db.rawQuery(query, new String[]{first_name, last_name});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    users.add(getUserFromId(cursor.getInt(cursor.getColumnIndex(COL_ID))));
+                    map.put(User.ATTRIBUTES.MEMBERSHIP, String.valueOf(cursor.getInt(cursor.getColumnIndex(COL_MEMBERSHIP))));
+                } while (cursor.moveToNext());
+            }
+        }
+        return users.toArray(new User[users.size()]);
+    }
+
+    public User[] getAllUsers() {
+
+        HashMap<User.ATTRIBUTES, String> map = new HashMap<>();
+
+        ArrayList<User> allUsers = new ArrayList<>();
+        String query = "SELECT * FROM " + USERS_TABLE;
+
+        Cursor cursor = db.rawQuery(query, new String[]{});
+
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    allUsers.add(getUserFromId(cursor.getInt(cursor.getColumnIndex(COL_ID))));
+                } while (cursor.moveToNext());
+            }
+        }
+        return allUsers.toArray(new User[allUsers.size()]);
+
+
+    }
+
 
     public SkiSession[] getSessionsForDate(Date sessionDate) {
         String query = "SELECT * FROM " + SESSIONS_TABLE + " WHERE " + COL_DATE + "=?";
@@ -510,15 +568,15 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         return sessions.toArray(new SkiSession[sessions.size()]);
     }
 
-    public ArrayList<String> getPeopleForSession (Date sessionDate) {
+    public ArrayList<String> getPeopleForSession(Date sessionDate) {
 
-        String query = "SELECT " + COL_FIRST_NAME + ", " + COL_LAST_NAME + " FROM "+ USERS_TABLE + " WHERE " + COL_ID+ "=" + "(SELECT "+ COL_USER_ID + " FROM " + BOOKINGS_TABLE + " WHERE " + BOOKINGS_TABLE + "." + COL_SESSION_ID +
-                " = (SELECT "+ SESSIONS_TABLE +"." + COL_SESSION_ID  + " FROM " + SESSIONS_TABLE + " WHERE " + SESSIONS_TABLE
-                +"." + COL_DATE + "=?))";
+        String query = "SELECT " + COL_FIRST_NAME + ", " + COL_LAST_NAME + " FROM " + USERS_TABLE + " WHERE " + COL_ID + "=" + "(SELECT " + COL_USER_ID + " FROM " + BOOKINGS_TABLE + " WHERE " + BOOKINGS_TABLE + "." + COL_SESSION_ID +
+                " = (SELECT " + SESSIONS_TABLE + "." + COL_SESSION_ID + " FROM " + SESSIONS_TABLE + " WHERE " + SESSIONS_TABLE
+                + "." + COL_DATE + "=?))";
 
         Log.e("Query", query);
         ArrayList<String> names = new ArrayList<>();
-        Cursor cursor = db.rawQuery(query,new String[]{SlopeManagerApplication.dateToString(sessionDate)});
+        Cursor cursor = db.rawQuery(query, new String[]{SlopeManagerApplication.dateToString(sessionDate)});
         if (cursor != null) {
             if (cursor.moveToFirst()) {
                 do {
@@ -530,11 +588,9 @@ public class SlopeDatabase extends SQLiteOpenHelper {
             cursor.close();
         }
         try {
-            Log.v("Test",names.toString());
+            Log.v("Test", names.toString());
 
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return names;
@@ -547,11 +603,13 @@ public class SlopeDatabase extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, new String[]{String.valueOf(bookingId)});
         if (cursor != null) {
             if (cursor.moveToFirst()) {
-                    booking = buildBookingFromCursor(cursor);
+                booking = buildBookingFromCursor(cursor);
             }
             cursor.close();
         }
 
         return booking;
     }
+
+
 }
